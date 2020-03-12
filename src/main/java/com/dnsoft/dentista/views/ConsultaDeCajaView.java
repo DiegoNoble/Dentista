@@ -20,15 +20,15 @@ public class ConsultaDeCajaView extends InternalFrameEstandar {
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         cbMoneda = new javax.swing.JComboBox();
-        txtIngresos = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtSaldo = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         dpInicio = new com.github.lgooddatepicker.components.DatePicker();
         dpFin = new com.github.lgooddatepicker.components.DatePicker();
         jLabel8 = new javax.swing.JLabel();
-        txtSalidas = new javax.swing.JTextField();
+        txtSalidas = new javax.swing.JFormattedTextField();
+        txtSaldo = new javax.swing.JFormattedTextField();
+        txtIngresos = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -41,7 +41,7 @@ public class ConsultaDeCajaView extends InternalFrameEstandar {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setPreferredSize(new java.awt.Dimension(700, 600));
+        setPreferredSize(new java.awt.Dimension(900, 600));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -73,16 +73,6 @@ public class ConsultaDeCajaView extends InternalFrameEstandar {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(cbMoneda, gridBagConstraints);
 
-        txtIngresos.setEnabled(false);
-        txtIngresos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 150;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtIngresos, gridBagConstraints);
-
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Desde");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -104,16 +94,6 @@ public class ConsultaDeCajaView extends InternalFrameEstandar {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel3, gridBagConstraints);
-
-        txtSaldo.setEnabled(false);
-        txtSaldo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 150;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtSaldo, gridBagConstraints);
 
         jLabel7.setText("Egresos");
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -147,15 +127,32 @@ public class ConsultaDeCajaView extends InternalFrameEstandar {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel8, gridBagConstraints);
 
+        txtSalidas.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
         txtSalidas.setEnabled(false);
-        txtSalidas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipadx = 150;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(txtSalidas, gridBagConstraints);
+
+        txtSaldo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+        txtSaldo.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txtSaldo, gridBagConstraints);
+
+        txtIngresos.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+        txtIngresos.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txtIngresos, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -263,8 +260,8 @@ public class ConsultaDeCajaView extends InternalFrameEstandar {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable tblMovimientos;
-    public javax.swing.JTextField txtIngresos;
-    public javax.swing.JTextField txtSaldo;
-    public javax.swing.JTextField txtSalidas;
+    public javax.swing.JFormattedTextField txtIngresos;
+    public javax.swing.JFormattedTextField txtSaldo;
+    public javax.swing.JFormattedTextField txtSalidas;
     // End of variables declaration//GEN-END:variables
 }

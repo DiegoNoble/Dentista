@@ -120,7 +120,7 @@ public class ClasePacientesController implements ActionListener {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 int c = JOptionPane.showConfirmDialog(view, "Confirma eliminación del cliente: " + seleccionado.toString(), "Confirmación", JOptionPane.YES_NO_OPTION);
-                if (c == 0) {
+                if (c == JOptionPane.YES_OPTION) {
                     try {
                         DAO.delete(seleccionado);
                         actualizaTbl();

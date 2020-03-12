@@ -8,7 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ITrabajosTratamientoDAO extends JpaRepository<TrabajosTratamiento, Long> {
 
-    @Query("Select t from TrabajosTratamiento t join fetch t.trabajos tr where t.planTratamiento = ?1")
+    @Query("Select t from TrabajosTratamiento t join fetch t.trabajos tr where t.planTratamiento = :planTratamiento")
     List<TrabajosTratamiento> findByPlanTratamiento(PlanTratamiento planTratamiento);
+
 
 }

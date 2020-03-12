@@ -6,6 +6,7 @@
 package com.dnsoft.dentista.tablemodels;
 
 import com.dnsoft.dentista.beans.Caja;
+import com.dnsoft.dentista.beans.MediosDePago;
 import com.dnsoft.dentista.beans.MonedaEnum;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -23,7 +24,7 @@ import javax.swing.table.AbstractTableModel;
 public class CajaTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Fecha", "Rubro", "Obs", "Entrada", "Salida"};
+    private final String[] colunas = new String[]{"Fecha", "Rubro", "Concepto", "Medio de Pago", "Entrada", "Salida"};
     //lista para a manipulacao do objeto
     private List<Caja> listMovimientos;
     DecimalFormat formatoPeso = new DecimalFormat("$ #,###.00");
@@ -67,10 +68,12 @@ public class CajaTableModel extends AbstractTableModel {
             case 1:
                 return c.getRubro().getNombre();
             case 2:
-                return c.getObs();
+                return c.getDescripcion();
             case 3:
-                return formato.format(c.getEntrada());
+                return c.getMediosDePago();
             case 4:
+                return formato.format(c.getEntrada());
+            case 5:
                 return formato.format(c.getSalida());
 
             default:
@@ -95,8 +98,10 @@ public class CajaTableModel extends AbstractTableModel {
             case 2:
                 return String.class;
             case 3:
-                return BigDecimal.class;
+                return MediosDePago.class;
             case 4:
+                return BigDecimal.class;
+            case 5:
                 return BigDecimal.class;
 
             default:

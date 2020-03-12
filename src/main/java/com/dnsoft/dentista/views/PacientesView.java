@@ -18,6 +18,7 @@ public class PacientesView extends InternalFrameEstandar {
      */
     public PacientesView() {
         initComponents();
+        btnAcciones.setVisible(false);
     }
 
     /**
@@ -55,6 +56,7 @@ public class PacientesView extends InternalFrameEstandar {
         btnVolver = new botones.BotonVolver();
         btnModificar = new botones.BotonEdicion();
         btnAcciones = new javax.swing.JButton();
+        botonEliminar1 = new botones.BotonEliminar();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl = new javax.swing.JTable();
@@ -184,7 +186,15 @@ public class PacientesView extends InternalFrameEstandar {
                 btnAccionesActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAcciones, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        jPanel1.add(btnAcciones, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(botonEliminar1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -305,6 +315,7 @@ public class PacientesView extends InternalFrameEstandar {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public botones.BotonEliminar botonEliminar1;
     private javax.swing.JButton btnAcciones;
     public javax.swing.JMenuItem btnAnamnesis;
     public javax.swing.JMenuItem btnCuentas;

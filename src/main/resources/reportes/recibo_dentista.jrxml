@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo_dentista" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="45e78c74-60cc-4117-8a06-57ce14b62a5a">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Dentista.xml"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="recibo" class="java.lang.Long"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT C.ID,c.fecha_movimiento, c.moneda, c.haber, p.nombre, c.observacion, mp.nombre as medioDePago, c.cuotas
+FROM cuenta_paciente c, paciente p, medios_de_pago mp
+ where c.paciente_id = p.id and mp.id = c.medios_de_pago_id and c.id = $P{recibo}]]>
+	</queryString>
+	<field name="ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cuenta_paciente"/>
+	</field>
+	<field name="fecha_movimiento" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_movimiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cuenta_paciente"/>
+	</field>
+	<field name="moneda" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="moneda"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cuenta_paciente"/>
+	</field>
+	<field name="haber" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="haber"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cuenta_paciente"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="paciente"/>
+	</field>
+	<field name="observacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="observacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cuenta_paciente"/>
+	</field>
+	<field name="medioDePago" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="medioDePago"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="medios_de_pago"/>
+	</field>
+	<field name="cuotas" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="cuotas"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cuenta_paciente"/>
+	</field>
+	<detail>
+		<band height="391" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="190" uuid="cb7be976-0c4c-4d64-bec2-6370c1c82598"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="460" y="50" width="90" height="31" uuid="4168bce1-c9c7-41db-a980-5a1bb49ddc25"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="130" y="0" width="270" height="25" uuid="f69bdfd9-42ba-46bb-8b9c-0fec5102bad0"/>
+				<textElement>
+					<font fontName="Kunstler Script" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dra. Silvia María de Mello Freitas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="25" width="270" height="35" uuid="908e5442-1951-482a-adfd-360eb9330a7a"/>
+				<textElement>
+					<font fontName="Batang" size="13"/>
+				</textElement>
+				<text><![CDATA[----------ODONTOLOGA ----------
+                     C.J.P. 92983]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="60" width="270" height="18" uuid="650e6912-f655-4391-a4fb-6391cd848fad"/>
+				<textElement>
+					<font fontName="Monospaced" size="11"/>
+				</textElement>
+				<text><![CDATA[Agraciada 664 - Tel.: 462 23121 - Rivera]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="0" width="80" height="30" uuid="5d5eff11-2866-40d8-8b79-b5a5af1d0383"/>
+				<textElement>
+					<font fontName="Arial" size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECIBO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="30" width="20" height="20" uuid="4f67f14b-cc1a-49c8-8fee-11eb7f05959a"/>
+				<textElement>
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="500" y="30" width="50" height="21" uuid="20bcfe75-e8c9-45b1-a875-fcc450b34d12"/>
+				<textElement>
+					<font fontName="Arial" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00;$-#,##0.00">
+				<reportElement x="466" y="55" width="79" height="21" uuid="6f65bbee-aaff-4a35-b218-22c2e715385c"/>
+				<textElement>
+					<font fontName="Arial" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{haber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="419" y="85" width="50" height="25" uuid="f0e6d3ed-5522-4488-a337-8e56d6256d3b"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[Rivera,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="110" width="70" height="25" uuid="735f169a-fb59-47eb-bba6-452ff4cf2ee5"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[Recibi de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="319" y="109" width="230" height="25" uuid="2e61c8b4-e3f2-4c55-8b69-9e71579ed5eb"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[por concepto de tratamiento.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="445" y="160" width="110" height="30" uuid="4a606231-1103-40e7-9f36-505660c026e0"/>
+				<text><![CDATA[-----------------------------
+             Firma]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="469" y="84" width="80" height="26" uuid="58dad122-1214-427c-961d-b6f172fa2d7c"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_movimiento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="80" y="109" width="239" height="26" uuid="dad9fcae-2024-4d58-9731-8c23ead281b5"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="45" y="1" width="49" height="51" uuid="b9d615a5-3b06-4516-b56c-346af0d18549"/>
+				<imageExpression><![CDATA["icono.PNG"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="30" y="50" width="80" height="30" uuid="6cd34b3b-6312-4451-9d5e-ad3ea5252d36"/>
+				<textElement>
+					<font fontName="Arial" size="11" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[  ORTOPEDIA
+ORTODONCIA]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="199" width="555" height="190" uuid="2e9fb114-2c8a-4bd4-9532-e8b080c77951"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="460" y="249" width="90" height="31" uuid="17bf9c2e-f924-42a2-9112-a5fab03f8eb3"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="130" y="199" width="270" height="25" uuid="bddee2d1-b39e-4891-9bc0-990d14c7c9fa"/>
+				<textElement>
+					<font fontName="Kunstler Script" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dra. Silvia María de Mello Freitas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="224" width="270" height="35" uuid="d2f3fa5e-31d4-404c-9a66-69fa94d0d886"/>
+				<textElement>
+					<font fontName="Batang" size="13"/>
+				</textElement>
+				<text><![CDATA[----------ODONTOLOGA ----------
+                     C.J.P. 92983]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="259" width="270" height="18" uuid="ca4b6a84-ca52-4d26-a8f7-77467ef66d44"/>
+				<textElement>
+					<font fontName="Monospaced" size="11"/>
+				</textElement>
+				<text><![CDATA[Agraciada 664 - Tel.: 462 23121 - Rivera]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="199" width="80" height="30" uuid="3df53d19-28d5-418a-8189-36417d5b0f70"/>
+				<textElement>
+					<font fontName="Arial" size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECIBO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="229" width="20" height="20" uuid="c7efac41-789a-42c7-b129-864d108f6333"/>
+				<textElement>
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="500" y="229" width="50" height="21" uuid="cded3a60-7cb8-4e3b-afd9-f041de51e5c9"/>
+				<textElement>
+					<font fontName="Arial" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00;$-#,##0.00">
+				<reportElement x="466" y="254" width="79" height="21" uuid="83167c15-9f88-42b0-ae05-eed2f0bb4b04"/>
+				<textElement>
+					<font fontName="Arial" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{haber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="419" y="284" width="50" height="25" uuid="436beca6-86c0-4530-8edd-3cc1ed9a5b4c"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[Rivera,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="310" width="70" height="25" uuid="8805ca26-9fa1-449e-b45d-c5ac9ab908c8"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[Recibi de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="310" width="229" height="25" uuid="e78c46ea-17e8-4c7f-8b16-eabdaf278e4f"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[por concepto de tratamiento.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="445" y="359" width="110" height="30" uuid="01242009-01a7-4c59-b847-24d64ac8faa1"/>
+				<text><![CDATA[-----------------------------
+             Firma]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="469" y="283" width="80" height="26" uuid="f5a13233-a667-427c-822e-05a35d65a7c5"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_movimiento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="80" y="309" width="239" height="26" uuid="c5b2e042-b8e2-4c62-9a59-432552ab7395"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="45" y="200" width="49" height="51" uuid="204348de-bdb4-4a67-a965-6bfe79af5cd0"/>
+				<imageExpression><![CDATA["icono.PNG"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="30" y="249" width="80" height="30" uuid="1cbe4764-d5cc-478b-92e5-ed1408684f06"/>
+				<textElement>
+					<font fontName="Arial" size="11" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[  ORTOPEDIA
+ORTODONCIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="141" width="34" height="25" uuid="e29749bd-77d6-4586-a8ac-b5c36e8fc7b6"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[En]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="46" y="141" width="119" height="26" uuid="e5821624-9e9f-4ddf-99ca-3d656217f9d8"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{medioDePago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="165" y="140" width="70" height="26" uuid="39a521d5-6bfa-4537-bfc7-4c5a2c011d41"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cuotas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="235" y="141" width="70" height="25" uuid="cea6e5c6-7589-4b35-af11-5e2e0c0da2e9"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[pagos.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="336" width="40" height="25" uuid="3f36f0c5-42c7-454b-9eef-ad5db4b8a476"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[En]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="51" y="336" width="119" height="26" uuid="a2c564fd-1ceb-49f7-8255-d6fbde6d41b5"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{medioDePago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="336" width="70" height="26" uuid="2c7e10f4-7c1a-42b3-91e9-170c79686286"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cuotas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="240" y="336" width="70" height="25" uuid="2d98c1e8-d695-4ed1-ad12-db1310356a2d"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[pagos.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="80" y="128" width="239" height="1" uuid="7ee8d2f3-a049-4278-95e6-7fb9c7d3e19b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Dashed" lineColor="#B5B5B5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="46" y="160" width="190" height="1" forecolor="#B5B5B5" uuid="9985d709-0828-4520-a65f-3dc30450592b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="52" y="353" width="190" height="1" uuid="55d1b8cb-fe18-40b9-873d-b3944eb3039d"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Dashed" lineColor="#B5B5B5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="80" y="327" width="240" height="1" uuid="8bd294c5-54a7-442b-b598-721a907b6ff5"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Dashed" lineColor="#B5B5B5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

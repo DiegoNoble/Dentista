@@ -32,6 +32,7 @@ public final class HistoriaConsultasView extends javax.swing.JFrame {
     IConsultaDAO consultasDAO;
     Container container;
     Paciente pacienteSeleccionado;
+    ConsultaPlanesTratamientoView planesTratamientoView;
 
     public HistoriaConsultasView() {
         initComponents();
@@ -42,7 +43,9 @@ public final class HistoriaConsultasView extends javax.swing.JFrame {
 
     public HistoriaConsultasView(Paciente pacienteSeleccioando) {
         initComponents();
+        
         inicio();
+        this.planesTratamientoView = planesTratamientoView;
         cbPaciente.addItem(pacienteSeleccioando);
         buscaConsultas();
     }
@@ -61,6 +64,7 @@ public final class HistoriaConsultasView extends javax.swing.JFrame {
             }
         });
 
+        
     }
 
     void buscaConsultas() {
@@ -89,8 +93,6 @@ public final class HistoriaConsultasView extends javax.swing.JFrame {
         atenderPlanTratamiento.toFront();
 
     }
-
-    
 
     private void defineModelo() {
         ((DefaultTableCellRenderer) tbl.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
@@ -156,6 +158,7 @@ public final class HistoriaConsultasView extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consultorio Odontológico - D.N.Soft .-");
         setPreferredSize(new java.awt.Dimension(850, 550));
         getContentPane().setLayout(new java.awt.GridBagLayout());

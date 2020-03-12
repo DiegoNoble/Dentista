@@ -1,0 +1,10 @@
+select p.id, p.nombre, if(sum(cp.debe) is null, 0 , sum(cp.debe)) as Cuenta_Paciente,
+if(control.debe is null, 0 ,control.debe) as debe ,
+if(sum(cp.debe) is null, 0 , sum(cp.debe))-if(control.debe is null, 0 ,control.debe) as control
+from  paciente p
+LEFT join cuenta_paciente cp on p.id = cp.paciente_id
+LEFT join (select pp.id, sum(tt.valor) as debe from paciente pp
+inner join plan_tratamiento pt on pp.id= pt.paciente_id
+inner join trabajos_tratamiento tt on pt.id = tt.plan_tratamiento_id
+where tt.trabajoTratamientoEnum = 'D' group by pp.id) as control
+ ON control.id = p.id  group by p.id;

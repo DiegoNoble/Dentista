@@ -1,0 +1,2 @@
+SELECT pt.paciente_id, pt.id, pt.valor_total, sum(tt.valor), pt.valor_total-sum(tt.valor)
+FROM trabajos_tratamiento tt,plan_tratamiento pt  where tt.plan_tratamiento_id = pt.id group by pt.id ;

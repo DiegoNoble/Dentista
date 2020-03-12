@@ -4,31 +4,48 @@ import com.dnsoft.dentista.beans.CuentaPaciente;
 import com.dnsoft.dentista.beans.Paciente;
 import com.dnsoft.dentista.beans.PlanTratamiento;
 import com.dnsoft.dentista.beans.SituacionPlanTratamientoEnum;
+import com.dnsoft.dentista.beans.TrabajoTratamientoEnum;
 import com.dnsoft.dentista.beans.TrabajosTratamiento;
 import com.dnsoft.dentista.daos.ICuentaPacienteDAO;
+import com.dnsoft.dentista.daos.IHistoriaPlanTratamientoDAO;
 import com.dnsoft.dentista.daos.IPacienteDAO;
 import com.dnsoft.dentista.daos.IPlanTratamientoDAO;
 import com.dnsoft.dentista.daos.ITrabajosDAO;
+import com.dnsoft.dentista.daos.ITrabajosTratamientoDAO;
 import com.dnsoft.dentista.renderers.LocalDateCellRenderer;
 import com.dnsoft.dentista.renderers.TabelaTextAreaRenderer;
 import com.dnsoft.dentista.renderers.TableRendererColorSituacionPlanTratamiento;
+import com.dnsoft.dentista.renderers.TableRendererColorSituacionTrabajoTratamiento;
 import com.dnsoft.dentista.tablemodels.PlanTratamientoTableModel;
 import com.dnsoft.dentista.tablemodels.TrabajosTratamientoTableModel;
+import com.dnsoft.dentista.utiles.ButtonColumnBorrar;
+import com.dnsoft.dentista.utiles.ButtonColumnConfirmar;
 import com.dnsoft.dentista.utiles.Container;
+import com.dnsoft.dentista.utiles.LeeProperties;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.*;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
+import java.io.InputStream;
+import org.springframework.dao.DataIntegrityViolationException;
 
 public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
 
@@ -41,24 +58,41 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
     ITrabajosDAO trabajosDAO;
     IPacienteDAO pacienteDAO;
     ICuentaPacienteDAO cuentaPacienteDAO;
+    IHistoriaPlanTratamientoDAO historiaPlanTratamientoDAO;
     IPlanTratamientoDAO planTratamientoDAO;
+    ITrabajosTratamientoDAO trabajosTratamientoDAO;
     Container container;
     Paciente pacienteSeleccionado;
+    TrabajosTratamiento trabajosTratamientoSeleccionado;
+    LeeProperties props = new LeeProperties();
+    private static ConsultaPlanesTratamientoView instanciaUnica = null;
 
     public ConsultaPlanesTratamientoView() {
         initComponents();
         inicio();
-        cargaComboPacientes();
+
         btnModificar.setEnabled(false);
-        buscarPlanesPaciente();
+
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+                actualizaComboPacientes();
+            }
+
+        });
+
     }
 
-    public ConsultaPlanesTratamientoView(Paciente pacienteSeleccioando) {
-        initComponents();
-        cbPaciente.addItem(pacienteSeleccioando);
-        inicio();
-        btnModificar.setEnabled(false);
-        buscarPlanesPaciente();
+
+    public static ConsultaPlanesTratamientoView getInstancia() {
+
+        if (instanciaUnica == null) {
+            instanciaUnica = new ConsultaPlanesTratamientoView();
+
+        }
+        return instanciaUnica;
     }
 
     void inicio() {
@@ -67,19 +101,26 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
         pacienteDAO = container.getBean(IPacienteDAO.class);
         planTratamientoDAO = container.getBean(IPlanTratamientoDAO.class);
         cuentaPacienteDAO = container.getBean(ICuentaPacienteDAO.class);
+        trabajosTratamientoDAO = container.getBean(ITrabajosTratamientoDAO.class);
+        historiaPlanTratamientoDAO = container.getBean(IHistoriaPlanTratamientoDAO.class);
         setLocationRelativeTo(null);
+        AutoCompleteDecorator.decorate(cbPaciente);
+        listPacientes = new ArrayList();
         defineModelo();
+
+        cargaComboPacientes();
 
         cbPaciente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                pacienteSeleccionado = (Paciente) cbPaciente.getSelectedItem();
                 buscarPlanesPaciente();
             }
         });
 
     }
 
-    void buscarPlanesPaciente() {
+    public void buscarPlanesPaciente() {
         listPlanTratamientos.clear();
         listPlanTratamientos.addAll(planTratamientoDAO.findByPaciente((Paciente) cbPaciente.getSelectedItem()));
         tableModelPlanTratamiento.fireTableDataChanged();
@@ -87,9 +128,8 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
     }
 
     private void cargaComboPacientes() {
-        AutoCompleteDecorator.decorate(cbPaciente);
-        listPacientes = new ArrayList();
-        listPacientes = pacienteDAO.findAll();
+        listPacientes.clear();
+        listPacientes.addAll(pacienteDAO.findAll());
         cbPaciente.removeAllItems();
 
         for (Paciente p : listPacientes) {
@@ -97,10 +137,22 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
             cbPaciente.addItem(p);
         }
     }
+    
+      private void actualizaComboPacientes() {
+        List<Paciente> nuevaLista = new ArrayList();
+
+        nuevaLista.addAll(pacienteDAO.findAll());
+        for (Paciente p : nuevaLista) {
+            if (!listPacientes.contains(p)) {
+                listPacientes.add(p);
+                cbPaciente.addItem(p);
+            }
+        }
+    }
 
     void consultarPlanTratamiento() {
 
-        PlanTratamientoView atenderPlanTratamiento = new PlanTratamientoView(planTratamientoSeleccionado);
+        PlanTratamientoView atenderPlanTratamiento = new PlanTratamientoView(planTratamientoSeleccionado, this);
         atenderPlanTratamiento.setVisible(true);
         atenderPlanTratamiento.toFront();
 
@@ -124,7 +176,7 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
         tblPlanesTratamiento.getColumn("Situación").setCellRenderer(new TableRendererColorSituacionPlanTratamiento());
 
         tblPlanesTratamiento.setRowHeight(40);
-        int[] anchos = {5, 5, 5, 5, 5, 400, 40};
+        int[] anchos = {5, 5, 5, 5, 400, 40};
 
         for (int i = 0; i < tblPlanesTratamiento.getColumnCount(); i++) {
 
@@ -132,7 +184,12 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
 
         }
 
-        int[] anchos2 = {10, 100, 10};
+        tblTrabajos.setRowHeight(25);
+
+        tblTrabajos.getColumn("Situación").setCellRenderer(new TableRendererColorSituacionTrabajoTratamiento());
+        tblTrabajos.getColumn("Fecha débito").setCellRenderer(new LocalDateCellRenderer());
+
+        int[] anchos2 = {10, 500, 10, 10, 10};
 
         for (int i = 0; i < tblTrabajos.getColumnCount(); i++) {
 
@@ -147,40 +204,56 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
                 if (tblPlanesTratamiento.getSelectedRow() != -1) {
                     planTratamientoSeleccionado = listPlanTratamientos.get(tblPlanesTratamiento.getSelectedRow());
                     listTrabajos.clear();
-                    listTrabajos.addAll((planTratamientoDAO.findPlanTratamientoFetch(planTratamientoSeleccionado.getId()).getTrabajosTratamientoList()));
+
+                    List<TrabajosTratamiento> trabajosTratamiento = trabajosTratamientoDAO.findByPlanTratamiento(planTratamientoSeleccionado);
+                    if (trabajosTratamiento != null) {
+
+                        listTrabajos.addAll(trabajosTratamiento);
+                    }
                     tableModelTrabajos.fireTableDataChanged();
                     pacienteSeleccionado = planTratamientoSeleccionado.getPaciente();
                     btnFotos.setEnabled(true);
+                    btnEliminar.setEnabled(true);
                     switch (planTratamientoSeleccionado.getSituacionPlanTratamientoEnum()) {
                         case PRESUPUESTO:
                             btnConfirmar.setEnabled(true);
                             btnModificar.setEnabled(true);
                             btnHistoria.setEnabled(false);
                             btnTrabajoProveedor.setEnabled(true);
+                            btnImprimir.setEnabled(true);
                             break;
                         case CONFIRMA_PRESUPUESTO:
                             btnConfirmar.setEnabled(false);
                             btnModificar.setEnabled(true);
                             btnHistoria.setEnabled(true);
                             btnTrabajoProveedor.setEnabled(true);
+                            btnImprimir.setEnabled(true);
                             break;
                         case TRATAMIENTO_EN_CURSO:
                             btnConfirmar.setEnabled(false);
                             btnModificar.setEnabled(true);
                             btnHistoria.setEnabled(true);
                             btnTrabajoProveedor.setEnabled(true);
+                            btnImprimir.setEnabled(true);
                             break;
                         case TRATAMIENTO_FINALIZADO:
                             btnConfirmar.setEnabled(false);
                             btnModificar.setEnabled(false);
                             btnHistoria.setEnabled(true);
                             btnTrabajoProveedor.setEnabled(false);
+                            btnImprimir.setEnabled(true);
                             break;
                         default:
                             throw new AssertionError();
                     }
 
                 } else {
+                    btnModificar.setEnabled(false);
+                    btnHistoria.setEnabled(false);
+                    btnTrabajoProveedor.setEnabled(false);
+                    btnImprimir.setEnabled(false);
+                    btnEliminar.setEnabled(false);
+
                     btnFotos.setEnabled(false);
                     listTrabajos.clear();
                     tableModelTrabajos.fireTableDataChanged();
@@ -200,6 +273,24 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
             }
         });
 
+        ListSelectionModel listModel2 = tblTrabajos.getSelectionModel();
+        listModel2.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent lse) {
+                if (tblTrabajos.getSelectedRow() != -1) {
+                    trabajosTratamientoSeleccionado = listTrabajos.get(tblTrabajos.getSelectedRow());
+
+                    if (trabajosTratamientoSeleccionado.getTrabajoTratamientoEnum() == TrabajoTratamientoEnum.P) {
+                        btnDebitar.setEnabled(true);
+                    } else {
+                        btnDebitar.setEnabled(false);
+                    }
+                } else {
+                    btnDebitar.setEnabled(false);
+                }
+            }
+        });
+
     }
 
     private void confirmarPlanTratamiento() {
@@ -211,27 +302,99 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
             confirmacion.setVisible(true);
             confirmacion.toFront();
 
-            planTratamientoSeleccionado.setFechaConfirmacion(confirmacion.getFechaConfirmacion());
+            if (confirmacion.getFechaConfirmacion() != null) {
+                planTratamientoSeleccionado.setFechaConfirmacion(confirmacion.getFechaConfirmacion());
+                planTratamientoDAO.save(planTratamientoSeleccionado);
 
-            CuentaPaciente cp = new CuentaPaciente();
-            cp.setDebe(new BigDecimal(planTratamientoSeleccionado.getValorTotal()));
-            cp.setFechaMovimiento(confirmacion.getFechaConfirmacion());
-            cp.setHaber(BigDecimal.ZERO);
-            cp.setMoneda(planTratamientoSeleccionado.getMoneda());
-            cp.setPaciente(planTratamientoSeleccionado.getPaciente());
-            cp.setPlanTratamiento(planTratamientoSeleccionado);
-            cp.setSaldo(BigDecimal.ZERO);
-
-            cuentaPacienteDAO.save(cp);
-            planTratamientoDAO.save(planTratamientoSeleccionado);
-            ajustaSaldos(confirmacion.getFechaConfirmacion());
-            JOptionPane.showMessageDialog(null, "Presupuesto confirmado!", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Presupuesto confirmado!", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+            }
             buscarPlanesPaciente();
         }
 
     }
 
-    void ajustaSaldos(LocalDate fecha) {
+    private void debitarTrabajo() {
+
+        if (planTratamientoSeleccionado.getSituacionPlanTratamientoEnum() == SituacionPlanTratamientoEnum.PRESUPUESTO) {
+
+            JOptionPane.showMessageDialog(null, "No se pueden debitar trabajos de un plan que no esta confirmado", "Atención", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+
+            ConfirmaTratamiento confirmacion = new ConfirmaTratamiento(this, true);
+            confirmacion.setVisible(true);
+            confirmacion.toFront();
+
+                if (confirmacion.getFechaConfirmacion() != null) {
+                    planTratamientoSeleccionado = listPlanTratamientos.get(tblPlanesTratamiento.getSelectedRow());
+                    trabajosTratamientoSeleccionado = listTrabajos.get(tblTrabajos.getSelectedRow());
+                    
+                    trabajosTratamientoSeleccionado.setPlanTratamiento(planTratamientoSeleccionado);
+                    trabajosTratamientoSeleccionado.setFechaDebito(confirmacion.getFechaConfirmacion());
+                    trabajosTratamientoSeleccionado.setTrabajoTratamientoEnum(TrabajoTratamientoEnum.D);
+                    trabajosTratamientoDAO.saveAndFlush(trabajosTratamientoSeleccionado);
+
+                    CuentaPaciente cp = new CuentaPaciente();
+                    cp.setDebe(new BigDecimal(trabajosTratamientoSeleccionado.getValor()));
+                    cp.setFechaMovimiento(confirmacion.getFechaConfirmacion());
+                    cp.setHaber(BigDecimal.ZERO);
+                    cp.setMoneda(planTratamientoSeleccionado.getMoneda());
+                    cp.setPaciente(planTratamientoSeleccionado.getPaciente());
+                    cp.setPlanTratamiento(planTratamientoSeleccionado);
+                    cp.setTrabajoTratamiento(trabajosTratamientoSeleccionado);
+                    cp.setObservacion("Tratamiento: " + trabajosTratamientoSeleccionado.getTrabajos().getNombre());
+                    cp.setSaldo(BigDecimal.ZERO);
+
+                    cuentaPacienteDAO.saveAndFlush(cp);
+
+                    ajustaSaldos();
+                    JOptionPane.showMessageDialog(null, "Trabajo debitado en la cuenta del paciente!", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                    buscarPlanesPaciente();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Transacción cancelada por usuario", "Atención", JOptionPane.ERROR);
+                }
+           
+        }
+    }
+
+    private void devolverTrabajo() {
+
+        CuentaPaciente findByTrabajosTratamiento = cuentaPacienteDAO.findByTrabajosTratamiento(trabajosTratamientoSeleccionado);
+        if (findByTrabajosTratamiento == null) {
+            trabajosTratamientoDAO.delete(trabajosTratamientoSeleccionado);
+            JOptionPane.showMessageDialog(null, "Trabajo eliminado del plan", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+            buscarPlanesPaciente();
+        } else {
+
+            ConfirmaTratamiento confirmacion = new ConfirmaTratamiento(this, true);
+            confirmacion.setVisible(true);
+            confirmacion.toFront();
+
+            trabajosTratamientoSeleccionado.setFechaDebito(null);
+
+            CuentaPaciente cp = new CuentaPaciente();
+            cp.setDebe(BigDecimal.ZERO);
+            cp.setFechaMovimiento(confirmacion.getFechaConfirmacion());
+            cp.setHaber(new BigDecimal(trabajosTratamientoSeleccionado.getValor()));
+            cp.setMoneda(planTratamientoSeleccionado.getMoneda());
+            cp.setPaciente(planTratamientoSeleccionado.getPaciente());
+            cp.setPlanTratamiento(planTratamientoSeleccionado);
+            cp.setTrabajoTratamiento(trabajosTratamientoSeleccionado);
+            cp.setObservacion("Devolución " + trabajosTratamientoSeleccionado.getTrabajos().getNombre());
+            cp.setSaldo(BigDecimal.ZERO);
+
+            cuentaPacienteDAO.save(cp);
+
+            trabajosTratamientoSeleccionado.setTrabajoTratamientoEnum(TrabajoTratamientoEnum.P);
+            trabajosTratamientoDAO.save(trabajosTratamientoSeleccionado);
+
+            ajustaSaldos();
+            JOptionPane.showMessageDialog(null, "Trabajo anulado de la cuenta del paciente!", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+            buscarPlanesPaciente();
+        }
+    }
+
+    void ajustaSaldos() {
         List<CuentaPaciente> todos = cuentaPacienteDAO.findByPacienteAndMonedaOrderFechaMovimientoAsc(pacienteSeleccionado, planTratamientoSeleccionado.getMoneda());
         BigDecimal saldo = new BigDecimal(BigInteger.ZERO);
 
@@ -242,6 +405,28 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
             cuentaPacienteDAO.save(mov);
 
         }
+    }
+
+    public void reporte() {
+
+        try {
+            HashMap parametros = new HashMap();
+            parametros.clear();
+            parametros.put("paciente_id", pacienteSeleccionado.getId());
+
+            Connection conexion = DriverManager.getConnection(props.getUrl(), props.getUsr(), props.getPsw());
+
+            InputStream resource = getClass().getClassLoader().getResourceAsStream("reportes/hist_paciente.jasper");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(resource, parametros, conexion);
+            JasperViewer reporte = new JasperViewer(jasperPrint, false);
+            reporte.setVisible(true);
+
+            reporte.toFront();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error! " + e, "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -262,17 +447,19 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
         tblPlanesTratamiento = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblTrabajos = new javax.swing.JTable();
+        btnDebitar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         btnConfirmar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnHistoria = new javax.swing.JButton();
         btnTrabajoProveedor = new javax.swing.JButton();
         btnFotos = new javax.swing.JButton();
+        btnImprimir = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
         setTitle("Consultorio Odontológico - D.N.Soft .-");
-        setPreferredSize(new java.awt.Dimension(1024, 600));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 204));
@@ -289,6 +476,7 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         getContentPane().add(jPanel1, gridBagConstraints);
 
+        jPanel3.setPreferredSize(new java.awt.Dimension(800, 600));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         jPanel11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -302,6 +490,11 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel11.add(jLabel7, gridBagConstraints);
 
+        cbPaciente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbPacienteActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -334,6 +527,7 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -362,6 +556,21 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel12.add(jScrollPane2, gridBagConstraints);
 
+        btnDebitar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add.png"))); // NOI18N
+        btnDebitar.setText("Debitar trabajo");
+        btnDebitar.setEnabled(false);
+        btnDebitar.setName(""); // NOI18N
+        btnDebitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDebitarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel12.add(btnDebitar, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -381,11 +590,11 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
 
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        btnConfirmar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         btnConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/accept.png"))); // NOI18N
         btnConfirmar.setMnemonic('R');
         btnConfirmar.setText("Confirmar presupuesto");
         btnConfirmar.setEnabled(false);
+        btnConfirmar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConfirmarActionPerformed(evt);
@@ -409,11 +618,11 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(btnModificar, gridBagConstraints);
 
-        btnHistoria.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         btnHistoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/medical-history24.png"))); // NOI18N
         btnHistoria.setMnemonic('R');
         btnHistoria.setText(" Historia");
         btnHistoria.setEnabled(false);
+        btnHistoria.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         btnHistoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHistoriaActionPerformed(evt);
@@ -426,7 +635,7 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
         btnTrabajoProveedor.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         btnTrabajoProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/denturex24.png"))); // NOI18N
         btnTrabajoProveedor.setMnemonic('R');
-        btnTrabajoProveedor.setText("Solicitar trabajo proveedor");
+        btnTrabajoProveedor.setText("Solicitar trabajo");
         btnTrabajoProveedor.setEnabled(false);
         btnTrabajoProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -451,13 +660,39 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(btnFotos, gridBagConstraints);
 
+        btnImprimir.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/medical-history24.png"))); // NOI18N
+        btnImprimir.setMnemonic('R');
+        btnImprimir.setText(" Imprimir ");
+        btnImprimir.setEnabled(false);
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(btnImprimir, gridBagConstraints);
+
+        btnEliminar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete.png"))); // NOI18N
+        btnEliminar.setMnemonic('R');
+        btnEliminar.setText("Eliminar plan");
+        btnEliminar.setEnabled(false);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(btnEliminar, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(jPanel4, gridBagConstraints);
-
-        getAccessibleContext().setAccessibleName("Consultorio Odontológico - D.N.Soft .-");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -494,7 +729,7 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
 
     private void btnHistoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoriaActionPerformed
 
-        AgregarHistoriaPaciente historiaPaciente = new AgregarHistoriaPaciente(null, true, planTratamientoSeleccionado);
+        AgregarHistoriaPaciente historiaPaciente = new AgregarHistoriaPaciente(null, true, planTratamientoSeleccionado, this);
         historiaPaciente.setVisible(true);
         historiaPaciente.toFront();
 
@@ -515,14 +750,56 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnFotosActionPerformed
 
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        reporte();
+    }//GEN-LAST:event_btnImprimirActionPerformed
+
+    private void cbPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPacienteActionPerformed
+
+    }//GEN-LAST:event_cbPacienteActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+
+        List<TrabajosTratamiento> trabajosTratamientoList = planTratamientoSeleccionado.getTrabajosTratamientoList();
+        int verificador = 0;
+        for (TrabajosTratamiento trabajo : trabajosTratamientoList) {
+            if (trabajo.getTrabajoTratamientoEnum() == TrabajoTratamientoEnum.D) {
+                verificador = 1;
+            }
+        }
+        if (verificador == 1) {
+            JOptionPane.showMessageDialog(null, "No se puede elminar el plan, posee trabajos debidatos", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                trabajosTratamientoDAO.delete(trabajosTratamientoList);
+                historiaPlanTratamientoDAO.delete(historiaPlanTratamientoDAO.findByPlanTratamientoOrderByFechaDesc(planTratamientoSeleccionado));
+                planTratamientoDAO.delete(planTratamientoSeleccionado);
+                JOptionPane.showMessageDialog(null, "Plan eliminado correctamente!", "Eliminado", JOptionPane.INFORMATION_MESSAGE);
+            } catch (DataIntegrityViolationException e) {
+                JOptionPane.showMessageDialog(null, "No se puede elminar el plan, posee movimiento en la cuenta del paciente", "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+
+        }
+        buscarPlanesPaciente();
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnDebitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDebitarActionPerformed
+        debitarTrabajo();
+    }//GEN-LAST:event_btnDebitarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmar;
+    private javax.swing.JButton btnDebitar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnFotos;
     private javax.swing.JButton btnHistoria;
+    private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnTrabajoProveedor;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox cbPaciente;
+    public javax.swing.JComboBox cbPaciente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;

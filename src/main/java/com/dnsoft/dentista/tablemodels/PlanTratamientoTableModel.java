@@ -19,7 +19,7 @@ import javax.swing.table.AbstractTableModel;
 public class PlanTratamientoTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Fecha", "Paciente", "Fecha confirmación", "Fecha finalizado", "Valor", "Obs.", "Situación"};
+    private final String[] colunas = new String[]{"Fecha", "Fecha confirmación", "Fecha finalizado", "Valor", "Obs.", "Situación"};
     //lista para a manipulacao do objeto
     private List<PlanTratamiento> listPlanTratamientos;
 
@@ -51,16 +51,14 @@ public class PlanTratamientoTableModel extends AbstractTableModel {
             case 0:
                 return c.getFechaCreacion();
             case 1:
-                return c.getPaciente();
-            case 2:
                 return c.getFechaConfirmacion();
-            case 3:
+            case 2:
                 return c.getFechaFinalizado();
-            case 4:
+            case 3:
                 return c.getMoneda().toString() + " " + c.getValorTotal();
-            case 5:
+            case 4:
                 return c.getObservaciones();
-            case 6:
+            case 5:
                 return c.getSituacionPlanTratamientoEnum();
             default:
                 return null;
@@ -83,16 +81,14 @@ public class PlanTratamientoTableModel extends AbstractTableModel {
             case 0:
                 return LocalDate.class;
             case 1:
-                return String.class;
+                return LocalDate.class;
             case 2:
                 return LocalDate.class;
             case 3:
-                return LocalDate.class;
+                return String.class;
             case 4:
                 return String.class;
             case 5:
-                return String.class;
-            case 6:
                 return SituacionPlanTratamientoEnum.class;
             default:
                 return null;

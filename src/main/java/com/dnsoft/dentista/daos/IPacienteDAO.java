@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface IPacienteDAO extends JpaRepository<Paciente, Long> {
 
-    @Query("select p from Paciente p where p.nombre like %?1% or p.documento like %?1%")
+    @Query("select p from Paciente p where p.nombre like %:texto% or p.documento like %:texto%")
     List<Paciente> findByNombreDocumento(String texto);
 
 }

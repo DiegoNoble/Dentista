@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface IClaseTratamientoDAO extends JpaRepository<ClaseTratamiento, Long> {
 
-     @Query("select c from ClaseTratamiento c where c.nombre like %?1% ")
+     @Query("select c from ClaseTratamiento c where c.nombre like %:texto% ")
     List<ClaseTratamiento> findByNombreLike(String texto);
     
 }

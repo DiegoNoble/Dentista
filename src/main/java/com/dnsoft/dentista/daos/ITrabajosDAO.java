@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ITrabajosDAO extends JpaRepository<Trabajos, Long> {
 
-    @Query("select t from Trabajos t where t.nombre like %?1% or t.claseTratamiento.nombre like %?1% "
+    @Query("select t from Trabajos t where t.nombre like %:texto% or t.claseTratamiento.nombre like %:texto% "
             + "order by t.claseTratamiento.nombre, t.nombre")
     List<Trabajos> findByNombreClase(String texto);
 

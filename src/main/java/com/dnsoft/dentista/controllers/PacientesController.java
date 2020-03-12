@@ -6,13 +6,15 @@
 package com.dnsoft.dentista.controllers;
 
 import com.dnsoft.dentista.beans.Paciente;
+import com.dnsoft.dentista.beans.PlanTratamiento;
 import com.dnsoft.dentista.daos.IPacienteDAO;
+import com.dnsoft.dentista.daos.IPlanTratamientoDAO;
 import com.dnsoft.dentista.renderers.TableRendererColorClaseTratamiento;
 import com.dnsoft.dentista.tablemodels.PacienteTableModel;
 import com.dnsoft.dentista.utiles.Container;
 import com.dnsoft.dentista.views.AgendaView;
 import com.dnsoft.dentista.views.ConsultaPlanesTratamientoView;
-import com.dnsoft.dentista.views.DetalleMovimientosCuentaPaciente;
+import com.dnsoft.dentista.views.DetalleMovimientosCuentaPaciente2;
 import com.dnsoft.dentista.views.HistoriaConsultasView;
 import com.dnsoft.dentista.views.Odontograma;
 import com.dnsoft.dentista.views.PacienteDetalles;
@@ -24,12 +26,14 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import org.jdesktop.swingx.prompt.PromptSupport;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -45,6 +49,7 @@ public class PacientesController implements ActionListener {
     ListSelectionModel listModel;
     List<Paciente> list;
     IPacienteDAO DAO;
+    IPlanTratamientoDAO planTratamientoDAO;
     Paciente seleccionado;
     JDesktopPane desktopPane;
 
@@ -55,6 +60,7 @@ public class PacientesController implements ActionListener {
 
         this.container = Container.getInstancia();
         DAO = container.getBean(IPacienteDAO.class);
+        planTratamientoDAO = container.getBean(IPlanTratamientoDAO.class);
         this.desktopPane = desktopPane;
         this.view = view;
         inicia();
@@ -64,6 +70,7 @@ public class PacientesController implements ActionListener {
 
         this.container = Container.getInstancia();
         DAO = container.getBean(IPacienteDAO.class);
+        planTratamientoDAO = container.getBean(IPlanTratamientoDAO.class);
 
         this.view = view;
 
@@ -114,16 +121,16 @@ public class PacientesController implements ActionListener {
 
             }
         });
-        view.btnCuentas.addActionListener(new ActionListener() {
+        /*view.btnCuentas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DetalleMovimientosCuentaPaciente cCPacienteView = new DetalleMovimientosCuentaPaciente(null, true);
+                DetalleMovimientosCuentaPaciente2 cCPacienteView = new DetalleMovimientosCuentaPaciente2(cCPacienteView, seleccionado);
                 DetalleCuentaPacientesController controller = new DetalleCuentaPacientesController(cCPacienteView, seleccionado);
                 controller.go();
             }
-        });
+        });*/
 
-        view.btnTratamientos.addActionListener(new ActionListener() {
+       /* view.btnTratamientos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ConsultaPlanesTratamientoView consultaPlanesTratamientoView = new ConsultaPlanesTratamientoView(seleccionado);
@@ -131,7 +138,8 @@ public class PacientesController implements ActionListener {
                 consultaPlanesTratamientoView.toFront();
 
             }
-        });
+        });*/
+       
         view.btnOdontograma.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -168,6 +176,31 @@ public class PacientesController implements ActionListener {
 
             }
         });
+
+        view.botonEliminar1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                List<PlanTratamiento> findByPaciente = planTratamientoDAO.findByPaciente(seleccionado);
+                int verificador = 0;
+              
+                    if (!findByPaciente.isEmpty()){
+                        verificador = 1;
+                    }
+               
+                if (verificador == 1) {
+                    JOptionPane.showMessageDialog(null, "No se puede elminar, el paciente posee planes de tratamiento ", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    try {
+                        DAO.delete(seleccionado);
+                        JOptionPane.showMessageDialog(null, "Paciente eliminado correctamente!", "Eliminado", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (DataIntegrityViolationException e) {
+                        JOptionPane.showMessageDialog(null, "No se puede elminar, posee movimientos en la cuenta del paciente", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                }
+                actualizaTbl();
+            }
+        });
     }
 
     void tblModel() {
@@ -179,9 +212,9 @@ public class PacientesController implements ActionListener {
 
         tableModel = new PacienteTableModel(list);
         view.tbl.setModel(tableModel);
-        view.tbl.setDefaultRenderer(Object.class, new TableRendererColorClaseTratamiento(3));
+        view.tbl.setDefaultRenderer(Object.class, new TableRendererColorClaseTratamiento(4));
 
-        int[] anchos = {200, 30, 30, 30};
+        int[] anchos = {1,250, 60, 60, 50};
 
         for (int i = 0; i < view.tbl.getColumnCount(); i++) {
 

@@ -11,7 +11,7 @@ public interface IConsultaDAO extends JpaRepository<Consulta, Long> {
     
     List<Consulta> findByFechaConsultaOrderByHoraConsultaDesdeAsc(LocalDate fechaSeleccionada);
 
-    @Query("from Consulta c where c.fechaConsulta = (select min(fechaConsulta) from Consulta where paciente = ?1 and fechaConsulta > current_date())")
+    @Query("from Consulta c where c.fechaConsulta = (select min(fechaConsulta) from Consulta where paciente = :paciente and fechaConsulta > current_date())")
     Consulta buscarProximaConsulta(Paciente paciente);
     
     List<Consulta> findByPacienteOrderByFechaConsultaDesc(Paciente paciente);

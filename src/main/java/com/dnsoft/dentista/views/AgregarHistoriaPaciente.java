@@ -48,10 +48,12 @@ public final class AgregarHistoriaPaciente extends javax.swing.JDialog {
     HistoriaPlanTableModel tableModel;
     List<HistoriaPlanTratamiento> list;
     HistoriaPlanTratamiento historiaSeleccionada;
+    ConsultaPlanesTratamientoView tratamientoView;
 
-    public AgregarHistoriaPaciente(java.awt.Frame parent, boolean modal, PlanTratamiento planTratamiento) {
+    public AgregarHistoriaPaciente(java.awt.Frame parent, boolean modal, PlanTratamiento planTratamiento, ConsultaPlanesTratamientoView tratamientoView) {
         super(parent, modal);
         initComponents();
+        this.tratamientoView = tratamientoView;
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/diente.jpg")));
         //CIERRA JOPTIONPANE CON ESCAPE
         jPanel1.grabFocus();
@@ -69,8 +71,6 @@ public final class AgregarHistoriaPaciente extends javax.swing.JDialog {
         planTratamientoDAO = container.getBean(IPlanTratamientoDAO.class);
         hitoriaDAO = container.getBean(IHistoriaPlanTratamientoDAO.class);
 
-        accionesBotones();
-
     }
 
     void actualizaTbl() {
@@ -80,7 +80,6 @@ public final class AgregarHistoriaPaciente extends javax.swing.JDialog {
 
     }
 
-  
     private void defineModelo() {
         ((DefaultTableCellRenderer) tblHistoria.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         list = new ArrayList<HistoriaPlanTratamiento>();
@@ -91,10 +90,10 @@ public final class AgregarHistoriaPaciente extends javax.swing.JDialog {
 
         tblHistoria.getColumn("Comentarios").setCellRenderer(new TextAreaRenderer());
         tblHistoria.getColumn("Comentarios").setCellEditor(new TextAreaEditor());
-        
+
         tblHistoria.getColumn("Fecha").setCellRenderer(new LocalDateCellRenderer());
         tblHistoria.setRowHeight(70);
-        
+
         int[] anchos = {10, 400};
 
         for (int i = 0; i < tblHistoria.getColumnCount(); i++) {
@@ -108,43 +107,13 @@ public final class AgregarHistoriaPaciente extends javax.swing.JDialog {
             @Override
             public void valueChanged(ListSelectionEvent lse) {
                 if (tblHistoria.getSelectedRow() != -1) {
-                    botonEliminar1.setEnabled(true);
+                    btnEliminar.setEnabled(true);
                     historiaSeleccionada = list.get(tblHistoria.getSelectedRow());
                 } else {
-                    botonEliminar1.setEnabled(false);
+                    btnEliminar.setEnabled(false);
                 }
             }
         });
-    }
-
-    void accionesBotones() {
-        btnGuardar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-                if (!txtComentarios.getText().equals("")) {
-                    registraHistoria();
-                    actualizaTbl();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Debe ingresar un detalle", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        btnVolver.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-                dispose();
-            }
-        });
-
-        botonEliminar1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-                hitoriaDAO.delete(historiaSeleccionada);
-                actualizaTbl();
-
-            }
-        });
-
     }
 
     private void actualizaSituacioTratamiento() {
@@ -152,6 +121,7 @@ public final class AgregarHistoriaPaciente extends javax.swing.JDialog {
         if (historia.getFinalizado() == Boolean.TRUE) {
             planTratamiento.setFechaFinalizado(dpFecha.getDate());
             planTratamiento.setSituacionPlanTratamientoEnum(SituacionPlanTratamientoEnum.TRATAMIENTO_FINALIZADO);
+            tratamientoView.cbPaciente.requestFocus();
             this.dispose();
         }
         if (planTratamiento.getSituacionPlanTratamientoEnum() == SituacionPlanTratamientoEnum.CONFIRMA_PRESUPUESTO) {
@@ -164,7 +134,6 @@ public final class AgregarHistoriaPaciente extends javax.swing.JDialog {
     private void registraHistoria() {
         historia = new HistoriaPlanTratamiento();
         historia.setFecha(dpFecha.getDate());
-        historia.setFinalizado(cbFinalizado.isSelected());
         historia.setPlanTratamiento(planTratamiento);
         historia.setComentarios(txtComentarios.getText());
 
@@ -241,15 +210,14 @@ public final class AgregarHistoriaPaciente extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        btnVolver = new botones.BotonVolver();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtComentarios = new javax.swing.JTextArea();
         jLabel13 = new javax.swing.JLabel();
         dpFecha = new com.github.lgooddatepicker.components.DatePicker();
-        cbFinalizado = new javax.swing.JCheckBox();
-        btnGuardar = new botones.BotonNuevo();
-        botonEliminar1 = new botones.BotonEliminar();
+        btnAgregar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblHistoria = new javax.swing.JTable();
@@ -272,11 +240,6 @@ public final class AgregarHistoriaPaciente extends javax.swing.JDialog {
         getContentPane().add(jPanel2, gridBagConstraints);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(btnVolver, gridBagConstraints);
 
         jLabel10.setText("Comentarios:");
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -295,7 +258,7 @@ public final class AgregarHistoriaPaciente extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipady = 50;
@@ -316,26 +279,44 @@ public final class AgregarHistoriaPaciente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(dpFecha, gridBagConstraints);
 
-        cbFinalizado.setText(" Plan de tratamiento Finalizado?");
-        cbFinalizado.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cbFinalizado, gridBagConstraints);
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add.png"))); // NOI18N
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(btnGuardar, gridBagConstraints);
+        jPanel1.add(btnAgregar, gridBagConstraints);
 
-        botonEliminar1.setEnabled(false);
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete.png"))); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
-        jPanel1.add(botonEliminar1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(btnEliminar, gridBagConstraints);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/block.png"))); // NOI18N
+        jButton1.setText("Finalizar tratamiento");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(jButton1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -381,13 +362,43 @@ public final class AgregarHistoriaPaciente extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if (!txtComentarios.getText().equals("")) {
+            registraHistoria();
+            actualizaTbl();
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un detalle", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        hitoriaDAO.delete(historiaSeleccionada);
+        actualizaTbl();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int resp = JOptionPane.showConfirmDialog(null, "Desea finalizar el tratamiento el dia:" + dpFecha.getDate(), "Confirmación", JOptionPane.YES_NO_OPTION);
+
+        if (resp == JOptionPane.YES_OPTION) {
+            historia = new HistoriaPlanTratamiento();
+            historia.setFecha(dpFecha.getDate());
+            historia.setFinalizado(true);
+            historia.setPlanTratamiento(planTratamiento);
+            historia.setComentarios("Finalizado");
+            hitoriaDAO.save(historia);
+
+            actualizaSituacioTratamiento();
+
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private botones.BotonEliminar botonEliminar1;
-    private botones.BotonNuevo btnGuardar;
-    private botones.BotonVolver btnVolver;
-    private javax.swing.JCheckBox cbFinalizado;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnEliminar;
     private com.github.lgooddatepicker.components.DatePicker dpFecha;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel3;

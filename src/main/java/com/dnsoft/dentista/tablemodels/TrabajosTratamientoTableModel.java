@@ -5,7 +5,9 @@
  */
 package com.dnsoft.dentista.tablemodels;
 
+import com.dnsoft.dentista.beans.TrabajoTratamientoEnum;
 import com.dnsoft.dentista.beans.TrabajosTratamiento;
+import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
@@ -17,7 +19,7 @@ import javax.swing.table.AbstractTableModel;
 public class TrabajosTratamientoTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Pieza", "Nombre", "Valor"};
+    private final String[] colunas = new String[]{"Pieza", "Nombre", "Valor", "Situación", "Fecha débito"};
     //lista para a manipulacao do objeto
     private List<TrabajosTratamiento> list;
     JTextField txtTotal;
@@ -58,6 +60,10 @@ public class TrabajosTratamientoTableModel extends AbstractTableModel {
                 return c.getTrabajos();
             case 2:
                 return c.getValor();
+            case 3:
+                return c.getTrabajoTratamientoEnum().toString();
+            case 4:
+                return c.getFechaDebito();
             default:
                 return null;
         }
@@ -79,7 +85,10 @@ public class TrabajosTratamientoTableModel extends AbstractTableModel {
                 return String.class;
             case 2:
                 return Double.class;
-
+            case 3:
+                return TrabajoTratamientoEnum.class;
+            case 4:
+                return LocalDate.class;
             default:
                 return null;
         }
@@ -87,7 +96,7 @@ public class TrabajosTratamientoTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return false;
+              return false;
     }
 
     public void agregar(TrabajosTratamiento TrabajosTratamientos) {

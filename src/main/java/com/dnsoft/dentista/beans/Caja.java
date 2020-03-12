@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,8 +53,12 @@ public class Caja implements Serializable {
     @Column(length = 25)
     private MonedaEnum moneda;
 
-    @ManyToOne()
-    private Pagos pagos;
+   @JoinColumn(name = "medios_de_pago_id", referencedColumnName = "id")
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    private MediosDePago mediosDePago;
+    
+    private Integer cuotas;
+
 
     public Caja() {
     }
@@ -114,13 +119,24 @@ public class Caja implements Serializable {
         this.moneda = moneda;
     }
 
-    public Pagos getPagos() {
-        return pagos;
+    public MediosDePago getMediosDePago() {
+        return mediosDePago;
     }
 
-    public void setPagos(Pagos pagos) {
-        this.pagos = pagos;
+    public void setMediosDePago(MediosDePago mediosDePago) {
+        this.mediosDePago = mediosDePago;
     }
+
+    public Integer getCuotas() {
+        return cuotas;
+    }
+
+    public void setCuotas(Integer cuotas) {
+        this.cuotas = cuotas;
+    }
+
+    
+   
 
     public String getObs() {
         return obs;

@@ -7,14 +7,8 @@ package com.dnsoft.dentista.utiles;
 
 
 import com.dnsoft.dentista.beans.Caja;
-import com.dnsoft.dentista.beans.CuentaPaciente;
-import static com.dnsoft.dentista.beans.MonedaEnum.DOLARES;
-import com.dnsoft.dentista.daos.IPagosDAO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.util.Date;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -34,12 +28,10 @@ public class ImprimeRecibo {
     String proveedor;
     String detalle;
     String inmueble;
-    IPagosDAO pagoReciboDAO;
     Container container;
 
     public ImprimeRecibo() {
         container = Container.getInstancia();
-        pagoReciboDAO = container.getBean(IPagosDAO.class);
     }
 
     public ImprimeRecibo(Caja movimientoCaja, String nombreCliente, String detalle, String proveedor, String inmueble) {
@@ -49,7 +41,6 @@ public class ImprimeRecibo {
         this.proveedor = proveedor;
         this.inmueble = inmueble;
         container = Container.getInstancia();
-        pagoReciboDAO = container.getBean(IPagosDAO.class);
     }
 
     public void imprimieReciboEntrada() {

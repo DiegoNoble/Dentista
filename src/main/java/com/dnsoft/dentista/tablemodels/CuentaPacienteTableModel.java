@@ -6,6 +6,7 @@
 package com.dnsoft.dentista.tablemodels;
 
 import com.dnsoft.dentista.beans.CuentaPaciente;
+import com.dnsoft.dentista.beans.MediosDePago;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedList;
@@ -19,7 +20,7 @@ import javax.swing.table.AbstractTableModel;
 public class CuentaPacienteTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Fecha", "Debe", "Paga", "Saldo", "OBS."};
+    private final String[] colunas = new String[]{"Fecha", "Debe", "Haber", "Saldo", "OBS.", "Medio de Pago", "Cuotas"};
     //lista para a manipulacao do objeto
     private final List<CuentaPaciente> list;
 
@@ -58,6 +59,10 @@ public class CuentaPacienteTableModel extends AbstractTableModel {
                 return c.getSaldo();
             case 4:
                 return c.getObservacion();
+            case 5:
+                return c.getMediosDePago();
+            case 6:
+                return c.getCuotas();
             default:
                 return null;
         }
@@ -86,6 +91,10 @@ public class CuentaPacienteTableModel extends AbstractTableModel {
                 return BigDecimal.class;
             case 4:
                 return String.class;
+            case 5:
+                return MediosDePago.class;
+            case 6:
+                return Integer.class;
             default:
                 return null;
         }

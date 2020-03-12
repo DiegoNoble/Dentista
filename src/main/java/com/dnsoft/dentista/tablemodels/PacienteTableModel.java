@@ -18,7 +18,7 @@ import javax.swing.table.AbstractTableModel;
 public class PacienteTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Nombre", "Celular", "Tipo", "Color"};
+    private final String[] colunas = new String[]{"id","Nombre", "Celular", "Tipo", "Color"};
     //lista para a manipulacao do objeto
     private List<Paciente> listPacientes;
 
@@ -48,12 +48,14 @@ public class PacienteTableModel extends AbstractTableModel {
         Paciente c = listPacientes.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return c.getNombre();
+                return c.getId();
             case 1:
-                return c.getCelular();
+                return c.getNombre();
             case 2:
-                return c.getClaseTratamiento();
+                return c.getCelular();
             case 3:
+                return c.getClaseTratamiento();
+            case 4:
                 return c.getClaseTratamiento().getColor();
             default:
                 return null;
@@ -74,12 +76,14 @@ public class PacienteTableModel extends AbstractTableModel {
     ) {
         switch (columnIndex) {
             case 0:
-                return String.class;
+                return Long.class;
             case 1:
                 return String.class;
             case 2:
-                return ClaseTratamiento.class;
+                return String.class;
             case 3:
+                return ClaseTratamiento.class;
+            case 4:
                 return String.class;
             default:
                 return null;

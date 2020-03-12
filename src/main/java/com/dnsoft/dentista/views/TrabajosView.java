@@ -43,7 +43,11 @@ public class TrabajosView extends InternalFrameEstandar {
         jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         txtBusqueda = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        lblAjuste = new javax.swing.JLabel();
+        txtPorcentaje = new javax.swing.JTextField();
+        btnAjustar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -142,11 +146,49 @@ public class TrabajosView extends InternalFrameEstandar {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel5.add(txtBusqueda, gridBagConstraints);
 
-        jLabel1.setText("Buscar");
+        jLabel2.setText("Buscar");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        jPanel5.add(jLabel1, gridBagConstraints);
+        jPanel5.add(jLabel2, gridBagConstraints);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        lblAjuste.setFont(new java.awt.Font("Arial Black", 0, 11)); // NOI18N
+        lblAjuste.setText("Ajustar precios");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblAjuste, gridBagConstraints);
+
+        txtPorcentaje.setToolTipText("Ingrese importe en Enteros");
+        txtPorcentaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPorcentajeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 150;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel4.add(txtPorcentaje, gridBagConstraints);
+
+        btnAjustar.setText("Ajustar");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(btnAjustar, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(jPanel4, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -157,21 +199,29 @@ public class TrabajosView extends InternalFrameEstandar {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtPorcentajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPorcentajeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPorcentajeActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnAjustar;
     public botones.BotonEliminar btnEliminar;
     public botones.BotonExcel btnExcel;
     public botones.BotonEdicion btnModificar;
     public botones.BotonNuevo btnNuevo;
     public botones.BotonVolver btnVolver;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     public javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAjuste;
     public javax.swing.JTable tbl;
     public javax.swing.JTextField txtBusqueda;
+    public javax.swing.JTextField txtPorcentaje;
     // End of variables declaration//GEN-END:variables
 }

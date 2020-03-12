@@ -5,8 +5,10 @@
  */
 package com.dnsoft.dentista.views;
 
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import java.awt.Toolkit;
 import java.time.LocalDate;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,6 +26,9 @@ public class ConfirmaTratamiento extends javax.swing.JDialog {
         super(parent, modal);
 
         initComponents();
+        DatePickerSettings dateSettings = new DatePickerSettings();
+        dateSettings.setFormatForDatesCommonEra("dd/MM/yyyy");
+        dpFechaConfirmacion.setSettings(dateSettings);
         dpFechaConfirmacion.setDate(LocalDate.now());
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/diente.jpg")));
         setLocationRelativeTo(null);
@@ -81,7 +86,12 @@ public class ConfirmaTratamiento extends javax.swing.JDialog {
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
 
         setFechaConfirmacion();
-        dispose();
+        if (fechaConfirmacion != null) {
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe ingresar una fecha correcta!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
 

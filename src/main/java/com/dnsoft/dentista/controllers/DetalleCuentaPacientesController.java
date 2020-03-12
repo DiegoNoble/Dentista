@@ -11,16 +11,21 @@ import com.dnsoft.dentista.beans.MonedaEnum;
 import com.dnsoft.dentista.beans.Paciente;
 import com.dnsoft.dentista.beans.Parametros;
 import com.dnsoft.dentista.beans.Rubro;
+import com.dnsoft.dentista.beans.TrabajoTratamientoEnum;
+import com.dnsoft.dentista.beans.TrabajosTratamiento;
+import com.dnsoft.dentista.daos.ICajaDAO;
 import com.dnsoft.dentista.daos.ICuentaPacienteDAO;
 import com.dnsoft.dentista.daos.IPacienteDAO;
 import com.dnsoft.dentista.daos.IParametrosDAO;
+import com.dnsoft.dentista.daos.ITrabajosTratamientoDAO;
 import com.dnsoft.dentista.renderers.LocalDateCellRenderer;
 import com.dnsoft.dentista.tablemodels.CuentaPacienteTableModel;
 import com.dnsoft.dentista.utiles.ActualizaSaldos;
 import com.dnsoft.dentista.utiles.Container;
 import com.dnsoft.dentista.utiles.ExportarDatosExcel;
+import com.dnsoft.dentista.utiles.LeeProperties;
 import com.dnsoft.dentista.views.CobroDeudaPaciente;
-import com.dnsoft.dentista.views.DetalleMovimientosCuentaPaciente;
+import com.dnsoft.dentista.views.DetalleMovimientosCuentaPaciente2;
 import com.github.lgooddatepicker.optionalusertools.DateChangeListener;
 import com.github.lgooddatepicker.zinternaltools.DateChangeEvent;
 import java.awt.Dimension;
@@ -33,6 +38,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -52,6 +59,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -68,7 +76,7 @@ public class DetalleCuentaPacientesController implements ActionListener {
     CuentaPacienteTableModel tableModelCCPesos;
     CuentaPacienteTableModel tableModelCCDolares;
     ControlDeCajaController cajaController;
-    DetalleMovimientosCuentaPaciente view;
+    private static DetalleMovimientosCuentaPaciente2 view = null;
     List<CuentaPaciente> listCCPesos;
     CuentaPaciente ccPesosSeleccionado;
     CuentaPaciente ccDolaresSeleccionado;
@@ -78,47 +86,42 @@ public class DetalleCuentaPacientesController implements ActionListener {
     Rubro rubro;
     Parametros parametros;
     IParametrosDAO parametrosDAO;
+    ICajaDAO cajaDAO;
+    ITrabajosTratamientoDAO trabajosTratamientoDAO;
     DecimalFormat formatter = new DecimalFormat("###,###,###.00");
     ListSelectionModel listModelPesos;
     ListSelectionModel listModelDolares;
+    LeeProperties props = new LeeProperties();
 
-    public DetalleCuentaPacientesController(DetalleMovimientosCuentaPaciente view, Paciente PacienteSeleccionado) {
+    public DetalleCuentaPacientesController(Paciente PacienteSeleccionado) {
 
-        this.view = view;
-        view.btnPagoPesos.setVisible(true);
-        view.btnPagoDolares.setVisible(true);
-        view.anulaMovimientoDolares.setEnabled(false);
-        view.anulaMovimientoDolares.setEnabled(false);
         this.pacienteSeleccionado = PacienteSeleccionado;
 
         inicio();
-        view.cbPaciente.setSelectedItem(PacienteSeleccionado);
-    }
 
-    public DetalleCuentaPacientesController(DetalleMovimientosCuentaPaciente view) {
-
-        this.view = view;
         view.btnPagoPesos.setVisible(true);
         view.btnPagoDolares.setVisible(true);
         view.anulaMovimientoDolares.setEnabled(false);
         view.anulaMovimientoDolares.setEnabled(false);
 
-        inicio();
-        buscaMovimientosCC();
+        view.cbPaciente.setSelectedItem(PacienteSeleccionado);
     }
 
-    public DetalleCuentaPacientesController(DetalleMovimientosCuentaPaciente view, Rubro rubro, ControlDeCajaController cajaController) {
+    public DetalleCuentaPacientesController() {
 
-        this.view = view;
+        inicio();
+        view.btnPagoPesos.setVisible(true);
+        view.btnPagoDolares.setVisible(true);
+        view.anulaMovimientoDolares.setEnabled(false);
+        view.anulaMovimientoDolares.setEnabled(false);
+
+    }
+
+    public DetalleCuentaPacientesController(Rubro rubro, ControlDeCajaController cajaController) {
+
         this.rubro = rubro;
         this.cajaController = cajaController;
         inicio();
-    }
-
-    public void go() {
-        this.view.setVisible(true);
-        this.view.toFront();
-
     }
 
     private void cargaComboPacientes() {
@@ -131,6 +134,74 @@ public class DetalleCuentaPacientesController implements ActionListener {
 
             view.cbPaciente.addItem(p);
         }
+
+    }
+
+    public void inicio() {
+
+        if (view == null) {
+            view = new DetalleMovimientosCuentaPaciente2();
+
+            view.btnExcelPesos.setVisible(true);
+            view.btnExcelDolares.setVisible(true);
+
+            view.btnActualizaSaldoD.setActionCommand("actualizaSaldosD");
+            view.btnActualizaSaldoD.addActionListener(this);
+
+            view.btnActualizaSaldoP.setActionCommand("actualizaSaldosP");
+            view.btnActualizaSaldoP.addActionListener(this);
+
+            this.container = Container.getInstancia();
+
+            PacienteDAO = container.getBean(IPacienteDAO.class);
+            CuentaPacienteDAO = container.getBean(ICuentaPacienteDAO.class);
+            parametrosDAO = container.getBean(IParametrosDAO.class);
+            pacienteDAO = container.getBean(IPacienteDAO.class);
+            trabajosTratamientoDAO = container.getBean(ITrabajosTratamientoDAO.class);
+            cajaDAO = container.getBean(ICajaDAO.class);
+            parametros = parametrosDAO.findAll().get(0);
+            AutoCompleteDecorator.decorate(view.cbPaciente);
+            
+            fechas();
+            configuraTblCCPesos();
+            configuraTblCCDolares();
+            cargaComboPacientes();
+
+            buscaMovimientosCC();
+            accionesBotones();
+            verificaResolucionDePantalla();
+            //pacienteSeleccionado = (Paciente) view.cbPaciente.getSelectedItem();
+
+            view.setVisible(true);
+            view.toFront();
+
+        } else {
+
+            view.setVisible(true);
+            view.toFront();
+
+        }
+
+    }
+
+    void fechas() {
+        view.dpFin.setDate(LocalDate.now());
+        view.dpInicio.setDate(LocalDate.now());
+
+        view.dpFin.addDateChangeListener(new DateChangeListener() {
+            @Override
+            public void dateChanged(DateChangeEvent event) {
+                buscaMovimientosCC();
+            }
+        });
+
+        view.dpInicio.addDateChangeListener(new DateChangeListener() {
+            @Override
+            public void dateChanged(DateChangeEvent event) {
+                buscaMovimientosCC();
+            }
+        });
+
     }
 
     void verificaResolucionDePantalla() {
@@ -159,54 +230,6 @@ public class DetalleCuentaPacientesController implements ActionListener {
         }
     }
 
-    final void inicio() {
-
-        view.btnExcelPesos.setVisible(true);
-        view.btnExcelDolares.setVisible(true);
-
-        view.btnActualizaSaldoD.setActionCommand("actualizaSaldosD");
-        view.btnActualizaSaldoD.addActionListener(this);
-
-        view.btnActualizaSaldoP.setActionCommand("actualizaSaldosP");
-        view.btnActualizaSaldoP.addActionListener(this);
-
-        this.container = Container.getInstancia();
-
-        PacienteDAO = container.getBean(IPacienteDAO.class);
-        CuentaPacienteDAO = container.getBean(ICuentaPacienteDAO.class);
-        parametrosDAO = container.getBean(IParametrosDAO.class);
-        pacienteDAO = container.getBean(IPacienteDAO.class);
-        parametros = parametrosDAO.findAll().get(0);
-        fechas();
-        configuraTblCCPesos();
-        configuraTblCCDolares();
-        cargaComboPacientes();
-        accionesBotones();
-        buscaMovimientosCC();
-        verificaResolucionDePantalla();
-        pacienteSeleccionado = (Paciente) view.cbPaciente.getSelectedItem();
-    }
-
-    void fechas() {
-        view.dpFin.setDate(LocalDate.now());
-        view.dpInicio.setDate(LocalDate.now());
-
-        view.dpFin.addDateChangeListener(new DateChangeListener() {
-            @Override
-            public void dateChanged(DateChangeEvent event) {
-                buscaMovimientosCC();
-            }
-        });
-
-        view.dpInicio.addDateChangeListener(new DateChangeListener() {
-            @Override
-            public void dateChanged(DateChangeEvent event) {
-                buscaMovimientosCC();
-            }
-        });
-
-    }
-
     final void configuraTblCCPesos() {
         ((DefaultTableCellRenderer) view.tblCCPesos.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -216,7 +239,7 @@ public class DetalleCuentaPacientesController implements ActionListener {
         view.tblCCPesos.setModel(tableModelCCPesos);
         view.tblCCPesos.getColumn("Fecha").setCellRenderer(new LocalDateCellRenderer());
 
-        int[] anchos = {5, 5, 5, 5, 100};
+        int[] anchos = {20, 5, 5, 5, 300};
 
         for (int i = 0; i < view.tblCCPesos.getColumnCount(); i++) {
 
@@ -231,8 +254,10 @@ public class DetalleCuentaPacientesController implements ActionListener {
                 if (view.tblCCPesos.getSelectedRow() != -1) {
                     view.anulaMovimientoPesos.setEnabled(true);
                     ccPesosSeleccionado = listCCPesos.get(view.tblCCPesos.getSelectedRow());
+                    view.btnReciboPesos.setEnabled(true);
                 } else {
                     view.anulaMovimientoPesos.setEnabled(false);
+                    view.btnReciboPesos.setEnabled(false);
                 }
             }
         });
@@ -248,7 +273,7 @@ public class DetalleCuentaPacientesController implements ActionListener {
         view.tblCCDolares.setModel(tableModelCCDolares);
         view.tblCCDolares.getColumn("Fecha").setCellRenderer(new LocalDateCellRenderer());
 
-        int[] anchos = {5, 5, 5, 5, 100};
+        int[] anchos = {5, 5, 5, 5, 300};
 
         for (int i = 0; i < view.tblCCDolares.getColumnCount(); i++) {
 
@@ -264,8 +289,10 @@ public class DetalleCuentaPacientesController implements ActionListener {
                 if (view.tblCCDolares.getSelectedRow() != -1) {
                     view.anulaMovimientoDolares.setEnabled(true);
                     ccDolaresSeleccionado = listCCDolares.get(view.tblCCDolares.getSelectedRow());
+                    view.btnReciboDolar.setEnabled(true);
                 } else {
                     view.anulaMovimientoDolares.setEnabled(false);
+                    view.btnReciboDolar.setEnabled(false);
                 }
             }
         });
@@ -274,6 +301,7 @@ public class DetalleCuentaPacientesController implements ActionListener {
 
     void buscaMovimientosCC() {
 
+        pacienteSeleccionado = (Paciente) view.cbPaciente.getSelectedItem();
         listCCPesos.clear();
         List movimientos = CuentaPacienteDAO.findByPacienteAndMonedaAndFechaBetween(pacienteSeleccionado, MonedaEnum.PESOS, view.dpInicio.getDate(), view.dpFin.getDate());
         listCCPesos.addAll(movimientos);
@@ -421,6 +449,24 @@ public class DetalleCuentaPacientesController implements ActionListener {
         }
         );
 
+        view.btnReciboPesos.addMouseListener(
+                new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                imprimeRecibo(ccPesosSeleccionado.getId());
+            }
+        }
+        );
+
+        view.btnReciboDolar.addMouseListener(
+                new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                imprimeRecibo(ccDolaresSeleccionado.getId());
+            }
+        }
+        );
+
         view.botonVolver1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
@@ -433,7 +479,6 @@ public class DetalleCuentaPacientesController implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                pacienteSeleccionado = (Paciente) view.cbPaciente.getSelectedItem();
                 buscaMovimientosCC();
             }
         });
@@ -457,14 +502,36 @@ public class DetalleCuentaPacientesController implements ActionListener {
 
         int showConfirmDialog = JOptionPane.showConfirmDialog(null, "Esta seguro que desea elminar el movimiento seleccionado?", "Atención", JOptionPane.YES_NO_OPTION);
         if (showConfirmDialog == JOptionPane.YES_OPTION) {
-            CuentaPacienteDAO.delete(ccPesosSeleccionado);
+
+            if (ccPesosSeleccionado.getTrabajoTratamiento() != null) {
+                TrabajosTratamiento trabajoTratamiento = ccPesosSeleccionado.getTrabajoTratamiento();
+                trabajoTratamiento.setFechaDebito(null);
+                trabajoTratamiento.setTrabajoTratamientoEnum(TrabajoTratamientoEnum.P);
+                trabajosTratamientoDAO.save(trabajoTratamiento);
+
+                CuentaPacienteDAO.delete(ccPesosSeleccionado);
+            } else {
+                CuentaPacienteDAO.delete(ccPesosSeleccionado);
+
+                Caja movimientoCaja = new Caja();
+                movimientoCaja.setDescripcion("Devolución  Paciente " + pacienteSeleccionado.getNombre());
+                movimientoCaja.setSalida(ccPesosSeleccionado.getHaber());
+                movimientoCaja.setFecha(ccPesosSeleccionado.getFechaMovimiento());
+                movimientoCaja.setMoneda(MonedaEnum.PESOS);
+                movimientoCaja.setRubro(parametros.getCobroCuentaPaciente());
+                movimientoCaja.setObs("Devolución  Paciente " + pacienteSeleccionado.getNombre());
+                movimientoCaja.setEntrada(BigDecimal.ZERO);
+                cajaDAO.save(movimientoCaja);
+
+            }
 
             //Ajusta saldo cc Paciente
             ActualizaSaldos acSaldo = new ActualizaSaldos();
             List<CuentaPaciente> ccPaciente = CuentaPacienteDAO.findByPacienteAndMonedaOrderFechaMovimientoAsc(pacienteSeleccionado, MonedaEnum.PESOS);
 
             CuentaPacienteDAO.save(acSaldo.ActualizaSaldosPacientes(ccPaciente));
-            JOptionPane.showMessageDialog(null, "Movimiento anulado correctamente");
+            JOptionPane.showMessageDialog(
+                    null, "Movimiento anulado correctamente");
             buscaMovimientosCC();
         }
     }
@@ -472,8 +539,26 @@ public class DetalleCuentaPacientesController implements ActionListener {
     private void anulaMovimientoDolares() {
         int showConfirmDialog = JOptionPane.showConfirmDialog(null, "Esta seguro que desea elminar el movimiento seleccionado?", "Atención", JOptionPane.YES_NO_OPTION);
         if (showConfirmDialog == JOptionPane.YES_OPTION) {
-            CuentaPacienteDAO.delete(ccDolaresSeleccionado);
 
+            if (ccDolaresSeleccionado.getTrabajoTratamiento() != null) {
+                TrabajosTratamiento trabajoTratamiento = ccDolaresSeleccionado.getTrabajoTratamiento();
+                trabajoTratamiento.setFechaDebito(null);
+                trabajoTratamiento.setTrabajoTratamientoEnum(TrabajoTratamientoEnum.P);
+                trabajosTratamientoDAO.save(trabajoTratamiento);
+                CuentaPacienteDAO.delete(ccDolaresSeleccionado);
+            } else {
+
+                CuentaPacienteDAO.delete(ccDolaresSeleccionado);
+                Caja movimientoCaja = new Caja();
+                movimientoCaja.setDescripcion("Devolución  Paciente " + pacienteSeleccionado.getNombre());
+                movimientoCaja.setSalida(ccPesosSeleccionado.getHaber());
+                movimientoCaja.setFecha(ccPesosSeleccionado.getFechaMovimiento());
+                movimientoCaja.setMoneda(MonedaEnum.DOLARES);
+                movimientoCaja.setRubro(parametros.getCobroCuentaPaciente());
+                movimientoCaja.setObs("Devolución  Paciente " + pacienteSeleccionado.getNombre());
+                movimientoCaja.setEntrada(BigDecimal.ZERO);
+                cajaDAO.save(movimientoCaja);
+            }
             //Ajusta saldo cc Paciente
             ActualizaSaldos acSaldo = new ActualizaSaldos();
             List<CuentaPaciente> ccPaciente = CuentaPacienteDAO.findByPacienteAndMonedaOrderFechaMovimientoAsc(pacienteSeleccionado, MonedaEnum.DOLARES);
@@ -507,6 +592,28 @@ public class DetalleCuentaPacientesController implements ActionListener {
             default:
                 throw new AssertionError();
         }
+    }
+
+    public void imprimeRecibo(Long idRecibo) {
+
+        try {
+            HashMap parametros = new HashMap();
+            parametros.clear();
+            parametros.put("recibo", idRecibo);
+
+            Connection conexion = DriverManager.getConnection(props.getUrl(), props.getUsr(), props.getPsw());
+
+            InputStream resource = getClass().getClassLoader().getResourceAsStream("reportes/recibo_dentista.jasper");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(resource, parametros, conexion);
+            JasperViewer reporte = new JasperViewer(jasperPrint, false);
+            reporte.setVisible(true);
+
+            reporte.toFront();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error! " + e, "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+
     }
 
 }

@@ -5,7 +5,7 @@
  */
 package com.dnsoft.dentista;
 
-import com.dnsoft.dentista.views.MenuPrincipalView;
+import com.dnsoft.dentista.views.frameLogin;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,8 +13,6 @@ import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 /**
  *
@@ -27,12 +25,10 @@ public class Main {
         try {
 
             //setLogs();
-            MenuPrincipalView mp = new MenuPrincipalView();
-
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            SwingUtilities.updateComponentTreeUI(mp);
-            mp.setVisible(true);
-            mp.toFront();
+            
+            frameLogin login = new frameLogin();
+            login.setVisible(true);
+            login.toFront();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error:" + e, "Error1", JOptionPane.ERROR_MESSAGE);
@@ -45,18 +41,18 @@ public class Main {
         SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy hh'h'mm'm'ss");
         String agora = format.format(date);
 
-        //File out = new File("logs/System.out");
+        File out = new File("logs/System.out");
         File err = new File("logs/System.err");
-        /*if (!out.exists()) {
+        if (!out.exists()) {
          out.mkdirs();
-         }*/
+         }
         if (!err.exists()) {
             err.mkdirs();
         }
 
-        /*System.setOut(
+        System.setOut(
          new PrintStream(
-         new FileOutputStream("logs/System.out/" + agora + ".txt", true)));*/
+         new FileOutputStream("logs/System.out/" + agora + ".txt", true)));
         System.setErr(
                 new PrintStream(
                         new FileOutputStream("logs/System.err/" + agora + ".txt", true)));

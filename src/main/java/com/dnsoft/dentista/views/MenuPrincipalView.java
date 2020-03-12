@@ -1,9 +1,10 @@
 package com.dnsoft.dentista.views;
 
+import com.dnsoft.dentista.beans.Perfil;
+import com.dnsoft.dentista.beans.Usuario;
 import com.dnsoft.dentista.controllers.ClasePacientesController;
 import com.dnsoft.dentista.controllers.ConsultaDeCajaController;
 import com.dnsoft.dentista.controllers.ControlDeCajaController;
-import com.dnsoft.dentista.controllers.DetalleCuentaPacientesController;
 import com.dnsoft.dentista.controllers.PacientesController;
 import com.dnsoft.dentista.controllers.ProveedorController;
 import com.dnsoft.dentista.controllers.TrabajosController;
@@ -17,7 +18,8 @@ import org.springframework.stereotype.Component;
 @Component
 public final class MenuPrincipalView extends javax.swing.JFrame {
 
-    public String perfil;
+    Usuario usuaro;
+    Perfil perfilUsuarioLogin;
     DecorateDesktopPane desktopPane = new DecorateDesktopPane("/imagenes/fondo.jpg");
     //JDesktopPane desktopPane = new JDesktopPane();
     ImageIcon fot;
@@ -25,8 +27,10 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
     LeeProperties props = new LeeProperties();
     Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/diente.jpg"));
 
-    public MenuPrincipalView() {
+    public MenuPrincipalView(Usuario usuaro, Perfil perfil) {
         initComponents();
+        this.usuaro = usuaro;
+        this.perfilUsuarioLogin = perfil;
 
         setSize(1060, 768);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -34,6 +38,7 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
         add(desktopPane);
         //imagenDeFondo();
         iniciar();
+        verificarPermisos();
 
     }
 
@@ -44,15 +49,39 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
         desktopPane.add(view);
         controller.go();
 
-        AgendaView agenda = new AgendaView();
+        /*AgendaView agenda = new AgendaView();
         desktopPane.add(agenda);
         agenda.setLocation(0, 130);
         agenda.toFront();
         agenda.setVisible(true);
-
+         */
         RecoratorioTrabajosProveedor viewp = new RecoratorioTrabajosProveedor();
         desktopPane.add(viewp);
 
+    }
+
+    void verificarPermisos() {
+        if (perfilUsuarioLogin != null) {
+
+            mnuAgenda.setEnabled(perfilUsuarioLogin.getAgenda());
+            mnuConsultarCaja.setEnabled(perfilUsuarioLogin.getConsultas());
+            mnuConsultarDeudores.setEnabled(perfilUsuarioLogin.getConsultarDeudores());
+            mnuConsultarTrabajos.setEnabled(perfilUsuarioLogin.getConsultarTrabajos());
+            mnuConsultarTratamientos.setEnabled(perfilUsuarioLogin.getConsultarTratamientos());
+            mnuCrearPlanes.setEnabled(perfilUsuarioLogin.getCrearPlanTratamiento());
+            mnuCuentasPacientes.setEnabled(perfilUsuarioLogin.getCuentadePacientes());
+            mnuItemClasificacionTratamientos.setEnabled(perfilUsuarioLogin.getClasificaTratamientos());
+            mnuItemTratamientos.setEnabled(perfilUsuarioLogin.getTratamientos());
+            mnuMediosDePago.setEnabled(perfilUsuarioLogin.getRegistraMediosDePago());
+            mnuMovimientos.setEnabled(perfilUsuarioLogin.getMovimientos());
+            mnuPacientes.setEnabled(perfilUsuarioLogin.getPacientes());
+            mnuPermisosUsuarios.setEnabled(perfilUsuarioLogin.getPermisos());
+            mnuRegistrarProveedor.setEnabled(perfilUsuarioLogin.getRegistrarProveedor());
+            mnuRespaldos.setEnabled(perfilUsuarioLogin.getRespaldos());
+            mnuTrabajosPendientes.setEnabled(perfilUsuarioLogin.getTrabajosPendientes());
+            mnuUsuarios.setEnabled(perfilUsuarioLogin.getUsuarios());
+        
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -61,39 +90,44 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
 
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuSistema = new javax.swing.JMenu();
-        mnuCotizacion10 = new javax.swing.JMenuItem();
-        mnuItemSesion1 = new javax.swing.JMenuItem();
-        mnuItemSalir = new javax.swing.JMenuItem();
+        mnuUsuarios = new javax.swing.JMenuItem();
+        mnuPermisosUsuarios = new javax.swing.JMenuItem();
+        mnuRespaldos = new javax.swing.JMenuItem();
+        mnuSalir = new javax.swing.JMenuItem();
         mnuRegistros = new javax.swing.JMenu();
         jSeparator13 = new javax.swing.JPopupMenu.Separator();
-        mnuInquilinos = new javax.swing.JMenuItem();
+        mnuMediosDePago = new javax.swing.JMenuItem();
+        jSeparator24 = new javax.swing.JPopupMenu.Separator();
+        mnuPacientes = new javax.swing.JMenuItem();
         jSeparator22 = new javax.swing.JPopupMenu.Separator();
-        mnuItemPropietarios = new javax.swing.JMenuItem();
+        mnuItemClasificacionTratamientos = new javax.swing.JMenuItem();
         jSeparator12 = new javax.swing.JPopupMenu.Separator();
-        mnuItemPropiedades = new javax.swing.JMenuItem();
+        mnuItemTratamientos = new javax.swing.JMenuItem();
         jSeparator10 = new javax.swing.JPopupMenu.Separator();
-        mnuInquilinos1 = new javax.swing.JMenuItem();
+        mnuCuentasPacientes = new javax.swing.JMenuItem();
         jSeparator11 = new javax.swing.JPopupMenu.Separator();
-        mnuInquilinos3 = new javax.swing.JMenuItem();
+        mnuAgenda = new javax.swing.JMenuItem();
         jSeparator17 = new javax.swing.JPopupMenu.Separator();
-        mnuInquilinos4 = new javax.swing.JMenuItem();
+        mnuCrearPlanes = new javax.swing.JMenuItem();
         jSeparator18 = new javax.swing.JPopupMenu.Separator();
-        mnuInquilinos5 = new javax.swing.JMenuItem();
+        mnuConsultarTratamientos = new javax.swing.JMenuItem();
+        jSeparator23 = new javax.swing.JPopupMenu.Separator();
+        mnuConsultarDeudores = new javax.swing.JMenuItem();
         mnuProveedor = new javax.swing.JMenu();
         jSeparator21 = new javax.swing.JPopupMenu.Separator();
-        mnuInquilinos2 = new javax.swing.JMenuItem();
+        mnuRegistrarProveedor = new javax.swing.JMenuItem();
         jSeparator19 = new javax.swing.JPopupMenu.Separator();
-        mnuItemPropiedades7 = new javax.swing.JMenuItem();
+        mnuConsultarTrabajos = new javax.swing.JMenuItem();
         jSeparator20 = new javax.swing.JPopupMenu.Separator();
-        mnuItemPropiedades8 = new javax.swing.JMenuItem();
-        mnuAyuda2 = new javax.swing.JMenu();
+        mnuTrabajosPendientes = new javax.swing.JMenuItem();
+        mnuCaja = new javax.swing.JMenu();
         jSeparator16 = new javax.swing.JPopupMenu.Separator();
-        mnuItemPropiedades6 = new javax.swing.JMenuItem();
+        mnuConsultarCaja = new javax.swing.JMenuItem();
         jSeparator14 = new javax.swing.JPopupMenu.Separator();
-        mnuItemPropiedades9 = new javax.swing.JMenuItem();
+        mnuMovimientos = new javax.swing.JMenuItem();
         jSeparator15 = new javax.swing.JPopupMenu.Separator();
         mnuAyuda = new javax.swing.JMenu();
-        mnuItemConsultaCuentasProveedores1 = new javax.swing.JMenuItem();
+        mnuItemAyuda = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Consultorio Odontológico - D.N.Soft .-");
@@ -105,35 +139,45 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
         mnuSistema.setText(" SISTEMA ");
         mnuSistema.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
-        mnuCotizacion10.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuCotizacion10.setText(" Parametros Globales ");
-        mnuCotizacion10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuCotizacion10.addActionListener(new java.awt.event.ActionListener() {
+        mnuUsuarios.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuUsuarios.setText(" Usuarios");
+        mnuUsuarios.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuCotizacion10ActionPerformed(evt);
+                mnuUsuariosActionPerformed(evt);
             }
         });
-        mnuSistema.add(mnuCotizacion10);
+        mnuSistema.add(mnuUsuarios);
 
-        mnuItemSesion1.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuItemSesion1.setText(" Respaldar Base");
-        mnuItemSesion1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuItemSesion1.addActionListener(new java.awt.event.ActionListener() {
+        mnuPermisosUsuarios.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuPermisosUsuarios.setText(" Permisos usuarios");
+        mnuPermisosUsuarios.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuPermisosUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemSesion1ActionPerformed(evt);
+                mnuPermisosUsuariosActionPerformed(evt);
             }
         });
-        mnuSistema.add(mnuItemSesion1);
+        mnuSistema.add(mnuPermisosUsuarios);
 
-        mnuItemSalir.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuItemSalir.setText(" Salir ");
-        mnuItemSalir.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuItemSalir.addActionListener(new java.awt.event.ActionListener() {
+        mnuRespaldos.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuRespaldos.setText(" Respaldar Base");
+        mnuRespaldos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuRespaldos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemSalirActionPerformed(evt);
+                mnuRespaldosActionPerformed(evt);
             }
         });
-        mnuSistema.add(mnuItemSalir);
+        mnuSistema.add(mnuRespaldos);
+
+        mnuSalir.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuSalir.setText(" Salir ");
+        mnuSalir.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSalirActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(mnuSalir);
 
         jMenuBar1.add(mnuSistema);
 
@@ -142,81 +186,103 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
         mnuRegistros.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         mnuRegistros.add(jSeparator13);
 
-        mnuInquilinos.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuInquilinos.setText(" Pacientes ");
-        mnuInquilinos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuInquilinos.addActionListener(new java.awt.event.ActionListener() {
+        mnuMediosDePago.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuMediosDePago.setText(" Medios de Pago");
+        mnuMediosDePago.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuMediosDePago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuInquilinosActionPerformed(evt);
+                mnuMediosDePagoActionPerformed(evt);
             }
         });
-        mnuRegistros.add(mnuInquilinos);
+        mnuRegistros.add(mnuMediosDePago);
+        mnuRegistros.add(jSeparator24);
+
+        mnuPacientes.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuPacientes.setText(" Pacientes ");
+        mnuPacientes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuPacientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPacientesActionPerformed(evt);
+            }
+        });
+        mnuRegistros.add(mnuPacientes);
         mnuRegistros.add(jSeparator22);
 
-        mnuItemPropietarios.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuItemPropietarios.setText(" Clasificación tratamientos ");
-        mnuItemPropietarios.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuItemPropietarios.addActionListener(new java.awt.event.ActionListener() {
+        mnuItemClasificacionTratamientos.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuItemClasificacionTratamientos.setText(" Clasificación tratamientos ");
+        mnuItemClasificacionTratamientos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuItemClasificacionTratamientos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemPropietariosActionPerformed(evt);
+                mnuItemClasificacionTratamientosActionPerformed(evt);
             }
         });
-        mnuRegistros.add(mnuItemPropietarios);
+        mnuRegistros.add(mnuItemClasificacionTratamientos);
         mnuRegistros.add(jSeparator12);
 
-        mnuItemPropiedades.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuItemPropiedades.setText(" Tratamientos ");
-        mnuItemPropiedades.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuItemPropiedades.addActionListener(new java.awt.event.ActionListener() {
+        mnuItemTratamientos.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuItemTratamientos.setText(" Tratamientos ");
+        mnuItemTratamientos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuItemTratamientos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemPropiedadesActionPerformed(evt);
+                mnuItemTratamientosActionPerformed(evt);
             }
         });
-        mnuRegistros.add(mnuItemPropiedades);
+        mnuRegistros.add(mnuItemTratamientos);
         mnuRegistros.add(jSeparator10);
 
-        mnuInquilinos1.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuInquilinos1.setText(" Cuentas de pacientes");
-        mnuInquilinos1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuInquilinos1.addActionListener(new java.awt.event.ActionListener() {
+        mnuCuentasPacientes.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuCuentasPacientes.setText(" Cuentas de pacientes");
+        mnuCuentasPacientes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuCuentasPacientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuInquilinos1ActionPerformed(evt);
+                mnuCuentasPacientesActionPerformed(evt);
             }
         });
-        mnuRegistros.add(mnuInquilinos1);
+        mnuRegistros.add(mnuCuentasPacientes);
         mnuRegistros.add(jSeparator11);
 
-        mnuInquilinos3.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuInquilinos3.setText(" Agenda");
-        mnuInquilinos3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuInquilinos3.addActionListener(new java.awt.event.ActionListener() {
+        mnuAgenda.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuAgenda.setText(" Agenda");
+        mnuAgenda.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuAgenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuInquilinos3ActionPerformed(evt);
+                mnuAgendaActionPerformed(evt);
             }
         });
-        mnuRegistros.add(mnuInquilinos3);
+        mnuRegistros.add(mnuAgenda);
         mnuRegistros.add(jSeparator17);
 
-        mnuInquilinos4.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuInquilinos4.setText(" Crear planes de tratamiento");
-        mnuInquilinos4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuInquilinos4.addActionListener(new java.awt.event.ActionListener() {
+        mnuCrearPlanes.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuCrearPlanes.setText(" Crear planes de tratamiento");
+        mnuCrearPlanes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuCrearPlanes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuInquilinos4ActionPerformed(evt);
+                mnuCrearPlanesActionPerformed(evt);
             }
         });
-        mnuRegistros.add(mnuInquilinos4);
+        mnuRegistros.add(mnuCrearPlanes);
         mnuRegistros.add(jSeparator18);
 
-        mnuInquilinos5.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuInquilinos5.setText(" Consultar tratamientos");
-        mnuInquilinos5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuInquilinos5.addActionListener(new java.awt.event.ActionListener() {
+        mnuConsultarTratamientos.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuConsultarTratamientos.setText(" Consultar tratamientos");
+        mnuConsultarTratamientos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuConsultarTratamientos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuInquilinos5ActionPerformed(evt);
+                mnuConsultarTratamientosActionPerformed(evt);
             }
         });
-        mnuRegistros.add(mnuInquilinos5);
+        mnuRegistros.add(mnuConsultarTratamientos);
+        mnuRegistros.add(jSeparator23);
+
+        mnuConsultarDeudores.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuConsultarDeudores.setText(" Consultar Deudores");
+        mnuConsultarDeudores.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuConsultarDeudores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuConsultarDeudoresActionPerformed(evt);
+            }
+        });
+        mnuRegistros.add(mnuConsultarDeudores);
 
         jMenuBar1.add(mnuRegistros);
 
@@ -226,84 +292,84 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
         mnuProveedor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         mnuProveedor.add(jSeparator21);
 
-        mnuInquilinos2.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuInquilinos2.setText(" Registrar Proveedor");
-        mnuInquilinos2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuInquilinos2.addActionListener(new java.awt.event.ActionListener() {
+        mnuRegistrarProveedor.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuRegistrarProveedor.setText(" Registrar Proveedor");
+        mnuRegistrarProveedor.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuRegistrarProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuInquilinos2ActionPerformed(evt);
+                mnuRegistrarProveedorActionPerformed(evt);
             }
         });
-        mnuProveedor.add(mnuInquilinos2);
+        mnuProveedor.add(mnuRegistrarProveedor);
         mnuProveedor.add(jSeparator19);
 
-        mnuItemPropiedades7.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuItemPropiedades7.setText(" Consultar trabajos ");
-        mnuItemPropiedades7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuItemPropiedades7.addActionListener(new java.awt.event.ActionListener() {
+        mnuConsultarTrabajos.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuConsultarTrabajos.setText(" Consultar trabajos ");
+        mnuConsultarTrabajos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuConsultarTrabajos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemPropiedades7ActionPerformed(evt);
+                mnuConsultarTrabajosActionPerformed(evt);
             }
         });
-        mnuProveedor.add(mnuItemPropiedades7);
+        mnuProveedor.add(mnuConsultarTrabajos);
         mnuProveedor.add(jSeparator20);
 
-        mnuItemPropiedades8.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuItemPropiedades8.setText(" Trabajos pendientes");
-        mnuItemPropiedades8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuItemPropiedades8.addActionListener(new java.awt.event.ActionListener() {
+        mnuTrabajosPendientes.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuTrabajosPendientes.setText(" Trabajos pendientes");
+        mnuTrabajosPendientes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuTrabajosPendientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemPropiedades8ActionPerformed(evt);
+                mnuTrabajosPendientesActionPerformed(evt);
             }
         });
-        mnuProveedor.add(mnuItemPropiedades8);
+        mnuProveedor.add(mnuTrabajosPendientes);
 
         jMenuBar1.add(mnuProveedor);
 
-        mnuAyuda2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        mnuAyuda2.setText(" CAJA ");
-        mnuAyuda2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        mnuAyuda2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        mnuAyuda2.add(jSeparator16);
+        mnuCaja.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        mnuCaja.setText(" CAJA ");
+        mnuCaja.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        mnuCaja.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        mnuCaja.add(jSeparator16);
 
-        mnuItemPropiedades6.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuItemPropiedades6.setText(" Consultas ");
-        mnuItemPropiedades6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuItemPropiedades6.addActionListener(new java.awt.event.ActionListener() {
+        mnuConsultarCaja.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuConsultarCaja.setText(" Consultas ");
+        mnuConsultarCaja.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuConsultarCaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemPropiedades6ActionPerformed(evt);
+                mnuConsultarCajaActionPerformed(evt);
             }
         });
-        mnuAyuda2.add(mnuItemPropiedades6);
-        mnuAyuda2.add(jSeparator14);
+        mnuCaja.add(mnuConsultarCaja);
+        mnuCaja.add(jSeparator14);
 
-        mnuItemPropiedades9.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuItemPropiedades9.setText(" Movimientos  ");
-        mnuItemPropiedades9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mnuItemPropiedades9.addActionListener(new java.awt.event.ActionListener() {
+        mnuMovimientos.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuMovimientos.setText(" Movimientos  ");
+        mnuMovimientos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuMovimientos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemPropiedades9ActionPerformed(evt);
+                mnuMovimientosActionPerformed(evt);
             }
         });
-        mnuAyuda2.add(mnuItemPropiedades9);
-        mnuAyuda2.add(jSeparator15);
+        mnuCaja.add(mnuMovimientos);
+        mnuCaja.add(jSeparator15);
 
-        jMenuBar1.add(mnuAyuda2);
+        jMenuBar1.add(mnuCaja);
 
         mnuAyuda.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuAyuda.setText("  Ayuda  ");
         mnuAyuda.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         mnuAyuda.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
-        mnuItemConsultaCuentasProveedores1.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        mnuItemConsultaCuentasProveedores1.setText("  Sobre  ");
-        mnuItemConsultaCuentasProveedores1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        mnuItemConsultaCuentasProveedores1.addActionListener(new java.awt.event.ActionListener() {
+        mnuItemAyuda.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuItemAyuda.setText("  Sobre  ");
+        mnuItemAyuda.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        mnuItemAyuda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItemConsultaCuentasProveedores1ActionPerformed(evt);
+                mnuItemAyudaActionPerformed(evt);
             }
         });
-        mnuAyuda.add(mnuItemConsultaCuentasProveedores1);
+        mnuAyuda.add(mnuItemAyuda);
 
         jMenuBar1.add(mnuAyuda);
 
@@ -312,11 +378,11 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mnuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemSalirActionPerformed
+    private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_mnuItemSalirActionPerformed
+    }//GEN-LAST:event_mnuSalirActionPerformed
 
-    private void mnuInquilinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInquilinosActionPerformed
+    private void mnuPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPacientesActionPerformed
 
         PacientesView view = new PacientesView();
         PacientesController controller = new PacientesController(view, desktopPane);
@@ -324,9 +390,9 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
 
         controller.go();
 
-    }//GEN-LAST:event_mnuInquilinosActionPerformed
+    }//GEN-LAST:event_mnuPacientesActionPerformed
 
-    private void mnuItemConsultaCuentasProveedores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemConsultaCuentasProveedores1ActionPerformed
+    private void mnuItemAyudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemAyudaActionPerformed
 
         JOptionPane.showMessageDialog(null, "<html><font size=6 face=Verdana color=black><center>Sistema Consultorio Odontológico<br><br>"
                 + "Desarrollado por Diego Noble</center><br><br>"
@@ -334,48 +400,44 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
                 + "cel: +598 91390000<br><br>"
                 + "E-mail: dnoblemello@gmail.com<br><br></html>");
 
-    }//GEN-LAST:event_mnuItemConsultaCuentasProveedores1ActionPerformed
+    }//GEN-LAST:event_mnuItemAyudaActionPerformed
 
-    private void mnuItemPropietariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemPropietariosActionPerformed
+    private void mnuItemClasificacionTratamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemClasificacionTratamientosActionPerformed
 
         ClaseTratamientoView view = new ClaseTratamientoView();
 
         ClasePacientesController controller = new ClasePacientesController(view, desktopPane);
         desktopPane.add(view);
         controller.go();
-    }//GEN-LAST:event_mnuItemPropietariosActionPerformed
+    }//GEN-LAST:event_mnuItemClasificacionTratamientosActionPerformed
 
-    private void mnuItemPropiedadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemPropiedadesActionPerformed
+    private void mnuItemTratamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemTratamientosActionPerformed
 
         TrabajosView view = new TrabajosView();
 
         TrabajosController controller = new TrabajosController(view, desktopPane);
         desktopPane.add(view);
         controller.go();
-    }//GEN-LAST:event_mnuItemPropiedadesActionPerformed
+    }//GEN-LAST:event_mnuItemTratamientosActionPerformed
 
-    private void mnuItemPropiedades6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemPropiedades6ActionPerformed
+    private void mnuConsultarCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarCajaActionPerformed
 
         ConsultaDeCajaView view = new ConsultaDeCajaView();
 
         ConsultaDeCajaController controller = new ConsultaDeCajaController(view, desktopPane);
         desktopPane.add(view);
         controller.go();
-    }//GEN-LAST:event_mnuItemPropiedades6ActionPerformed
+    }//GEN-LAST:event_mnuConsultarCajaActionPerformed
 
-    private void mnuCotizacion10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCotizacion10ActionPerformed
-
-    }//GEN-LAST:event_mnuCotizacion10ActionPerformed
-
-    private void mnuItemSesion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemSesion1ActionPerformed
+    private void mnuRespaldosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRespaldosActionPerformed
 
         BackUpsView logBackup = new BackUpsView();
         logBackup.setVisible(true);
         logBackup.toFront();
 
-    }//GEN-LAST:event_mnuItemSesion1ActionPerformed
+    }//GEN-LAST:event_mnuRespaldosActionPerformed
 
-    private void mnuInquilinos2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInquilinos2ActionPerformed
+    private void mnuRegistrarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistrarProveedorActionPerformed
 
         ProveedorView view = new ProveedorView();
 
@@ -383,61 +445,99 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
         desktopPane.add(view);
         controller.go();
 
-    }//GEN-LAST:event_mnuInquilinos2ActionPerformed
+    }//GEN-LAST:event_mnuRegistrarProveedorActionPerformed
 
-    private void mnuInquilinos3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInquilinos3ActionPerformed
+    private void mnuAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAgendaActionPerformed
 
         AgendaView agenda = new AgendaView();
         desktopPane.add(agenda);
         agenda.setVisible(true);
         agenda.toFront();
-    }//GEN-LAST:event_mnuInquilinos3ActionPerformed
+    }//GEN-LAST:event_mnuAgendaActionPerformed
 
-    private void mnuInquilinos4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInquilinos4ActionPerformed
+    private void mnuCrearPlanesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCrearPlanesActionPerformed
 
-        PlanTratamientoView planTratamiento = new PlanTratamientoView();
+        PlanTratamientoView planTratamiento = PlanTratamientoView.getInstancia();
         planTratamiento.setVisible(true);
         planTratamiento.toFront();
-    }//GEN-LAST:event_mnuInquilinos4ActionPerformed
+    }//GEN-LAST:event_mnuCrearPlanesActionPerformed
 
-    private void mnuInquilinos5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInquilinos5ActionPerformed
+    private void mnuConsultarTratamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarTratamientosActionPerformed
 
-        ConsultaPlanesTratamientoView consultaPlanesTratamientoView = new ConsultaPlanesTratamientoView();
+        ConsultaPlanesTratamientoView consultaPlanesTratamientoView = ConsultaPlanesTratamientoView.getInstancia();
         consultaPlanesTratamientoView.setVisible(true);
         consultaPlanesTratamientoView.toFront();
 
-    }//GEN-LAST:event_mnuInquilinos5ActionPerformed
+    }//GEN-LAST:event_mnuConsultarTratamientosActionPerformed
 
-    private void mnuItemPropiedades7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemPropiedades7ActionPerformed
+    private void mnuConsultarTrabajosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarTrabajosActionPerformed
 
         ConsultaTrabajosProveedor consultaTrabajosProveedor = new ConsultaTrabajosProveedor(null);
         desktopPane.add(consultaTrabajosProveedor);
         consultaTrabajosProveedor.setVisible(true);
         consultaTrabajosProveedor.toFront();
 
-    }//GEN-LAST:event_mnuItemPropiedades7ActionPerformed
+    }//GEN-LAST:event_mnuConsultarTrabajosActionPerformed
 
-    private void mnuItemPropiedades8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemPropiedades8ActionPerformed
+    private void mnuTrabajosPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTrabajosPendientesActionPerformed
         RecoratorioTrabajosProveedor view = new RecoratorioTrabajosProveedor();
         desktopPane.add(view);
+        view.setVisible(true);
+        view.toFront();
 
 
-    }//GEN-LAST:event_mnuItemPropiedades8ActionPerformed
+    }//GEN-LAST:event_mnuTrabajosPendientesActionPerformed
 
-    private void mnuInquilinos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInquilinos1ActionPerformed
-        DetalleMovimientosCuentaPaciente cCPacienteView = new DetalleMovimientosCuentaPaciente(null, true);
-        DetalleCuentaPacientesController controller = new DetalleCuentaPacientesController(cCPacienteView);
-        controller.go();
-    }//GEN-LAST:event_mnuInquilinos1ActionPerformed
+    private void mnuCuentasPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCuentasPacientesActionPerformed
 
-    private void mnuItemPropiedades9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemPropiedades9ActionPerformed
+        DetalleMovimientosCuentaPaciente2 instancia = DetalleMovimientosCuentaPaciente2.getInstancia();
+        instancia.setVisible(true);
+        instancia.toFront();
+
+    }//GEN-LAST:event_mnuCuentasPacientesActionPerformed
+
+    private void mnuMovimientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovimientosActionPerformed
         ControlDeCajaView view = new ControlDeCajaView();
 
         ControlDeCajaController controller = new ControlDeCajaController(view, desktopPane);
         desktopPane.add(view);
         controller.go();
 
-    }//GEN-LAST:event_mnuItemPropiedades9ActionPerformed
+    }//GEN-LAST:event_mnuMovimientosActionPerformed
+
+    private void mnuConsultarDeudoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarDeudoresActionPerformed
+
+        DeudoresView deudoresView = new DeudoresView();
+        desktopPane.add(deudoresView);
+        deudoresView.setVisible(true);
+        deudoresView.toFront();
+
+
+    }//GEN-LAST:event_mnuConsultarDeudoresActionPerformed
+
+    private void mnuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUsuariosActionPerformed
+        registroUsuarios u = new registroUsuarios();
+        desktopPane.add(u);
+        u.setVisible(true);
+        u.toFront();
+    }//GEN-LAST:event_mnuUsuariosActionPerformed
+
+    private void mnuPermisosUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPermisosUsuariosActionPerformed
+
+        ConfPerfiles u = new ConfPerfiles();
+        desktopPane.add(u);
+        u.setVisible(true);
+        u.toFront();
+    }//GEN-LAST:event_mnuPermisosUsuariosActionPerformed
+
+    private void mnuMediosDePagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMediosDePagoActionPerformed
+
+        registroMediosDePago p = new registroMediosDePago();
+        desktopPane.add(p);
+        p.setVisible(true);
+        p.toFront();
+
+    }//GEN-LAST:event_mnuMediosDePagoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
@@ -454,27 +554,32 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator20;
     private javax.swing.JPopupMenu.Separator jSeparator21;
     private javax.swing.JPopupMenu.Separator jSeparator22;
+    private javax.swing.JPopupMenu.Separator jSeparator23;
+    private javax.swing.JPopupMenu.Separator jSeparator24;
+    private javax.swing.JMenuItem mnuAgenda;
     private javax.swing.JMenu mnuAyuda;
-    private javax.swing.JMenu mnuAyuda2;
-    private javax.swing.JMenuItem mnuCotizacion10;
-    private javax.swing.JMenuItem mnuInquilinos;
-    private javax.swing.JMenuItem mnuInquilinos1;
-    private javax.swing.JMenuItem mnuInquilinos2;
-    private javax.swing.JMenuItem mnuInquilinos3;
-    private javax.swing.JMenuItem mnuInquilinos4;
-    private javax.swing.JMenuItem mnuInquilinos5;
-    private javax.swing.JMenuItem mnuItemConsultaCuentasProveedores1;
-    private javax.swing.JMenuItem mnuItemPropiedades;
-    private javax.swing.JMenuItem mnuItemPropiedades6;
-    private javax.swing.JMenuItem mnuItemPropiedades7;
-    private javax.swing.JMenuItem mnuItemPropiedades8;
-    private javax.swing.JMenuItem mnuItemPropiedades9;
-    private javax.swing.JMenuItem mnuItemPropietarios;
-    private javax.swing.JMenuItem mnuItemSalir;
-    private javax.swing.JMenuItem mnuItemSesion1;
+    private javax.swing.JMenu mnuCaja;
+    private javax.swing.JMenuItem mnuConsultarCaja;
+    private javax.swing.JMenuItem mnuConsultarDeudores;
+    private javax.swing.JMenuItem mnuConsultarTrabajos;
+    private javax.swing.JMenuItem mnuConsultarTratamientos;
+    private javax.swing.JMenuItem mnuCrearPlanes;
+    private javax.swing.JMenuItem mnuCuentasPacientes;
+    private javax.swing.JMenuItem mnuItemAyuda;
+    private javax.swing.JMenuItem mnuItemClasificacionTratamientos;
+    private javax.swing.JMenuItem mnuItemTratamientos;
+    private javax.swing.JMenuItem mnuMediosDePago;
+    private javax.swing.JMenuItem mnuMovimientos;
+    private javax.swing.JMenuItem mnuPacientes;
+    private javax.swing.JMenuItem mnuPermisosUsuarios;
     private javax.swing.JMenu mnuProveedor;
+    private javax.swing.JMenuItem mnuRegistrarProveedor;
     private javax.swing.JMenu mnuRegistros;
+    private javax.swing.JMenuItem mnuRespaldos;
+    private javax.swing.JMenuItem mnuSalir;
     private javax.swing.JMenu mnuSistema;
+    private javax.swing.JMenuItem mnuTrabajosPendientes;
+    private javax.swing.JMenuItem mnuUsuarios;
     // End of variables declaration//GEN-END:variables
 
 }

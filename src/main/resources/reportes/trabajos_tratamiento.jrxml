@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="trabajos_tratamiento" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a135aec8-0682-4a84-9ad5-031e6d7769c5">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Dentista.xml"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="plan_tratamiento" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT tt.plan_tratamiento_id,tt.valor, tt.pieza, t.nombre as nombre_trabajo,c.nombre as nombre_clase,
+(select sum(tt2.valor) from trabajos_tratamiento tt2 where tt2.trabajoTratamientoEnum='D'
+and tt2.plan_tratamiento_id = tt.plan_tratamiento_id ) as total_debitos,
+(select sum(tt2.valor) from trabajos_tratamiento tt2 where tt2.trabajoTratamientoEnum='P'
+and tt2.plan_tratamiento_id = tt.plan_tratamiento_id ) as total_pendiente,
+case trabajoTratamientoEnum
+when 'D' then 'Debitado'
+when 'P' then 'Pendiente'
+end as situacion
+  FROM trabajos_tratamiento tt,trabajos t, clase_tratamiento c
+where tt.trabajos_id = t.id and c.id = t.clase_tratamiento_id and plan_tratamiento_id =  $P{plan_tratamiento}]]>
+	</queryString>
+	<field name="plan_tratamiento_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="plan_tratamiento_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="trabajos_tratamiento"/>
+	</field>
+	<field name="valor" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="trabajos_tratamiento"/>
+	</field>
+	<field name="pieza" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pieza"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="trabajos_tratamiento"/>
+	</field>
+	<field name="nombre_trabajo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_trabajo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="trabajos"/>
+	</field>
+	<field name="nombre_clase" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_clase"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clase_tratamiento"/>
+	</field>
+	<field name="total_debitos" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="total_debitos"/>
+	</field>
+	<field name="total_pendiente" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="total_pendiente"/>
+	</field>
+	<field name="situacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="situacion"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="43" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
+			<staticText>
+				<reportElement x="0" y="20" width="139" height="23" uuid="747929fc-bd60-4d79-8b4d-df78d4d9eb5b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="245a7584-ce00-4cbe-90c4-b9aaa85cdf52"/>
+					<property name="com.jaspersoft.layout.grid.x" value="0"/>
+					<property name="com.jaspersoft.layout.grid.y" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="2.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo tratamiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="139" y="20" width="209" height="23" uuid="4f3c7b66-8d3f-4a62-a072-6b3d6dde6983">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f18e50b7-2d74-4df2-a86f-349e8b7831b4"/>
+					<property name="com.jaspersoft.layout.grid.x" value="1"/>
+					<property name="com.jaspersoft.layout.grid.y" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="3.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Trabajo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="348" y="20" width="69" height="23" uuid="6dc4575e-337e-4c9e-9f7c-0423c54e28a5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="509caa3c-180e-4bb9-9a0a-5af91410584d"/>
+					<property name="com.jaspersoft.layout.grid.x" value="2"/>
+					<property name="com.jaspersoft.layout.grid.y" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pieza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="417" y="20" width="69" height="23" uuid="2ff44066-92f9-4d3f-a135-201e6a27ae4f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="509caa3c-180e-4bb9-9a0a-5af91410584d"/>
+					<property name="com.jaspersoft.layout.grid.x" value="3"/>
+					<property name="com.jaspersoft.layout.grid.y" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="486" y="20" width="69" height="23" uuid="ba1b5f20-18c6-4642-9d31-20913993f714">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="509caa3c-180e-4bb9-9a0a-5af91410584d"/>
+					<property name="com.jaspersoft.layout.grid.x" value="4"/>
+					<property name="com.jaspersoft.layout.grid.y" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" backcolor="#D6D4D4" uuid="a3fa20f7-a20d-43fd-b733-2e559b0ff6d2">
+					<property name="com.jaspersoft.layout.grid.x" value="0"/>
+					<property name="com.jaspersoft.layout.grid.y" value="0"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="0.5"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="0.8"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="7"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Plan tratamiento]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
+			<textField>
+				<reportElement x="0" y="0" width="139" height="21" uuid="215e45eb-ae4b-45c3-bdc5-92f2869c4e34">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="245a7584-ce00-4cbe-90c4-b9aaa85cdf52"/>
+					<property name="com.jaspersoft.layout.grid.x" value="0"/>
+					<property name="com.jaspersoft.layout.grid.y" value="0"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="2.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_clase}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="139" y="0" width="209" height="21" uuid="3241a5aa-1d87-4e30-80ae-18843bc52e9b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f18e50b7-2d74-4df2-a86f-349e8b7831b4"/>
+					<property name="com.jaspersoft.layout.grid.x" value="1"/>
+					<property name="com.jaspersoft.layout.grid.y" value="0"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="3.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_trabajo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="348" y="0" width="69" height="21" uuid="e538d657-db1e-4e46-922d-2c7deb12e6ae">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="509caa3c-180e-4bb9-9a0a-5af91410584d"/>
+					<property name="com.jaspersoft.layout.grid.x" value="2"/>
+					<property name="com.jaspersoft.layout.grid.y" value="0"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pieza}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.##;$-#,##0.##">
+				<reportElement x="417" y="0" width="69" height="21" uuid="afdf965e-ddac-49d2-bb47-37a67287dfe4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="509caa3c-180e-4bb9-9a0a-5af91410584d"/>
+					<property name="com.jaspersoft.layout.grid.x" value="3"/>
+					<property name="com.jaspersoft.layout.grid.y" value="0"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.##;$-#,##0.##">
+				<reportElement x="486" y="0" width="69" height="21" uuid="a3109d62-74e8-427e-b46f-a9e54025ae70">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="509caa3c-180e-4bb9-9a0a-5af91410584d"/>
+					<property name="com.jaspersoft.layout.grid.x" value="4"/>
+					<property name="com.jaspersoft.layout.grid.y" value="0"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{situacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="44">
+			<staticText>
+				<reportElement x="360" y="0" width="87" height="21" uuid="ac2d4d02-fdd9-4d71-830c-bf04d0812e7f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="509caa3c-180e-4bb9-9a0a-5af91410584d"/>
+					<property name="com.jaspersoft.layout.grid.x" value="4"/>
+					<property name="com.jaspersoft.layout.grid.y" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Debitos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="21" width="87" height="21" uuid="913848ba-bb2a-4ab3-a41f-6ddcdb600020">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="509caa3c-180e-4bb9-9a0a-5af91410584d"/>
+					<property name="com.jaspersoft.layout.grid.x" value="4"/>
+					<property name="com.jaspersoft.layout.grid.y" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Pendiente:]]></text>
+			</staticText>
+			<textField pattern="$#,##0.##;$-#,##0.##" isBlankWhenNull="true">
+				<reportElement x="447" y="0" width="74" height="21" uuid="f42479c8-2a5d-466a-9f51-e679a32ec633">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="509caa3c-180e-4bb9-9a0a-5af91410584d"/>
+					<property name="com.jaspersoft.layout.grid.x" value="3"/>
+					<property name="com.jaspersoft.layout.grid.y" value="0"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_debitos}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.##;$-#,##0.##" isBlankWhenNull="true">
+				<reportElement x="447" y="21" width="74" height="21" uuid="fa37cb4e-7ebf-40e2-a98d-5870f3324fb2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="509caa3c-180e-4bb9-9a0a-5af91410584d"/>
+					<property name="com.jaspersoft.layout.grid.x" value="3"/>
+					<property name="com.jaspersoft.layout.grid.y" value="0"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_pendiente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -6,6 +6,7 @@ import com.dnsoft.dentista.beans.MonedaEnum;
 import com.dnsoft.dentista.beans.Paciente;
 import com.dnsoft.dentista.beans.PlanTratamiento;
 import com.dnsoft.dentista.beans.SituacionPlanTratamientoEnum;
+import com.dnsoft.dentista.beans.TrabajoTratamientoEnum;
 import com.dnsoft.dentista.beans.Trabajos;
 import com.dnsoft.dentista.beans.TrabajosTratamiento;
 import com.dnsoft.dentista.daos.ICuentaPacienteDAO;
@@ -14,8 +15,11 @@ import com.dnsoft.dentista.daos.IPlanTratamientoDAO;
 import com.dnsoft.dentista.daos.ITrabajosDAO;
 import com.dnsoft.dentista.daos.ITrabajosTratamientoDAO;
 import com.dnsoft.dentista.tablemodels.TrabajosTratamientoTableModel;
+import com.dnsoft.dentista.tablemodels.TrabajosTratamientoTableModel2;
 import com.dnsoft.dentista.utiles.Container;
 import com.dnsoft.dentista.utiles.ControlarEntradaTexto;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -31,7 +35,7 @@ public class PlanTratamientoView extends javax.swing.JFrame {
 
     List<Paciente> listPacientes;
     List<Trabajos> listTrabajos;
-    TrabajosTratamientoTableModel tableModel;
+    TrabajosTratamientoTableModel2 tableModel;
     List<TrabajosTratamiento> listTrabajosTratamiento;
     List<TrabajosTratamiento> listTrabajosTratamientoToRemove;
     PlanTratamiento plan;
@@ -43,13 +47,17 @@ public class PlanTratamientoView extends javax.swing.JFrame {
     Paciente pacienteSeleccionado;
     Container container;
     Consulta consulta;
+    ConsultaPlanesTratamientoView consultaPlanesTratamientoView;
+    private static PlanTratamientoView instanciaUnica = null;
 
     public PlanTratamientoView() {
         initComponents();
         plan = new PlanTratamiento();
         AutoCompleteDecorator.decorate(cbPaciente);
         AutoCompleteDecorator.decorate(cbTrabajo);
+        cbMoneda.setModel(new DefaultComboBoxModel(MonedaEnum.values()));
         inicio();
+        
         cargaComboPacientes();
         btnRegistraModificaciones.setVisible(false);
         cbSituacionTratamiento.setEnabled(false);
@@ -59,18 +67,28 @@ public class PlanTratamientoView extends javax.swing.JFrame {
     public PlanTratamientoView(Consulta consulta) {
         initComponents();
         this.consulta = consulta;
+
         plan = new PlanTratamiento();
         AutoCompleteDecorator.decorate(cbTrabajo);
         cbPaciente.addItem(consulta.getPaciente());
         inicio();
+        cbMoneda.setModel(new DefaultComboBoxModel(MonedaEnum.values()));
         cbSituacionTratamiento.setEnabled(false);
         btnRegistraModificaciones.setVisible(false);
     }
 
-    public PlanTratamientoView(PlanTratamiento planTratamiento) {
+    public PlanTratamientoView(PlanTratamiento planTratamiento, ConsultaPlanesTratamientoView consultaPlanesTratamientoView) {
         initComponents();
         this.plan = planTratamiento;
+        this.consultaPlanesTratamientoView = consultaPlanesTratamientoView;
         btnRegistraVenta.setVisible(false);
+        if (plan.getMoneda() == MonedaEnum.DOLARES) {
+            cbMoneda.addItem(MonedaEnum.DOLARES);
+            cbMoneda.setSelectedItem(MonedaEnum.DOLARES);
+        } else {
+            cbMoneda.addItem(MonedaEnum.PESOS);
+            cbMoneda.setSelectedItem(MonedaEnum.PESOS);
+        }
 
         cbPaciente.addItem(planTratamiento.getPaciente());
         cbPaciente.setEnabled(false);
@@ -78,6 +96,7 @@ public class PlanTratamientoView extends javax.swing.JFrame {
         inicio();
         List<TrabajosTratamiento> findByPlanTratamiento = trabajosTratamientoDAO.findByPlanTratamiento(planTratamiento);
         dpFecha.setDate(planTratamiento.getFechaCreacion());
+        txtObservaciones.setText(planTratamiento.getObservaciones());
         cbSituacionTratamiento.setSelectedItem(planTratamiento.getSituacionPlanTratamientoEnum());
         cbSituacionTratamiento.setEnabled(false);
 
@@ -87,9 +106,17 @@ public class PlanTratamientoView extends javax.swing.JFrame {
         tableModel.fireTableDataChanged();
     }
 
+     public static PlanTratamientoView getInstancia() {
+
+        if (instanciaUnica == null) {
+            instanciaUnica = new PlanTratamientoView();
+        }
+        return instanciaUnica;
+    }
+     
     void inicio() {
         setLocationRelativeTo(null);
-        cbMoneda.setModel(new DefaultComboBoxModel(MonedaEnum.values()));
+
         dpFecha.setDate(LocalDate.now());
         container = Container.getInstancia();
         trabajosDAO = container.getBean(ITrabajosDAO.class);
@@ -100,6 +127,7 @@ public class PlanTratamientoView extends javax.swing.JFrame {
         cbSituacionTratamiento.setModel(new DefaultComboBoxModel(SituacionPlanTratamientoEnum.values()));
         defineModelo();
         cargaComboTrabajos();
+        comboMonedaListener();
 
     }
 
@@ -118,6 +146,7 @@ public class PlanTratamientoView extends javax.swing.JFrame {
     void cargaComboTrabajos() {
 
         cbTrabajo.removeAllItems();
+        MonedaEnum moneda = (MonedaEnum) cbMoneda.getSelectedItem();
         listTrabajos = trabajosDAO.findByMoneda((MonedaEnum) cbMoneda.getSelectedItem());
 
         for (Trabajos t : listTrabajos) {
@@ -135,7 +164,7 @@ public class PlanTratamientoView extends javax.swing.JFrame {
         ((DefaultTableCellRenderer) tblArticulosPedido.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         listTrabajosTratamiento = new ArrayList<TrabajosTratamiento>();
         listTrabajosTratamientoToRemove = new ArrayList<TrabajosTratamiento>();
-        tableModel = new TrabajosTratamientoTableModel(listTrabajosTratamiento, txtTotal);
+        tableModel = new TrabajosTratamientoTableModel2(listTrabajosTratamiento, txtTotal);
 
         tblArticulosPedido.setModel(tableModel);
 
@@ -226,7 +255,7 @@ public class PlanTratamientoView extends javax.swing.JFrame {
                     trabajosTratamientoDAO.delete(listTrabajosTratamientoToRemove);
                 }
 
-                if (plan.getSituacionPlanTratamientoEnum() == SituacionPlanTratamientoEnum.CONFIRMA_PRESUPUESTO) {
+                /*if (plan.getSituacionPlanTratamientoEnum() == SituacionPlanTratamientoEnum.CONFIRMA_PRESUPUESTO) {
 
                     CuentaPaciente cuentaPlanTratamiento = cuentaPacienteDAO.findByPlanTratamiento(plan);
                     cuentaPlanTratamiento.setDebe(new BigDecimal(plan.getValorTotal()));
@@ -244,10 +273,10 @@ public class PlanTratamientoView extends javax.swing.JFrame {
 
                     ajustaSaldos(plan.getFechaConfirmacion());
 
-                }
-
+                }*/
             }
             JOptionPane.showMessageDialog(this, "Plan de tratamiento modificado correctamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
+            consultaPlanesTratamientoView.buscarPlanesPaciente();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -302,6 +331,18 @@ public class PlanTratamientoView extends javax.swing.JFrame {
         }
     }
 
+    void comboMonedaListener() {
+        cbMoneda.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cargaComboTrabajos();
+                listTrabajosTratamiento.clear();
+                txtTotal.setText("");
+                tableModel.fireTableDataChanged();
+            }
+        });
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -679,7 +720,7 @@ public class PlanTratamientoView extends javax.swing.JFrame {
 
         Double valor = Double.valueOf(txtValor.getText());
 
-        tableModel.agregar(new TrabajosTratamiento(valor, txtPieza.getText(), (Trabajos) cbTrabajo.getSelectedItem()));
+        tableModel.agregar(new TrabajosTratamiento(valor, txtPieza.getText(), (Trabajos) cbTrabajo.getSelectedItem(), TrabajoTratamientoEnum.P));
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -715,12 +756,13 @@ public class PlanTratamientoView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistraModificacionesActionPerformed
 
     private void cbMonedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMonedaActionPerformed
-        cargaComboTrabajos();
-        listTrabajosTratamiento.clear();
+        //cargaComboTrabajos();
+/*        listTrabajosTratamiento.clear();
         txtTotal.setText("");
-        tableModel.fireTableDataChanged();
+        tableModel.fireTableDataChanged();*/
     }//GEN-LAST:event_cbMonedaActionPerformed
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;

@@ -12,3 +12,14 @@ UPDATE cuenta_paciente c
        INNER JOIN plan_tratamiento p
                ON c.plan_tratamiento_id = p.id
 SET    c.fecha_movimiento = p.fechacreacion  
+
+//
+UPDATE trabajos_tratamiento t
+       INNER JOIN plan_tratamiento p
+               ON t.plan_tratamiento_id = p.id
+SET    t.trabajoTratamientoEnum = 'D' WHERE p.situacionPlanTratamientoEnum != 'PRESUPUESTO';
+
+UPDATE trabajos_tratamiento t
+       INNER JOIN plan_tratamiento p
+               ON t.plan_tratamiento_id = p.id
+SET    t.trabajoTratamientoEnum = 'P' WHERE p.situacionPlanTratamientoEnum = 'PRESUPUESTO';

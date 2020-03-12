@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,9 +36,12 @@ public class TrabajosTratamiento implements Serializable {
     private Double valor;
     @Column(name = "finalizado")
     private Boolean finalizado;
-    
+
     @Column(name = "fecha_finalizado")
     private LocalDate fechaFinalizado;
+
+    @Column(name = "fecha_debito")
+    private LocalDate fechaDebito;
 
     private String pieza;
 
@@ -48,16 +53,20 @@ public class TrabajosTratamiento implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Trabajos trabajos;
 
+    @Column(length = 32, columnDefinition = "varchar(32) default 'P'")
+    @Enumerated(EnumType.STRING)
+    private TrabajoTratamientoEnum trabajoTratamientoEnum = TrabajoTratamientoEnum.D;
+
     public TrabajosTratamiento() {
     }
 
-    public TrabajosTratamiento(Double valor, String pieza, Trabajos trabajos) {
+    public TrabajosTratamiento(Double valor, String pieza, Trabajos trabajos, TrabajoTratamientoEnum trabajoTratamientoEnum) {
         this.valor = valor;
         this.pieza = pieza;
         this.trabajos = trabajos;
+        this.trabajoTratamientoEnum = trabajoTratamientoEnum;
     }
 
-    
     public Long getId() {
         return id;
     }
@@ -114,6 +123,20 @@ public class TrabajosTratamiento implements Serializable {
         this.pieza = pieza;
     }
 
-   
+    public TrabajoTratamientoEnum getTrabajoTratamientoEnum() {
+        return trabajoTratamientoEnum;
+    }
+
+    public void setTrabajoTratamientoEnum(TrabajoTratamientoEnum trabajoTratamientoEnum) {
+        this.trabajoTratamientoEnum = trabajoTratamientoEnum;
+    }
+
+    public LocalDate getFechaDebito() {
+        return fechaDebito;
+    }
+
+    public void setFechaDebito(LocalDate fechaDebito) {
+        this.fechaDebito = fechaDebito;
+    }
 
 }

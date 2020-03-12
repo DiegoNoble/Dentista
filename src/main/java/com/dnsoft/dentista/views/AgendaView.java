@@ -74,7 +74,7 @@ public class AgendaView extends InternalFrameEstandar {
         inicio();
 
     }
-    
+
     public AgendaView(Paciente paciente) {
         dateSettings.setAllowEmptyDates(false);
         int newHeight = (int) (dateSettings.getSizeDatePanelMinimumHeight() * 1.4);
@@ -135,14 +135,13 @@ public class AgendaView extends InternalFrameEstandar {
                     consultaSeleccionada = list.get(tbl.getSelectedRow());
                     btnEliminar.setEnabled(true);
                     btnModificar.setEnabled(true);
-                    btnNuevoPlanTratamiento.setEnabled(true);
-                    btnTratamiento.setEnabled(true);
+
                 } else {
                     consultaSeleccionada = null;
                     btnEliminar.setEnabled(false);
-                    btnNuevoPlanTratamiento.setEnabled(false);
+
                     btnModificar.setEnabled(false);
-                    btnTratamiento.setEnabled(false);
+
                 }
             }
         });
@@ -247,8 +246,6 @@ public class AgendaView extends InternalFrameEstandar {
         btnNuevo = new botones.BotonNuevo();
         btnModificar = new botones.BotonEdicion();
         btnEliminar = new botones.BotonEliminar();
-        btnNuevoPlanTratamiento = new javax.swing.JButton();
-        btnTratamiento = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         cpFecha = cpFecha = new CalendarPanel(dateSettings);
 
@@ -332,50 +329,6 @@ public class AgendaView extends InternalFrameEstandar {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel4.add(btnEliminar, gridBagConstraints);
 
-        btnNuevoPlanTratamiento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/dentista-32.png"))); // NOI18N
-        btnNuevoPlanTratamiento.setText("Nuevo plan tratamiento");
-        btnNuevoPlanTratamiento.setBorderPainted(false);
-        btnNuevoPlanTratamiento.setContentAreaFilled(false);
-        btnNuevoPlanTratamiento.setEnabled(false);
-        btnNuevoPlanTratamiento.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnNuevoPlanTratamiento.setIconTextGap(5);
-        btnNuevoPlanTratamiento.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/dentista-24.png"))); // NOI18N
-        btnNuevoPlanTratamiento.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/dentista-24.png"))); // NOI18N
-        btnNuevoPlanTratamiento.setToolTipText("");
-        btnNuevoPlanTratamiento.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        btnNuevoPlanTratamiento.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnNuevoPlanTratamiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoPlanTratamientoActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        jPanel4.add(btnNuevoPlanTratamiento, gridBagConstraints);
-
-        btnTratamiento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/medical-history32.png"))); // NOI18N
-        btnTratamiento.setText("Planes de Tratamiento");
-        btnTratamiento.setBorderPainted(false);
-        btnTratamiento.setContentAreaFilled(false);
-        btnTratamiento.setEnabled(false);
-        btnTratamiento.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnTratamiento.setIconTextGap(5);
-        btnTratamiento.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/medical-history24.png"))); // NOI18N
-        btnTratamiento.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/medical-history24.png"))); // NOI18N
-        btnTratamiento.setToolTipText("");
-        btnTratamiento.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        btnTratamiento.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnTratamiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTratamientoActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        jPanel4.add(btnTratamiento, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -408,27 +361,11 @@ public class AgendaView extends InternalFrameEstandar {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnNuevoPlanTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPlanTratamientoActionPerformed
-
-        PlanTratamientoView tratamientoView = new PlanTratamientoView(consultaSeleccionada);
-        tratamientoView.setVisible(true);
-        tratamientoView.toFront();
-
-    }//GEN-LAST:event_btnNuevoPlanTratamientoActionPerformed
-
-    private void btnTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTratamientoActionPerformed
-        ConsultaPlanesTratamientoView consultaPlanesTratamientoView = new ConsultaPlanesTratamientoView(consultaSeleccionada.getPaciente());
-        consultaPlanesTratamientoView.setVisible(true);
-        consultaPlanesTratamientoView.toFront();
-    }//GEN-LAST:event_btnTratamientoActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public botones.BotonEliminar btnEliminar;
     public botones.BotonEdicion btnModificar;
     public botones.BotonNuevo btnNuevo;
-    private javax.swing.JButton btnNuevoPlanTratamiento;
-    private javax.swing.JButton btnTratamiento;
     private com.github.lgooddatepicker.components.CalendarPanel cpFecha;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

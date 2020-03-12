@@ -10,6 +10,7 @@ import com.dnsoft.dentista.daos.ITrabajosDAO;
 import com.dnsoft.dentista.renderers.TableRendererColorClaseTratamiento;
 import com.dnsoft.dentista.tablemodels.TrabajosTableModel;
 import com.dnsoft.dentista.utiles.Container;
+import com.dnsoft.dentista.utiles.ControlarEntradaTexto;
 import com.dnsoft.dentista.utiles.ExportarDatosExcel;
 import com.dnsoft.dentista.views.TrabajosDetalles;
 import com.dnsoft.dentista.views.TrabajosView;
@@ -17,6 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDesktopPane;
@@ -64,6 +67,8 @@ public class TrabajosController implements ActionListener {
     }
 
     private void inicia() {
+        Character chs[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '-'};
+        view.txtPorcentaje.setDocument(new ControlarEntradaTexto(10, chs));
 
         this.view.txtBusqueda.setActionCommand("txtBusqueda");
         this.view.txtBusqueda.addActionListener(this);
@@ -120,7 +125,7 @@ public class TrabajosController implements ActionListener {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 int c = JOptionPane.showConfirmDialog(view, "Confirma eliminación del trabajo? " + seleccionado.toString(), "Confirmación", JOptionPane.YES_NO_OPTION);
-                if (c == 0) {
+                if (c == JOptionPane.YES_OPTION) {
                     try {
                         DAO.delete(seleccionado);
                         actualizaTbl();
@@ -131,6 +136,14 @@ public class TrabajosController implements ActionListener {
 
             }
         });
+
+        view.btnAjustar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                ajustarPrecios();
+            }
+        });
+
     }
 
     void tblModel() {
@@ -189,6 +202,28 @@ public class TrabajosController implements ActionListener {
             }
         });
 
+    }
+
+    void ajustarPrecios() {
+
+        Double porcentaje = Double.valueOf(view.txtPorcentaje.getText());
+        List<Trabajos> trabajos = DAO.findAll();
+        for (Trabajos trabajo : trabajos) {
+            Double nuevo_precio = trabajo.getValor() + ((trabajo.getValor() * porcentaje) / 100);
+            BigDecimal nuevo = BigDecimal.valueOf(nuevo_precio);
+            nuevo = nuevo.setScale(0, RoundingMode.CEILING);
+            trabajo.setValor(nuevo.doubleValue());
+        }
+
+        try {
+            DAO.save(trabajos);
+            JOptionPane.showMessageDialog(null, "Precios ajustados correctamente!", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al ajustar precios " + e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+
+        actualizaTbl();
     }
 
     void editaSeleccionado() {

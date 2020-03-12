@@ -172,7 +172,7 @@ public class ControlDeCajaController implements ActionListener {
         view.tblMovimientos.setModel(tableModel);
         view.tblMovimientos.getColumn("Fecha").setCellRenderer(new LocalDateCellRenderer());
         view.tblMovimientos.setRowHeight(25);
-        int[] anchos = {50, 100, 50, 20, 20};
+        int[] anchos = {50, 100, 300, 20, 20, 20};
 
         for (int i = 0; i < view.tblMovimientos.getColumnCount(); i++) {
 

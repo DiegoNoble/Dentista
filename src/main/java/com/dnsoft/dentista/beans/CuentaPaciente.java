@@ -8,7 +8,6 @@ package com.dnsoft.dentista.beans;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -41,7 +40,7 @@ public class CuentaPaciente implements Serializable {
     private BigDecimal haber;
     @Column(name = "saldo")
     private BigDecimal saldo;
-    
+
     @Column(name = "fecha_movimiento")
     private LocalDate fechaMovimiento;
 
@@ -57,9 +56,25 @@ public class CuentaPaciente implements Serializable {
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     private PlanTratamiento planTratamiento;
 
+    @JoinColumn(name = "trabajos_tratamiento_id", referencedColumnName = "id")
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    private TrabajosTratamiento trabajosTratamiento;
+
     private String observacion;
+    
+    @JoinColumn(name = "medios_de_pago_id", referencedColumnName = "id")
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    private MediosDePago mediosDePago;
+    
+    private Integer cuotas;
+
+    
 
     public CuentaPaciente() {
+    }
+    
+    public CuentaPaciente(String nombre, Double debe, Double haber, Double saldo) {
+        
     }
 
     public Long getId() {
@@ -134,4 +149,29 @@ public class CuentaPaciente implements Serializable {
         this.observacion = observacion;
     }
 
+    public TrabajosTratamiento getTrabajoTratamiento() {
+        return trabajosTratamiento;
+    }
+
+    public void setTrabajoTratamiento(TrabajosTratamiento trabajoTratamiento) {
+        this.trabajosTratamiento = trabajoTratamiento;
+    }
+
+    public MediosDePago getMediosDePago() {
+        return mediosDePago;
+    }
+
+    public void setMediosDePago(MediosDePago mediosDePago) {
+        this.mediosDePago = mediosDePago;
+    }
+
+    public Integer getCuotas() {
+        return cuotas;
+    }
+
+    public void setCuotas(Integer cuotas) {
+        this.cuotas = cuotas;
+    }
+
+    
 }

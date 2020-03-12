@@ -5,7 +5,6 @@
  */
 package com.dnsoft.dentista.utiles;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.HeadlessException;
 
 /**
@@ -30,12 +29,12 @@ public class InternalFrameEstandar extends JInternalFrame {
         });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
+        /*addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 close();
             }
-        });
+        });*/
     }
 
     private void close() {

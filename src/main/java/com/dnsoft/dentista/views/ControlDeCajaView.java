@@ -22,12 +22,12 @@ public class ControlDeCajaView extends InternalFrameEstandar {
         jLabel5 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         cbMoneda = new javax.swing.JComboBox();
-        txtIngresos = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtSaldo = new javax.swing.JTextField();
         dpFecha = new com.github.lgooddatepicker.components.DatePicker();
         jLabel7 = new javax.swing.JLabel();
-        txtSalidas = new javax.swing.JTextField();
+        txtIngresos = new javax.swing.JFormattedTextField();
+        txtSaldo = new javax.swing.JFormattedTextField();
+        txtSalidas = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -48,7 +48,7 @@ public class ControlDeCajaView extends InternalFrameEstandar {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setPreferredSize(new java.awt.Dimension(700, 600));
+        setPreferredSize(new java.awt.Dimension(900, 600));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -91,16 +91,6 @@ public class ControlDeCajaView extends InternalFrameEstandar {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(cbMoneda, gridBagConstraints);
 
-        txtIngresos.setEnabled(false);
-        txtIngresos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 150;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtIngresos, gridBagConstraints);
-
         jLabel6.setText("Salidas");
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -109,16 +99,6 @@ public class ControlDeCajaView extends InternalFrameEstandar {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel6, gridBagConstraints);
-
-        txtSaldo.setEnabled(false);
-        txtSaldo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 150;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtSaldo, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -135,13 +115,30 @@ public class ControlDeCajaView extends InternalFrameEstandar {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel7, gridBagConstraints);
 
+        txtIngresos.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+        txtIngresos.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txtIngresos, gridBagConstraints);
+
+        txtSaldo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+        txtSaldo.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txtSaldo, gridBagConstraints);
+
+        txtSalidas.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
         txtSalidas.setEnabled(false);
-        txtSalidas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 150;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(txtSalidas, gridBagConstraints);
 
@@ -167,7 +164,7 @@ public class ControlDeCajaView extends InternalFrameEstandar {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(jLabel4)
-                .addContainerGap(211, Short.MAX_VALUE))
+                .addContainerGap(222, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,9 +321,9 @@ public class ControlDeCajaView extends InternalFrameEstandar {
     public javax.swing.JRadioButton rbSalida;
     public javax.swing.JTable tblMovimientos;
     public javax.swing.JTextField txtConcepto;
-    public javax.swing.JTextField txtIngresos;
-    public javax.swing.JTextField txtSaldo;
-    public javax.swing.JTextField txtSalidas;
+    public javax.swing.JFormattedTextField txtIngresos;
+    public javax.swing.JFormattedTextField txtSaldo;
+    public javax.swing.JFormattedTextField txtSalidas;
     public javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
 }
