@@ -85,7 +85,7 @@ public class TrabajosController implements ActionListener {
 
     void accionesBotones() {
 
-        view.btnNuevo.addMouseListener(new MouseAdapter() {
+        view.btnNuevo1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 TrabajosDetalles nuevoTrabajo = new TrabajosDetalles(null, true);
@@ -95,14 +95,14 @@ public class TrabajosController implements ActionListener {
             }
         });
 
-        view.btnModificar.addMouseListener(new MouseAdapter() {
+        view.btnEditar1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 editaSeleccionado();
 
             }
         });
-        view.btnVolver.addMouseListener(new MouseAdapter() {
+        view.btnVolver1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 view.dispose();
@@ -121,7 +121,7 @@ public class TrabajosController implements ActionListener {
             }
         });
 
-        view.btnEliminar.addMouseListener(new MouseAdapter() {
+        view.btnEliminar1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 int c = JOptionPane.showConfirmDialog(view, "Confirma eliminación del trabajo? " + seleccionado.toString(), "Confirmación", JOptionPane.YES_NO_OPTION);
@@ -183,11 +183,11 @@ public class TrabajosController implements ActionListener {
                     int modelRow = view.tbl.convertRowIndexToModel(viewRow);
 
                     seleccionado = list.get(modelRow);
-                    view.btnModificar.setEnabled(true);
-                    view.btnEliminar.setEnabled(true);
+                    view.btnEditar1.setEnabled(true);
+                    view.btnEliminar1.setEnabled(true);
                 } else {
-                    view.btnModificar.setEnabled(false);
-                    view.btnEliminar.setEnabled(false);
+                    view.btnEditar1.setEnabled(false);
+                    view.btnEliminar1.setEnabled(false);
                 }
             }
         });

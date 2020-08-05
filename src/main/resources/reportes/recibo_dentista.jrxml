@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo_dentista" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="45e78c74-60cc-4117-8a06-57ce14b62a5a">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Dentista.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MyReports\Dentista.xml"/>
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="170"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="824"/>
 	<parameter name="recibo" class="java.lang.Long"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT C.ID,c.fecha_movimiento, c.moneda, c.haber, p.nombre, c.observacion, mp.nombre as medioDePago, c.cuotas
+		<![CDATA[SELECT c.id, c.fecha_movimiento, c.moneda, c.haber, p.nombre, c.observacion, mp.nombre as medioDePago, c.cuotas
 FROM cuenta_paciente c, paciente p, medios_de_pago mp
  where c.paciente_id = p.id and mp.id = c.medios_de_pago_id and c.id = $P{recibo}]]>
 	</queryString>
@@ -114,7 +116,7 @@ FROM cuenta_paciente c, paciente p, medios_de_pago mp
 				<textElement>
 					<font fontName="Arial" size="14"/>
 				</textElement>
-				<text><![CDATA[Recibi de]]></text>
+				<text><![CDATA[Recibí de]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="319" y="109" width="230" height="25" uuid="2e61c8b4-e3f2-4c55-8b69-9e71579ed5eb"/>
@@ -142,8 +144,8 @@ FROM cuenta_paciente c, paciente p, medios_de_pago mp
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="45" y="1" width="49" height="51" uuid="b9d615a5-3b06-4516-b56c-346af0d18549"/>
+			<image onErrorType="Blank">
+				<reportElement x="45" y="1" width="49" height="51" isRemoveLineWhenBlank="true" uuid="b9d615a5-3b06-4516-b56c-346af0d18549"/>
 				<imageExpression><![CDATA["icono.PNG"]]></imageExpression>
 			</image>
 			<staticText>
@@ -223,7 +225,7 @@ ORTODONCIA]]></text>
 				<textElement verticalAlignment="Top">
 					<font fontName="Arial" size="14"/>
 				</textElement>
-				<text><![CDATA[Recibi de]]></text>
+				<text><![CDATA[Recibí de]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="320" y="310" width="229" height="25" uuid="e78c46ea-17e8-4c7f-8b16-eabdaf278e4f"/>
@@ -251,8 +253,8 @@ ORTODONCIA]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="45" y="200" width="49" height="51" uuid="204348de-bdb4-4a67-a965-6bfe79af5cd0"/>
+			<image onErrorType="Blank">
+				<reportElement x="45" y="200" width="49" height="51" isRemoveLineWhenBlank="true" uuid="204348de-bdb4-4a67-a965-6bfe79af5cd0"/>
 				<imageExpression><![CDATA["icono.PNG"]]></imageExpression>
 			</image>
 			<staticText>

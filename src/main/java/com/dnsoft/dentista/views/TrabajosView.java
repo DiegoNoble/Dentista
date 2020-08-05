@@ -31,11 +31,11 @@ public class TrabajosView extends InternalFrameEstandar {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
-        btnNuevo = new botones.BotonNuevo();
-        btnVolver = new botones.BotonVolver();
         btnExcel = new botones.BotonExcel();
-        btnEliminar = new botones.BotonEliminar();
-        btnModificar = new botones.BotonEdicion();
+        btnNuevo1 = new javax.swing.JButton();
+        btnVolver1 = new javax.swing.JButton();
+        btnEditar1 = new javax.swing.JButton();
+        btnEliminar1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl = new javax.swing.JTable();
@@ -57,32 +57,56 @@ public class TrabajosView extends InternalFrameEstandar {
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(btnNuevo, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(btnVolver, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(btnExcel, gridBagConstraints);
 
-        btnEliminar.setEnabled(false);
+        btnNuevo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnNuevo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add.png"))); // NOI18N
+        btnNuevo1.setText("Nuevo");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(btnEliminar, gridBagConstraints);
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(btnNuevo1, gridBagConstraints);
 
-        btnModificar.setEnabled(false);
-        btnModificar.setText("Editar");
+        btnVolver1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnVolver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/back32.png"))); // NOI18N
+        btnVolver1.setText("Volver");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(btnVolver1, gridBagConstraints);
+
+        btnEditar1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnEditar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/editar_grande.png"))); // NOI18N
+        btnEditar1.setText("Editar");
+        btnEditar1.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(btnModificar, gridBagConstraints);
+        jPanel1.add(btnEditar1, gridBagConstraints);
+
+        btnEliminar1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_24normal.png"))); // NOI18N
+        btnEliminar1.setText("Eliminar");
+        btnEliminar1.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(btnEliminar1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -206,11 +230,11 @@ public class TrabajosView extends InternalFrameEstandar {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnAjustar;
-    public botones.BotonEliminar btnEliminar;
+    public javax.swing.JButton btnEditar1;
+    public javax.swing.JButton btnEliminar1;
     public botones.BotonExcel btnExcel;
-    public botones.BotonEdicion btnModificar;
-    public botones.BotonNuevo btnNuevo;
-    public botones.BotonVolver btnVolver;
+    public javax.swing.JButton btnNuevo1;
+    public javax.swing.JButton btnVolver1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

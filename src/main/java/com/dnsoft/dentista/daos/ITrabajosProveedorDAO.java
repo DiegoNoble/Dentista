@@ -10,8 +10,10 @@ public interface ITrabajosProveedorDAO extends JpaRepository<TrabajosProveedor, 
 
     List<TrabajosProveedor> findByProveedor(Proveedor proveedor);
 
-    @Query("select t from TrabajosProveedor t join fetch t.planTratamiento p join fetch p.consulta c join fetch c.paciente "
-            + "where t.finalizado = false order by t.fechaEntregaProgramada asc")
+    @Query("select t from TrabajosProveedor t "
+            + "join fetch t.planTratamiento p "
+            + "join fetch p.paciente "
+            + "where t.finalizado is false order by t.fechaEntregaProgramada asc")
     List<TrabajosProveedor> findTrabajosPenientes();
 
 }

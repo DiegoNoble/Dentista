@@ -70,6 +70,19 @@ public class Paciente implements Serializable {
     private ClaseTratamiento claseTratamiento;
     private boolean notificaGoogleCalendar;
     private boolean activo;
+    
+    @Column(name = "consentimiento_etraccion_molares", columnDefinition ="bit default 0")
+    private boolean consentimientoEtraccionMolares;
+    
+    @Column(name = "fecha_consentimiento_etraccion_molares")
+    @Temporal(TemporalType.DATE)
+    private Date fechaConsentimientoExtraccionMolares;
+    
+    @Column(name = "finaliza_ortodoncia", columnDefinition ="bit default 0")
+    private boolean finaizaOrtodoncia;
+    @Column(name = "fecha_finaliza_ortodoncia")
+    @Temporal(TemporalType.DATE)
+    private Date fechaFinalizaOrtodoncia;
 
     public Paciente() {
     }
@@ -197,6 +210,40 @@ public class Paciente implements Serializable {
     public Paciente(String nombre) {
         this.nombre = nombre;
     }
+
+    public boolean isConsentimientoEtraccionMolares() {
+        return consentimientoEtraccionMolares;
+    }
+
+    public void setConsentimientoEtraccionMolares(boolean consentimientoEtraccionMolares) {
+        this.consentimientoEtraccionMolares = consentimientoEtraccionMolares;
+    }
+
+    public Date getFechaConsentimientoExtraccionMolares() {
+        return fechaConsentimientoExtraccionMolares;
+    }
+
+    public void setFechaConsentimientoExtraccionMolares(Date fechaConsentimientoExtraccionMolares) {
+        this.fechaConsentimientoExtraccionMolares = fechaConsentimientoExtraccionMolares;
+    }
+
+    public boolean isFinaizaOrtodoncia() {
+        return finaizaOrtodoncia;
+    }
+
+    public void setFinaizaOrtodoncia(boolean finaizaOrtodoncia) {
+        this.finaizaOrtodoncia = finaizaOrtodoncia;
+    }
+
+    public Date getFechaFinalizaOrtodoncia() {
+        return fechaFinalizaOrtodoncia;
+    }
+
+    public void setFechaFinalizaOrtodoncia(Date fechaFinalizaOrtodoncia) {
+        this.fechaFinalizaOrtodoncia = fechaFinalizaOrtodoncia;
+    }
+    
+    
 
     @Override
     public int hashCode() {

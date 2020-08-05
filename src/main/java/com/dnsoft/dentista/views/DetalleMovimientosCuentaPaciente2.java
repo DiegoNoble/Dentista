@@ -96,10 +96,9 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
         initComponents();
         inicio();
 
-        btnPagoPesos.setVisible(true);
-        btnPagoDolares.setVisible(true);
-        anulaMovimientoDolares.setEnabled(false);
-        anulaMovimientoDolares.setEnabled(false);
+        btnPagaPesos.setVisible(true);
+        btnPagaDolares.setVisible(true);
+        btnAnulaMovDolares.setEnabled(false);
 
         this.addWindowListener(new WindowAdapter() {
 
@@ -180,8 +179,8 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
     public void inicio() {
 
         setLocationRelativeTo(null);
-        btnExcelPesos.setVisible(true);
-        btnExcelDolares.setVisible(true);
+        btnExcel_Pesos.setVisible(true);
+        btnExcel_Dolares.setVisible(true);
 
         btnActualizaSaldoD.setVisible(false);
         btnActualizaSaldoP.setVisible(false);
@@ -287,11 +286,11 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
             @Override
             public void valueChanged(ListSelectionEvent lse) {
                 if (tblCCPesos.getSelectedRow() != -1) {
-                    anulaMovimientoPesos.setEnabled(true);
+                    btnAnulaMovPesos.setEnabled(true);
                     ccPesosSeleccionado = listCCPesos.get(tblCCPesos.getSelectedRow());
                     btnReciboPesos.setEnabled(true);
                 } else {
-                    anulaMovimientoPesos.setEnabled(false);
+                    btnAnulaMovPesos.setEnabled(false);
                     btnReciboPesos.setEnabled(false);
                 }
             }
@@ -308,7 +307,7 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
         tblCCDolares.setModel(tableModelCCDolares);
         tblCCDolares.getColumn("Fecha").setCellRenderer(new LocalDateCellRenderer());
 
-        int[] anchos = {20, 5, 5, 20, 200, 50 ,5};
+        int[] anchos = {20, 5, 5, 20, 200, 50, 5};
 
         for (int i = 0; i < tblCCDolares.getColumnCount(); i++) {
 
@@ -322,11 +321,11 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
             @Override
             public void valueChanged(ListSelectionEvent lse) {
                 if (tblCCDolares.getSelectedRow() != -1) {
-                    anulaMovimientoDolares.setEnabled(true);
+                    btnAnulaMovDolares.setEnabled(true);
                     ccDolaresSeleccionado = listCCDolares.get(tblCCDolares.getSelectedRow());
                     btnReciboDolar.setEnabled(true);
                 } else {
-                    anulaMovimientoDolares.setEnabled(false);
+                    btnAnulaMovDolares.setEnabled(false);
                     btnReciboDolar.setEnabled(false);
                 }
             }
@@ -425,7 +424,7 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
     }
 
     void accionesBotones() {
-        btnExcelPesos.addMouseListener(new MouseAdapter() {
+        btnExcel_Pesos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 try {
@@ -437,7 +436,7 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
             }
         });
 
-        btnExcelDolares.addMouseListener(new MouseAdapter() {
+        btnExcel_Dolares.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 try {
@@ -449,7 +448,7 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
             }
         });
 
-        btnPagoPesos.addMouseListener(new MouseAdapter() {
+        btnPagaPesos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 CobroDeudaPaciente retiro = new CobroDeudaPaciente(null, true, parametros.getCobroCuentaPaciente(),
@@ -464,7 +463,7 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
         }
         );
 
-        btnPagoDolares.addMouseListener(
+        btnPagaDolares.addMouseListener(
                 new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
@@ -515,14 +514,14 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
             }
         });
 
-        anulaMovimientoPesos.addMouseListener(new MouseAdapter() {
+        btnAnulaMovPesos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 anulaMovimientoPesos();
             }
         });
 
-        anulaMovimientoDolares.addMouseListener(new MouseAdapter() {
+        btnAnulaMovDolares.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 anulaMovimientoDolares();
@@ -642,20 +641,20 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tblCCPesos = new javax.swing.JTable();
         txtSaldoPesos = new javax.swing.JTextField();
-        btnPagoPesos = new botones.BotonPagar();
         jLabel6 = new javax.swing.JLabel();
-        btnExcelPesos = new botones.BotonExcel();
-        anulaMovimientoPesos = new botones.BotonEliminar();
         btnReciboPesos = new javax.swing.JButton();
+        btnAnulaMovPesos = new javax.swing.JButton();
+        btnExcel_Pesos = new javax.swing.JButton();
+        btnPagaPesos = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblCCDolares = new javax.swing.JTable();
         txtSaldoDolares = new javax.swing.JTextField();
-        btnPagoDolares = new botones.BotonPagar();
         jLabel7 = new javax.swing.JLabel();
-        btnExcelDolares = new botones.BotonExcel();
-        anulaMovimientoDolares = new botones.BotonEliminar();
         btnReciboDolar = new javax.swing.JButton();
+        btnPagaDolares = new javax.swing.JButton();
+        btnAnulaMovDolares = new javax.swing.JButton();
+        btnExcel_Dolares = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -739,44 +738,17 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(txtSaldoPesos, gridBagConstraints);
 
-        btnPagoPesos.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnPagoPesos.setText("Pago en PESOS");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(btnPagoPesos, gridBagConstraints);
-
         jLabel6.setText("Saldo disponible en PESOS");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         jPanel8.add(jLabel6, gridBagConstraints);
 
-        btnExcelPesos.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnExcelPesos.setPreferredSize(new java.awt.Dimension(80, 100));
-        btnExcelPesos.setText("Excel cuenta Pesos");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(btnExcelPesos, gridBagConstraints);
-
-        anulaMovimientoPesos.setText("Anular movimiento");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(anulaMovimientoPesos, gridBagConstraints);
-
-        btnReciboPesos.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         btnReciboPesos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/editar_grande.png"))); // NOI18N
         btnReciboPesos.setMnemonic('R');
         btnReciboPesos.setText("Recibo ");
         btnReciboPesos.setEnabled(false);
+        btnReciboPesos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnReciboPesos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReciboPesosActionPerformed(evt);
@@ -787,6 +759,33 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(btnReciboPesos, gridBagConstraints);
+
+        btnAnulaMovPesos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_24normal.png"))); // NOI18N
+        btnAnulaMovPesos.setText("Anular movimiento");
+        btnAnulaMovPesos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel8.add(btnAnulaMovPesos, gridBagConstraints);
+
+        btnExcel_Pesos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/xls_file32.png"))); // NOI18N
+        btnExcel_Pesos.setText("Exporta Excel");
+        btnExcel_Pesos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel8.add(btnExcel_Pesos, gridBagConstraints);
+
+        btnPagaPesos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/money32.png"))); // NOI18N
+        btnPagaPesos.setText("Pago en Pesos");
+        btnPagaPesos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel8.add(btnPagaPesos, gridBagConstraints);
 
         jTabbedPane1.addTab("Cuenta PESOS", jPanel8);
 
@@ -826,38 +825,11 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(txtSaldoDolares, gridBagConstraints);
 
-        btnPagoDolares.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnPagoDolares.setText("Pago en DOLARES");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel6.add(btnPagoDolares, gridBagConstraints);
-
         jLabel7.setText("Saldo disponible en DOLARES");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         jPanel6.add(jLabel7, gridBagConstraints);
-
-        btnExcelDolares.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnExcelDolares.setPreferredSize(new java.awt.Dimension(80, 100));
-        btnExcelDolares.setText("Excel cuenta DOLARES");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel6.add(btnExcelDolares, gridBagConstraints);
-
-        anulaMovimientoDolares.setText("Anular movimiento");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel6.add(anulaMovimientoDolares, gridBagConstraints);
 
         btnReciboDolar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         btnReciboDolar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/editar_grande.png"))); // NOI18N
@@ -873,6 +845,33 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(btnReciboDolar, gridBagConstraints);
+
+        btnPagaDolares.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnPagaDolares.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/money32.png"))); // NOI18N
+        btnPagaDolares.setText("Pago en Pesos");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel6.add(btnPagaDolares, gridBagConstraints);
+
+        btnAnulaMovDolares.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnAnulaMovDolares.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_24normal.png"))); // NOI18N
+        btnAnulaMovDolares.setText("Anular movimiento");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel6.add(btnAnulaMovDolares, gridBagConstraints);
+
+        btnExcel_Dolares.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnExcel_Dolares.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/xls_file32.png"))); // NOI18N
+        btnExcel_Dolares.setText("Exporta Excel");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel6.add(btnExcel_Dolares, gridBagConstraints);
 
         jTabbedPane1.addTab("Cuenta DOLARES", jPanel6);
 
@@ -988,15 +987,15 @@ public class DetalleMovimientosCuentaPaciente2 extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public botones.BotonEliminar anulaMovimientoDolares;
-    public botones.BotonEliminar anulaMovimientoPesos;
     public botones.BotonVolver botonVolver1;
     public javax.swing.JButton btnActualizaSaldoD;
     public javax.swing.JButton btnActualizaSaldoP;
-    public botones.BotonExcel btnExcelDolares;
-    public botones.BotonExcel btnExcelPesos;
-    public botones.BotonPagar btnPagoDolares;
-    public botones.BotonPagar btnPagoPesos;
+    private javax.swing.JButton btnAnulaMovDolares;
+    private javax.swing.JButton btnAnulaMovPesos;
+    private javax.swing.JButton btnExcel_Dolares;
+    private javax.swing.JButton btnExcel_Pesos;
+    private javax.swing.JButton btnPagaDolares;
+    private javax.swing.JButton btnPagaPesos;
     public javax.swing.JButton btnReciboDolar;
     public javax.swing.JButton btnReciboPesos;
     public javax.swing.JComboBox cbPaciente;

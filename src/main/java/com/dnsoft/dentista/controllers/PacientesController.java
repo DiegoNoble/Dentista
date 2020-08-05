@@ -97,24 +97,24 @@ public class PacientesController implements ActionListener {
 
     void accionesBotones() {
 
-        view.btnNuevo.addMouseListener(new MouseAdapter() {
+        view.btnNuevo1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
-                PacienteDetalles nuevoInquilino = new PacienteDetalles(null, true);
+                PacienteDetalles nuevoInquilino = new PacienteDetalles(null, false);
                 nuevoInquilino.setVisible(true);
                 nuevoInquilino.toFront();
                 actualizaTbl();
             }
         });
 
-        view.btnModificar.addMouseListener(new MouseAdapter() {
+        view.btnEditar1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 editaSeleccionado();
 
             }
         });
-        view.btnVolver.addMouseListener(new MouseAdapter() {
+        view.btnVolver1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 view.dispose();
@@ -170,14 +170,14 @@ public class PacientesController implements ActionListener {
         view.btnModificarDatos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PacienteDetalles detalles = new PacienteDetalles(null, true, seleccionado);
+                PacienteDetalles detalles = new PacienteDetalles(null, false, seleccionado);
                 detalles.toFront();
                 detalles.setVisible(true);
 
             }
         });
 
-        view.botonEliminar1.addMouseListener(new MouseAdapter() {
+        view.btnEliminar1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 List<PlanTratamiento> findByPaciente = planTratamientoDAO.findByPaciente(seleccionado);
@@ -235,9 +235,9 @@ public class PacientesController implements ActionListener {
             public void valueChanged(ListSelectionEvent lse) {
                 if (view.tbl.getSelectedRow() != -1) {
                     seleccionado = list.get(view.tbl.getSelectedRow());
-                    view.btnModificar.setEnabled(true);
+                    view.btnEditar1.setEnabled(true);
                 } else {
-                    view.btnModificar.setEnabled(false);
+                    view.btnEditar1.setEnabled(false);
                 }
             }
         });
@@ -256,7 +256,7 @@ public class PacientesController implements ActionListener {
 
     void editaSeleccionado() {
         //inquilinoSeleccionado = listInquilinos.get(view.tbl.getSelectedRow());
-        PacienteDetalles editaInquilino = new PacienteDetalles(null, true, seleccionado);
+        PacienteDetalles editaInquilino = new PacienteDetalles(null, false, seleccionado);
         editaInquilino.setVisible(true);
         editaInquilino.toFront();
         actualizaTbl();

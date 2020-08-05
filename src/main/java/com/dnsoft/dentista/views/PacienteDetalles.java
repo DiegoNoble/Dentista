@@ -22,8 +22,17 @@ import javax.swing.ImageIcon;
 import sun.awt.image.ByteArrayImageSource;
 import sun.awt.image.ToolkitImage;
 import com.dnsoft.dentista.daos.IClaseTratamientoDAO;
+import com.dnsoft.dentista.utiles.LeeProperties;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.HashMap;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -35,6 +44,7 @@ public class PacienteDetalles extends javax.swing.JDialog {
     IPacienteDAO pacienteDAO;
     IClaseTratamientoDAO clasePacienteDAO;
     Paciente paciente;
+    LeeProperties props = new LeeProperties();
 
     public PacienteDetalles(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -51,6 +61,7 @@ public class PacienteDetalles extends javax.swing.JDialog {
         dpIngreso.setDate(new Date());
         paciente = new Paciente();
         cbActivo.setSelected(true);
+
         inicio();
 
     }
@@ -69,6 +80,12 @@ public class PacienteDetalles extends javax.swing.JDialog {
 
     void inicio() {
         cbSexo.setModel(new DefaultComboBoxModel(SexoEnum.values()));
+        if (paciente.getFechaConsentimientoExtraccionMolares() != null) {
+            btnConsentimiento.setEnabled(true);
+        }
+        if (paciente.isFinaizaOrtodoncia() == true) {
+            btnFinalizaOrtodoncia.setEnabled(true);
+        }
         cargaCategorias();
         accionesBotones();
     }
@@ -90,6 +107,10 @@ public class PacienteDetalles extends javax.swing.JDialog {
         dpNacimiento.setDate(paciente.getFechaNacimiento());
         cbActivo.setSelected(paciente.isActivo());
         cbGoogleCalendar.setSelected(paciente.getNotificaGoogleCalendar());
+        chbConsentimiento.setSelected(paciente.isConsentimientoEtraccionMolares());
+        chbFinalizaOrtodoncia.setSelected(paciente.isFinaizaOrtodoncia());
+        FechaConsentimiento.setDate(paciente.getFechaConsentimientoExtraccionMolares());
+        FechaFinalizaOrtodoncia.setDate(paciente.getFechaFinalizaOrtodoncia());
 
         if (paciente.getFoto() != null) {
             Image imagen = new ToolkitImage(new ByteArrayImageSource(paciente.getFoto()));
@@ -119,6 +140,10 @@ public class PacienteDetalles extends javax.swing.JDialog {
         paciente.setNombre(txtNombre.getText());
         paciente.setActivo(cbActivo.isSelected());
         paciente.setNotificaGoogleCalendar(cbGoogleCalendar.isSelected());
+        paciente.setConsentimientoEtraccionMolares(chbConsentimiento.isSelected());
+        paciente.setFinaizaOrtodoncia(chbFinalizaOrtodoncia.isSelected());
+        paciente.setFechaConsentimientoExtraccionMolares(FechaConsentimiento.getDate());
+        paciente.setFechaFinalizaOrtodoncia(FechaFinalizaOrtodoncia.getDate());
 
         if (!txtFoto.getText().equals("")) {
             FileInputStream fileInputStream = null;
@@ -153,17 +178,28 @@ public class PacienteDetalles extends javax.swing.JDialog {
     }
 
     void accionesBotones() {
-        btnGuardar.addMouseListener(new MouseAdapter() {
+        btnGuardar1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 guardarCambios();
             }
         });
-        btnVolver.addMouseListener(new MouseAdapter() {
+        btnVolver1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
 
                 dispose();
+            }
+        });
+
+        chbFinalizaOrtodoncia.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                if (chbFinalizaOrtodoncia.isSelected()) {
+                    FechaFinalizaOrtodoncia.setEnabled(true);
+                } else {
+                    FechaFinalizaOrtodoncia.setEnabled(false);
+                }
             }
         });
     }
@@ -176,8 +212,9 @@ public class PacienteDetalles extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        btnGuardar = new botones.BotonGuardar();
-        btnVolver = new botones.BotonVolver();
+        btnGuardar1 = new javax.swing.JButton();
+        btnVolver1 = new javax.swing.JButton();
+        btnHistoriaClinica = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
@@ -208,10 +245,16 @@ public class PacienteDetalles extends javax.swing.JDialog {
         btnNuevaCategoria = new javax.swing.JButton();
         cbActivo = new javax.swing.JCheckBox();
         cbGoogleCalendar = new javax.swing.JCheckBox();
+        jPanel4 = new javax.swing.JPanel();
+        chbConsentimiento = new javax.swing.JCheckBox();
+        FechaConsentimiento = new org.jdesktop.swingx.JXDatePicker();
+        chbFinalizaOrtodoncia = new javax.swing.JCheckBox();
+        FechaFinalizaOrtodoncia = new org.jdesktop.swingx.JXDatePicker();
+        btnConsentimiento = new javax.swing.JButton();
+        btnFinalizaOrtodoncia = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(950, 600));
-        setPreferredSize(new java.awt.Dimension(950, 600));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setBackground(new java.awt.Color(0, 204, 204));
@@ -228,12 +271,36 @@ public class PacienteDetalles extends javax.swing.JDialog {
         getContentPane().add(jPanel2, gridBagConstraints);
 
         jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        btnGuardar1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnGuardar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/save32.png"))); // NOI18N
+        btnGuardar1.setText("Guardar");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(btnGuardar, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(btnGuardar1, gridBagConstraints);
+
+        btnVolver1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnVolver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/back32.png"))); // NOI18N
+        btnVolver1.setText("Volver");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(btnVolver, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(btnVolver1, gridBagConstraints);
+
+        btnHistoriaClinica.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnHistoriaClinica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/medical-history24.png"))); // NOI18N
+        btnHistoriaClinica.setText("Historia clínica");
+        btnHistoriaClinica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistoriaClinicaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(btnHistoriaClinica, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -488,6 +555,87 @@ public class PacienteDetalles extends javax.swing.JDialog {
         gridBagConstraints.gridy = 6;
         jPanel1.add(cbGoogleCalendar, gridBagConstraints);
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Tratamientos"));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        chbConsentimiento.setText("Consentimiento Extración Molares");
+        chbConsentimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbConsentimientoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(chbConsentimiento, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(FechaConsentimiento, gridBagConstraints);
+
+        chbFinalizaOrtodoncia.setText("Finaliza Ortodoncia");
+        chbFinalizaOrtodoncia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbFinalizaOrtodonciaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(chbFinalizaOrtodoncia, gridBagConstraints);
+
+        FechaFinalizaOrtodoncia.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(FechaFinalizaOrtodoncia, gridBagConstraints);
+
+        btnConsentimiento.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnConsentimiento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/medical-history24.png"))); // NOI18N
+        btnConsentimiento.setText("Imprimir");
+        btnConsentimiento.setEnabled(false);
+        btnConsentimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsentimientoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(btnConsentimiento, gridBagConstraints);
+
+        btnFinalizaOrtodoncia.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnFinalizaOrtodoncia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/medical-history24.png"))); // NOI18N
+        btnFinalizaOrtodoncia.setText("Imprimir");
+        btnFinalizaOrtodoncia.setEnabled(false);
+        btnFinalizaOrtodoncia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinalizaOrtodonciaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(btnFinalizaOrtodoncia, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 5;
+        jPanel1.add(jPanel4, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -502,19 +650,17 @@ public class PacienteDetalles extends javax.swing.JDialog {
 
     private void btnFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFotoActionPerformed
 
-     
-            JFileChooser buscarFoto = new JFileChooser();
-            buscarFoto.setCurrentDirectory(new File("c://"));
-            buscarFoto.setDialogTitle("Cargar Foto");
-            buscarFoto.showOpenDialog(this);
-            String foto = buscarFoto.getSelectedFile().getAbsolutePath();
-            txtFoto.setText(foto);
+        JFileChooser buscarFoto = new JFileChooser();
+        buscarFoto.setCurrentDirectory(new File("c://"));
+        buscarFoto.setDialogTitle("Cargar Foto");
+        buscarFoto.showOpenDialog(this);
+        String foto = buscarFoto.getSelectedFile().getAbsolutePath();
+        txtFoto.setText(foto);
 
-            ImageIcon fot = new ImageIcon(foto);
-            Icon icono = new ImageIcon(fot.getImage().getScaledInstance(jlblFoto.getWidth(), jlblFoto.getHeight(), Image.SCALE_DEFAULT));
-            jlblFoto.setIcon(icono);
-            this.repaint();
-
+        ImageIcon fot = new ImageIcon(foto);
+        Icon icono = new ImageIcon(fot.getImage().getScaledInstance(jlblFoto.getWidth(), jlblFoto.getHeight(), Image.SCALE_DEFAULT));
+        jlblFoto.setIcon(icono);
+        this.repaint();
 
         Image imgReDimensionada = fot.getImage().getScaledInstance(jlblFoto.getWidth(), jlblFoto.getHeight(),
                 Image.SCALE_SMOOTH);
@@ -524,7 +670,7 @@ public class PacienteDetalles extends javax.swing.JDialog {
         jlblFoto.setIcon(icon);
 
         //txtFoto.setText(webCam.getTempFile().getAbsolutePath());
-        
+
     }//GEN-LAST:event_btnFotoActionPerformed
 
     private void btnNuevaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaCategoriaActionPerformed
@@ -538,16 +684,80 @@ public class PacienteDetalles extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbCategoriaActionPerformed
 
+    private void btnHistoriaClinicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoriaClinicaActionPerformed
+
+        HistoriaClinicaDetalles clinicaDetalles = new HistoriaClinicaDetalles(null, false, paciente);
+        clinicaDetalles.setVisible(true);
+        clinicaDetalles.toFront();
+    }//GEN-LAST:event_btnHistoriaClinicaActionPerformed
+
+    private void chbConsentimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbConsentimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chbConsentimientoActionPerformed
+
+    private void chbFinalizaOrtodonciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbFinalizaOrtodonciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chbFinalizaOrtodonciaActionPerformed
+
+    private void btnConsentimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsentimientoActionPerformed
+      
+         try {
+            HashMap parametros = new HashMap();
+            parametros.clear();
+            parametros.put("paciente", paciente.getId());
+
+            Connection conexion = DriverManager.getConnection(props.getUrl(), props.getUsr(), props.getPsw());
+
+            InputStream resource = getClass().getClassLoader().getResourceAsStream("reportes/extraccion.jasper");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(resource, parametros, conexion);
+            JasperViewer reporte = new JasperViewer(jasperPrint, false);
+            reporte.setVisible(true);
+
+            reporte.toFront();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error! " + e, "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+         
+    }//GEN-LAST:event_btnConsentimientoActionPerformed
+
+    private void btnFinalizaOrtodonciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizaOrtodonciaActionPerformed
+        try {
+            HashMap parametros = new HashMap();
+            parametros.clear();
+            parametros.put("paciente", paciente.getId());
+
+            Connection conexion = DriverManager.getConnection(props.getUrl(), props.getUsr(), props.getPsw());
+
+            InputStream resource = getClass().getClassLoader().getResourceAsStream("reportes/finaliza_ortodoncia.jasper");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(resource, parametros, conexion);
+            JasperViewer reporte = new JasperViewer(jasperPrint, false);
+            reporte.setVisible(true);
+
+            reporte.toFront();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error! " + e, "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnFinalizaOrtodonciaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXDatePicker FechaConsentimiento;
+    private org.jdesktop.swingx.JXDatePicker FechaFinalizaOrtodoncia;
+    public javax.swing.JButton btnConsentimiento;
+    public javax.swing.JButton btnFinalizaOrtodoncia;
     private javax.swing.JButton btnFoto;
-    private botones.BotonGuardar btnGuardar;
+    private javax.swing.JButton btnGuardar1;
+    public javax.swing.JButton btnHistoriaClinica;
     public javax.swing.JButton btnNuevaCategoria;
-    public botones.BotonVolver btnVolver;
+    private javax.swing.JButton btnVolver1;
     private javax.swing.JCheckBox cbActivo;
     private javax.swing.JComboBox cbCategoria;
     private javax.swing.JCheckBox cbGoogleCalendar;
     private javax.swing.JComboBox cbSexo;
+    private javax.swing.JCheckBox chbConsentimiento;
+    private javax.swing.JCheckBox chbFinalizaOrtodoncia;
     private org.jdesktop.swingx.JXDatePicker dpIngreso;
     private org.jdesktop.swingx.JXDatePicker dpNacimiento;
     private javax.swing.JLabel jLabel10;
@@ -565,6 +775,7 @@ public class PacienteDetalles extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlblFoto;
     private javax.swing.JTextField txtCel;

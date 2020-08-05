@@ -86,13 +86,6 @@ public final class HistoriaConsultasView extends javax.swing.JFrame {
         }
     }
 
-    void consultarPlanTratamiento() {
-
-        PlanTratamientoView atenderPlanTratamiento = new PlanTratamientoView(seleccionado);
-        atenderPlanTratamiento.setVisible(true);
-        atenderPlanTratamiento.toFront();
-
-    }
 
     private void defineModelo() {
         ((DefaultTableCellRenderer) tbl.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
@@ -125,15 +118,7 @@ public final class HistoriaConsultasView extends javax.swing.JFrame {
             }
         });
 
-        tbl.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent me) {
-
-                if (me.getClickCount() == 2) {
-                    consultarPlanTratamiento();
-                }
-            }
-        });
+       
 
     }
 

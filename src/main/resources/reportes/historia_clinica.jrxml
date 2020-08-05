@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="historia_clinica" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="45e78c74-60cc-4117-8a06-57ce14b62a5a">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Dentista New.xml"/>
+	<parameter name="paciente" class="java.lang.Long"/>
+	<queryString language="SQL">
+		<![CDATA[select p.nombre, h.* from  paciente p
+left join historia_clinica h  on p.id = h.paciente_id
+where p.id = $P{paciente}]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="paciente"/>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="detalle_alergias" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="detalle_alergias"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="detalle_enfermedades" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="detalle_enfermedades"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="detalle_medicacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="detalle_medicacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="fecha_quimio_radio" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_quimio_radio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="alergico_medicamentos" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="alergico_medicamentos"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="angina_de_pecho" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="angina_de_pecho"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="anticoagulante" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="anticoagulante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="aspirina" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="aspirina"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="cirugias" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="cirugias"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="detalle_cirugia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="detalle_cirugia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="detalle_hepatitis" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="detalle_hepatitis"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="detalleTratamiento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="detalleTratamiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="diabetico" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="diabetico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="enfermedades_respiratorias" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="enfermedades_respiratorias"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="esta_en_tratamiento" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="esta_en_tratamiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="fiebre_reumatica" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="fiebre_reumatica"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="hepatitis" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="hepatitis"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="hipertension" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="hipertension"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="hipoglucemiente" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="hipoglucemiente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="hiv" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="hiv"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="infarto" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="infarto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="insulino_dependiente" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="insulino_dependiente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="nitroglicerina" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="nitroglicerina"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="problemas_cicatrizacion" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="problemas_cicatrizacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="protesis_valvulares" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="protesis_valvulares"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="quimio_radio" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="quimio_radio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="sedante" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="sedante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="toma_medicacion" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="toma_medicacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="paciente_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="paciente_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<title>
+		<band height="78">
+			<staticText>
+				<reportElement x="180" y="3" width="270" height="25" uuid="f69bdfd9-42ba-46bb-8b9c-0fec5102bad0"/>
+				<textElement>
+					<font fontName="Kunstler Script" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dra. Silvia María de Mello Freitas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="225" y="23" width="180" height="28" uuid="908e5442-1951-482a-adfd-360eb9330a7a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Batang" size="11"/>
+				</textElement>
+				<text><![CDATA[----------ODONTOLOGA ----------
+                     C.J.P. 92983]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="191" y="50" width="246" height="14" uuid="650e6912-f655-4391-a4fb-6391cd848fad">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Monospaced" size="10"/>
+				</textElement>
+				<text><![CDATA[Agraciada 664 - Tel.: 462 23121 - Rivera]]></text>
+			</staticText>
+			<image onErrorType="Blank">
+				<reportElement x="60" y="0" width="49" height="51" isRemoveLineWhenBlank="true" uuid="b9d615a5-3b06-4516-b56c-346af0d18549"/>
+				<imageExpression><![CDATA["icono.PNG"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="10" y="53" width="170" height="17" uuid="6cd34b3b-6312-4451-9d5e-ad3ea5252d36">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="11" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[  ORTOPEDIA ORTODONCIA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="42">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="270" height="21" forecolor="#FFFFFF" backcolor="#808080" uuid="5d5eff11-2866-40d8-8b79-b5a5af1d0383">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HISTORIA CLINICA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="270" y="0" width="70" height="21" forecolor="#FFFFFF" backcolor="#808080" uuid="1c50ff2b-5028-4a12-93eb-d74641298325">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="16"/>
+				</textElement>
+				<text><![CDATA[Paciente:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="340" y="0" width="210" height="21" forecolor="#FFFFFF" backcolor="#808080" uuid="b3b9a7c1-3f27-4518-8881-adae5ae13baa">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="548" splitType="Stretch">
+			<staticText>
+				<reportElement x="25" y="4" width="460" height="538" uuid="3056c4e2-5e1c-43e8-bee3-fae0af04a40a">
+					<property name="com.jaspersoft.studio.element.name">
+						<![CDATA[Está ud en tratamiento médico? ........ si /no
+*cuál? ............. 
+*toma alguna medicacion?.... si/no
+*cuál?.......
+*tuvo o tiene:
+-hipertensión 
+-infarto
+-angina de pecho
+-fiebre reumática
+-prótesis valvulares
+*Tuvo o tiene enfermedades respiratorias?.... si/no
+*cuál?.... 
+*alérgico a algún medicamento?... si/no
+*cual?....
+*Es diabético?... si/no
+*Insulino dependiente?... si/no
+*Hepatitis?... si/no
+*cuál?....
+*HIV +.... si/no
+*Ha sido intervenido quirúrgicamente?..... si/no
+*De qué? ......
+*Problemas con cicatrización?.....
+*Ha recibido quimio o radioterapia?... si/no
+*cuándo?
+*ingiere alguno de los siguientes medicamentos?
+-Aspirina
+-Anticoagulante
+-Sedante
+-Hipoglucemiente
+-Nitroglicerina]]>
+					</property>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="17.7"/>
+				</textElement>
+				<text><![CDATA[Está ud en tratamiento médico? 
+	Cuál? 
+Toma alguna medicación?
+	Cuál?
+Tuvo o tiene:
+	•	Hipertensión
+	•	Infarto
+	•	Angina de pecho
+	•	Fiebre reumática
+	•	Prótesis valvulares
+Tuvo o tiene enfermedades respiratorias?
+	Cuál?
+Alérgico a algún medicamento?
+	Cual?
+Es diabético?
+Insulino dependiente?
+Hepatitis?
+	Cuál?
+HIV +
+Ha sido intervenido quirúrgicamente?
+	De qué? 
+Problemas con cicatrización?
+Ha recibido quimio o radioterapia?
+	Cuándo?
+Ingiere alguno de los siguientes medicamentos?
+•	Aspirina
+•	Anticoagulante
+•	Sedante
+•	Hipoglucemiente
+•	Nitroglicerina]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="302" y="232" width="248" height="13" isRemoveLineWhenBlank="true" uuid="094ff39d-d4c0-4ca6-941f-27958477fc4d"/>
+				<textFieldExpression><![CDATA[$F{detalle_alergias}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="302" y="304" width="248" height="13" isRemoveLineWhenBlank="true" uuid="86ee72d6-43b7-41e9-a26e-f00dd8fdb1eb"/>
+				<textFieldExpression><![CDATA[$F{detalle_hepatitis}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="302" y="19" width="248" height="13" isRemoveLineWhenBlank="true" uuid="0ba92ce2-2368-4848-b933-024319de5b29">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{detalleTratamiento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="302" y="357" width="248" height="13" isRemoveLineWhenBlank="true" uuid="0b62978d-447a-461f-b81e-2c57f8ddf502"/>
+				<textFieldExpression><![CDATA[$F{detalle_cirugia}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="302" y="55" width="248" height="13" isRemoveLineWhenBlank="true" uuid="face16e4-7dee-4092-9a90-ba5916db61a7"/>
+				<textFieldExpression><![CDATA[$F{detalle_medicacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="411" width="147" height="13" isRemoveLineWhenBlank="true" uuid="4ff717db-5e61-49ac-8c4e-28a12f9b2062"/>
+				<textFieldExpression><![CDATA[$F{fecha_quimio_radio}]]></textFieldExpression>
+				<patternExpression><![CDATA["dd/MM/yyyy"]]></patternExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="108" width="70" height="13" uuid="40f05574-037b-4d77-b0a5-943c7a824c4f"/>
+				<textFieldExpression><![CDATA[($F{infarto} == null ? "SI / NO" : (
+	($F{infarto} == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="91" width="70" height="13" uuid="eda63e11-0565-4e24-89af-7d147dd27686"/>
+				<textFieldExpression><![CDATA[($F{hipertension} == null ? "SI / NO" : (
+	($F{hipertension} == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="125" width="70" height="13" uuid="981f2626-7ac9-4550-8f93-b69aa4b535da"/>
+				<textFieldExpression><![CDATA[($F{angina_de_pecho} == null ? "SI / NO" : (
+	($F{angina_de_pecho}== false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="144" width="70" height="13" uuid="c57724fc-b4da-477a-91ba-f8fe3420f541"/>
+				<textFieldExpression><![CDATA[($F{fiebre_reumatica} == null ? "SI / NO" : (
+	($F{angina_de_pecho}== false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="162" width="70" height="13" uuid="fc00c0cb-3646-4848-90e4-b72e81f9ef4c"/>
+				<textFieldExpression><![CDATA[($F{protesis_valvulares} == null ? "SI / NO" : (
+	($F{protesis_valvulares}== false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="181" width="70" height="13" uuid="acca9321-2d9b-4c91-a0e3-80de0ab0f7c2"/>
+				<textFieldExpression><![CDATA[($F{enfermedades_respiratorias} == null ? "SI / NO" : (
+	($F{enfermedades_respiratorias}== false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="214" width="70" height="13" uuid="0652172c-d8e5-4d6d-a4c2-acffada96677"/>
+				<textFieldExpression><![CDATA[($F{alergico_medicamentos} == null ? "SI / NO" : (
+	($F{alergico_medicamentos}== false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="250" width="70" height="13" uuid="47990eb8-3096-430b-af76-e7614026b746"/>
+				<textFieldExpression><![CDATA[($F{diabetico} == null ? "SI / NO" : (
+	($F{diabetico}== false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="446" width="70" height="13" uuid="3c1249b3-872f-49c4-9002-847c013e697d"/>
+				<textFieldExpression><![CDATA[($F{aspirina}== null ? "SI / NO" : (
+	($F{aspirina} == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="269" width="70" height="13" uuid="726ac706-12a7-4bc7-a0e1-6660c3f5f5cc"/>
+				<textFieldExpression><![CDATA[($F{insulino_dependiente} == null ? "SI / NO" : (
+	($F{insulino_dependiente}== false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="287" width="70" height="13" uuid="108e8d20-6e22-4c0c-9caa-4e0808f6e682"/>
+				<textFieldExpression><![CDATA[($F{hepatitis} == null ? "SI / NO" : (
+	($F{hepatitis} == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="321" width="70" height="13" uuid="62f582fa-68f5-4590-b0ee-0694e8d72283"/>
+				<textFieldExpression><![CDATA[($F{hiv} == null ? "SI / NO" : (
+	($F{hiv} == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="340" width="70" height="13" uuid="db501e9b-02d6-472e-945d-8bfbaf871f01"/>
+				<textFieldExpression><![CDATA[($F{cirugias} == null ? "SI / NO" : (
+	($F{cirugias} == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="393" width="70" height="13" uuid="99327241-564d-497c-b489-3079f03a8b08"/>
+				<textFieldExpression><![CDATA[($F{quimio_radio}== null ? "SI / NO" : (
+	($F{quimio_radio} == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="375" width="70" height="13" uuid="c1102d5c-1170-4d72-9582-4ea14972635b"/>
+				<textFieldExpression><![CDATA[($F{problemas_cicatrizacion}== null ? "SI / NO" : (
+	($F{problemas_cicatrizacion} == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="464" width="70" height="13" uuid="2c6633d3-0e02-4ba2-8cdc-718c7a3f4be5"/>
+				<textFieldExpression><![CDATA[($F{anticoagulante}== null ? "SI / NO" : (
+	($F{anticoagulante} == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="482" width="70" height="13" uuid="0a1a4a36-535a-4f4d-b71c-341af46e2b96"/>
+				<textFieldExpression><![CDATA[($F{sedante}== null ? "SI / NO" : (
+	($F{sedante} == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="500" width="70" height="13" uuid="83ac557f-f4c2-4b29-96d4-24fd0bb81501"/>
+				<textFieldExpression><![CDATA[($F{hipoglucemiente} == null ? "SI / NO" : (
+	($F{hipoglucemiente}  == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="517" width="70" height="13" uuid="c30c6992-d449-485b-ae05-b2d770a7dd22"/>
+				<textFieldExpression><![CDATA[($F{nitroglicerina} == null ? "SI / NO" : (
+	($F{nitroglicerina}  == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="37" width="70" height="13" uuid="16c2eb4b-a9a7-4a88-9271-4498a345655b"/>
+				<textFieldExpression><![CDATA[($F{toma_medicacion} == null ? "SI / NO" : (
+	($F{toma_medicacion} == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="3" width="70" height="13" uuid="a6da1f98-4c8a-4662-82ce-229ddf303604"/>
+				<textFieldExpression><![CDATA[($F{esta_en_tratamiento} == null ? "SI / NO" : (
+	($F{esta_en_tratamiento} == false ? "NO" : "SI" )))]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="302" y="196" width="248" height="13" isRemoveLineWhenBlank="true" uuid="dcd8e259-3b02-4058-893b-65a4e9520981"/>
+				<textFieldExpression><![CDATA[$F{enfermedades_respiratorias}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="180" y="16" width="122" height="1" uuid="0c01ae81-5d80-47d0-ad0b-5b945bcdb48d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="230" y="193" width="72" height="1" uuid="cee0e048-c814-4c09-add2-35686a8754a7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="200" y="175" width="102" height="1" uuid="1dbeb5a2-e64a-4925-8ce7-9337e8304e39">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="191" y="157" width="111" height="1" uuid="0240adb2-f2ee-4bc4-981f-0b960679b41a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="191" y="138" width="111" height="1" uuid="a78a895e-3f18-4d15-b3a8-483a338c6861">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="140" y="121" width="162" height="1" uuid="a3133826-3a65-4c39-9bd3-25e795993528">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="170" y="104" width="132" height="1" uuid="8a50612e-fa4f-4623-a092-ccdceecbba35">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="109" y="424" width="193" height="1" uuid="a8ca6ddc-1ee4-4070-8a2e-586f1668f9b5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="140" y="477" width="162" height="1" uuid="5ca23e17-dbe6-4221-9ad7-b1078019e4a0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="103" y="459" width="199" height="1" uuid="bfdbf7b0-e748-4673-b0bc-1329874da3f1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="103" y="495" width="199" height="1" uuid="1c456945-4914-4bc9-b4da-24ee4b1b9e70">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="140" y="513" width="162" height="1" uuid="393a7d45-609d-45e6-be62-136c6fa6fa93">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="130" y="530" width="172" height="1" uuid="1641931c-cc00-454f-8c09-eeb918a1cee0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="90" y="209" width="212" height="1" uuid="41a59eda-8eae-4708-9e7f-2907f5cd35ff">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="90" y="263" width="212" height="1" uuid="08a44144-f4b3-4a92-aac8-6d98d64e8420">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="108" y="370" width="194" height="1" uuid="19a2cd72-a891-4edb-a24f-07b24a87e004">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="205" y="353" width="97" height="1" uuid="e21a3203-c88b-4600-bc9c-9fb3e46130bc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="50" y="334" width="252" height="1" uuid="a865888a-fcf7-4be1-bac6-9113344a9862">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="90" y="317" width="212" height="1" uuid="24df4939-fc5f-4bb2-ba9b-3270fb998a84">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="185" y="227" width="117" height="1" uuid="034bb2ed-acdb-45f3-99a7-4c651bee7927">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="191" y="406" width="111" height="1" uuid="4254ace6-76b8-4444-aa14-6aa09a88062d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="70" y="300" width="232" height="1" uuid="e784439f-6519-419a-98b2-dff4dd5700ea">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="170" y="388" width="132" height="1" uuid="5bbfdc9c-aa96-49ea-a17d-553c6fb9de0d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="133" y="282" width="169" height="1" uuid="8ef8aa82-749e-4b14-9b0b-bbb80a5c08e8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="90" y="245" width="212" height="1" uuid="a57711ed-2008-474c-a101-caed57376cdb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="155" y="50" width="147" height="1" uuid="f8e007ab-0475-4dea-9121-ab760be785ac">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="90" y="32" width="212" height="1" uuid="adf21ea0-c365-4b6e-9bdf-af83b3e6963c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="90" y="68" width="212" height="1" uuid="a04e3e8f-4cfb-4066-87e9-d8ecc0e1a1c2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

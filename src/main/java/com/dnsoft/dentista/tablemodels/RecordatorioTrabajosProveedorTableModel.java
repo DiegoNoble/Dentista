@@ -52,7 +52,7 @@ public class RecordatorioTrabajosProveedorTableModel extends AbstractTableModel 
             case 1:
                 return c.getProveedor();
             case 2:
-                return c.getPlanTratamiento().getConsulta();
+                return c.getPlanTratamiento().getPaciente();
             case 3:
                 return c.getFechaSolicitud();
             case 4:

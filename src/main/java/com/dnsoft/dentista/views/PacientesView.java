@@ -52,11 +52,11 @@ public class PacientesView extends InternalFrameEstandar {
         jSeparator19 = new javax.swing.JPopupMenu.Separator();
         btnModificarDatos = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
-        btnNuevo = new botones.BotonNuevo();
-        btnVolver = new botones.BotonVolver();
-        btnModificar = new botones.BotonEdicion();
         btnAcciones = new javax.swing.JButton();
-        botonEliminar1 = new botones.BotonEliminar();
+        btnNuevo1 = new javax.swing.JButton();
+        btnVolver1 = new javax.swing.JButton();
+        btnEditar1 = new javax.swing.JButton();
+        btnEliminar1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl = new javax.swing.JTable();
@@ -163,22 +163,8 @@ public class PacientesView extends InternalFrameEstandar {
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(btnNuevo, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(btnVolver, gridBagConstraints);
 
-        btnModificar.setEnabled(false);
-        btnModificar.setText("Editar");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(btnModificar, gridBagConstraints);
-
+        btnAcciones.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnAcciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add.png"))); // NOI18N
         btnAcciones.setText("Funciones ");
         btnAcciones.addActionListener(new java.awt.event.ActionListener() {
@@ -189,12 +175,55 @@ public class PacientesView extends InternalFrameEstandar {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(btnAcciones, gridBagConstraints);
+
+        btnNuevo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnNuevo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add.png"))); // NOI18N
+        btnNuevo1.setText("Nuevo");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(btnNuevo1, gridBagConstraints);
+
+        btnVolver1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnVolver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/back32.png"))); // NOI18N
+        btnVolver1.setText("Volver");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(btnVolver1, gridBagConstraints);
+
+        btnEditar1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnEditar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/editar_grande.png"))); // NOI18N
+        btnEditar1.setText("Editar");
+        btnEditar1.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(btnEditar1, gridBagConstraints);
+
+        btnEliminar1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_24normal.png"))); // NOI18N
+        btnEliminar1.setText("Eliminar");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(botonEliminar1, gridBagConstraints);
+        jPanel1.add(btnEliminar1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -315,21 +344,21 @@ public class PacientesView extends InternalFrameEstandar {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public botones.BotonEliminar botonEliminar1;
     private javax.swing.JButton btnAcciones;
     public javax.swing.JMenuItem btnAnamnesis;
     public javax.swing.JMenuItem btnCuentas;
+    public javax.swing.JButton btnEditar1;
+    public javax.swing.JButton btnEliminar1;
     public javax.swing.JMenuItem btnEnviarSMS;
     public javax.swing.JMenuItem btnHistoriaConsultas;
     public javax.swing.JMenuItem btnImagenes;
-    public botones.BotonEdicion btnModificar;
     public javax.swing.JMenuItem btnModificarDatos;
-    public botones.BotonNuevo btnNuevo;
+    public javax.swing.JButton btnNuevo1;
     public javax.swing.JMenuItem btnOdontograma;
     public javax.swing.JMenuItem btnProximaConsulta;
     public javax.swing.JMenuItem btnTrabajosLaboratorio;
     public javax.swing.JMenuItem btnTratamientos;
-    public botones.BotonVolver btnVolver;
+    public javax.swing.JButton btnVolver1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

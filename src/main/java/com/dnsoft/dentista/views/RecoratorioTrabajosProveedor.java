@@ -15,7 +15,6 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -45,7 +44,7 @@ public final class RecoratorioTrabajosProveedor extends InternalFrameEstandar {
         //CIERRA JOPTIONPANE CON ESCAPE
         setLocation(700, 0);
         this.container = Container.getInstancia();
-        this.planTratamiento = planTratamiento;
+        //this.planTratamiento = planTratamiento;
         inicio();
 
     }
@@ -92,10 +91,10 @@ public final class RecoratorioTrabajosProveedor extends InternalFrameEstandar {
             @Override
             public void valueChanged(ListSelectionEvent lse) {
                 if (tblHistoriaTrabajos.getSelectedRow() != -1) {
-                    btnFinalizar.setEnabled(true);
+                    btnFinalizado.setEnabled(true);
                     trabajosProveedorSeleccionado = list.get(tblHistoriaTrabajos.getSelectedRow());
                 } else {
-                    btnFinalizar.setEnabled(false);
+                    btnFinalizado.setEnabled(false);
                 }
             }
         });
@@ -104,7 +103,7 @@ public final class RecoratorioTrabajosProveedor extends InternalFrameEstandar {
 
     void accionesBotones() {
 
-        btnFinalizar.addMouseListener(new MouseAdapter() {
+        btnFinalizado.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 trabajosProveedorSeleccionado.setFechaEntrega(LocalDate.now());
@@ -126,12 +125,12 @@ public final class RecoratorioTrabajosProveedor extends InternalFrameEstandar {
         jPanel12 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblHistoriaTrabajos = new javax.swing.JTable();
-        btnFinalizar = new botones.BotonSeleccionar();
+        btnFinalizado = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
         setResizable(true);
-        setPreferredSize(new java.awt.Dimension(850, 598));
+        setPreferredSize(new java.awt.Dimension(900, 600));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setBackground(new java.awt.Color(0, 204, 204));
@@ -180,13 +179,14 @@ public final class RecoratorioTrabajosProveedor extends InternalFrameEstandar {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel12.add(jScrollPane2, gridBagConstraints);
 
-        btnFinalizar.setEnabled(false);
-        btnFinalizar.setText("Finalizado");
+        btnFinalizado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/accept.png"))); // NOI18N
+        btnFinalizado.setText("Finalizado");
+        btnFinalizado.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel12.add(btnFinalizar, gridBagConstraints);
+        jPanel12.add(btnFinalizado, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -202,7 +202,7 @@ public final class RecoratorioTrabajosProveedor extends InternalFrameEstandar {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private botones.BotonSeleccionar btnFinalizar;
+    public javax.swing.JButton btnFinalizado;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;

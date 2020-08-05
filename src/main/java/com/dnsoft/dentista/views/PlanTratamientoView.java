@@ -20,6 +20,8 @@ import com.dnsoft.dentista.utiles.Container;
 import com.dnsoft.dentista.utiles.ControlarEntradaTexto;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -57,7 +59,7 @@ public class PlanTratamientoView extends javax.swing.JFrame {
         AutoCompleteDecorator.decorate(cbTrabajo);
         cbMoneda.setModel(new DefaultComboBoxModel(MonedaEnum.values()));
         inicio();
-        
+
         cargaComboPacientes();
         btnRegistraModificaciones.setVisible(false);
         cbSituacionTratamiento.setEnabled(false);
@@ -76,7 +78,7 @@ public class PlanTratamientoView extends javax.swing.JFrame {
         cbSituacionTratamiento.setEnabled(false);
         btnRegistraModificaciones.setVisible(false);
     }
-
+     
     public PlanTratamientoView(PlanTratamiento planTratamiento, ConsultaPlanesTratamientoView consultaPlanesTratamientoView) {
         initComponents();
         this.plan = planTratamiento;
@@ -106,14 +108,9 @@ public class PlanTratamientoView extends javax.swing.JFrame {
         tableModel.fireTableDataChanged();
     }
 
-     public static PlanTratamientoView getInstancia() {
+   
 
-        if (instanciaUnica == null) {
-            instanciaUnica = new PlanTratamientoView();
-        }
-        return instanciaUnica;
-    }
-     
+   
     void inicio() {
         setLocationRelativeTo(null);
 
@@ -128,7 +125,8 @@ public class PlanTratamientoView extends javax.swing.JFrame {
         defineModelo();
         cargaComboTrabajos();
         comboMonedaListener();
-
+        
+    
     }
 
     private void cargaComboPacientes() {
@@ -342,7 +340,9 @@ public class PlanTratamientoView extends javax.swing.JFrame {
             }
         });
     }
+
     
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -762,7 +762,7 @@ public class PlanTratamientoView extends javax.swing.JFrame {
         tableModel.fireTableDataChanged();*/
     }//GEN-LAST:event_cbMonedaActionPerformed
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;

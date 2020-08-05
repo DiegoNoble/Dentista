@@ -80,7 +80,7 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
             mnuRespaldos.setEnabled(perfilUsuarioLogin.getRespaldos());
             mnuTrabajosPendientes.setEnabled(perfilUsuarioLogin.getTrabajosPendientes());
             mnuUsuarios.setEnabled(perfilUsuarioLogin.getUsuarios());
-        
+
         }
     }
 
@@ -457,7 +457,7 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
 
     private void mnuCrearPlanesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCrearPlanesActionPerformed
 
-        PlanTratamientoView planTratamiento = PlanTratamientoView.getInstancia();
+        PlanTratamientoView planTratamiento = new PlanTratamientoView();
         planTratamiento.setVisible(true);
         planTratamiento.toFront();
     }//GEN-LAST:event_mnuCrearPlanesActionPerformed

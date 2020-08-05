@@ -81,7 +81,7 @@ public final class CobroDeudaPaciente extends javax.swing.JDialog {
     }
 
     void accionesBotones() {
-        btnPagar.addMouseListener(new MouseAdapter() {
+        btnPaga.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 if (!txtConcepto.getText().equals("")) {
@@ -91,7 +91,7 @@ public final class CobroDeudaPaciente extends javax.swing.JDialog {
                 }
             }
         });
-        btnVolver.addMouseListener(new MouseAdapter() {
+        btnVolver2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 dispose();
@@ -189,8 +189,6 @@ public final class CobroDeudaPaciente extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         txtImporte = new javax.swing.JTextField();
-        btnPagar = new botones.BotonPagar();
-        btnVolver = new botones.BotonVolver();
         jLabel12 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         cbMoneda = new javax.swing.JComboBox();
@@ -203,8 +201,11 @@ public final class CobroDeudaPaciente extends javax.swing.JDialog {
         cbCuotas = new javax.swing.JComboBox();
         jLabel16 = new javax.swing.JLabel();
         cbMedioDePago = new javax.swing.JComboBox();
+        btnPaga = new javax.swing.JButton();
+        btnVolver2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(600, 400));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setBackground(new java.awt.Color(0, 204, 204));
@@ -231,16 +232,6 @@ public final class CobroDeudaPaciente extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(txtImporte, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(btnPagar, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(btnVolver, gridBagConstraints);
 
         jLabel12.setText("Importe");
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -345,6 +336,24 @@ public final class CobroDeudaPaciente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(cbMedioDePago, gridBagConstraints);
 
+        btnPaga.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/money32.png"))); // NOI18N
+        btnPaga.setText("Pagar");
+        btnPaga.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(btnPaga, gridBagConstraints);
+
+        btnVolver2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/back32.png"))); // NOI18N
+        btnVolver2.setText("Volver");
+        btnVolver2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(btnVolver2, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -359,8 +368,8 @@ public final class CobroDeudaPaciente extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private botones.BotonPagar btnPagar;
-    private botones.BotonVolver btnVolver;
+    private javax.swing.JButton btnPaga;
+    private javax.swing.JButton btnVolver2;
     public javax.swing.JComboBox cbCuotas;
     public javax.swing.JComboBox cbMedioDePago;
     public javax.swing.JComboBox cbMoneda;

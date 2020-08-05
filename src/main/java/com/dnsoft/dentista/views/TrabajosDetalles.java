@@ -89,13 +89,13 @@ public class TrabajosDetalles extends javax.swing.JDialog {
     }
 
     void accionesBotones() {
-        btnGuardar.addMouseListener(new MouseAdapter() {
+        btnGuardar1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 guardarCambios();
             }
         });
-        btnVolver.addMouseListener(new MouseAdapter() {
+        btnVolver1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
 
@@ -112,8 +112,8 @@ public class TrabajosDetalles extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        btnGuardar = new botones.BotonGuardar();
-        btnVolver = new botones.BotonVolver();
+        btnGuardar1 = new javax.swing.JButton();
+        btnVolver1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
@@ -143,12 +143,20 @@ public class TrabajosDetalles extends javax.swing.JDialog {
         getContentPane().add(jPanel2, gridBagConstraints);
 
         jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        btnGuardar1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnGuardar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/save32.png"))); // NOI18N
+        btnGuardar1.setText("Guardar");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(btnGuardar, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(btnGuardar1, gridBagConstraints);
+
+        btnVolver1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnVolver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/back32.png"))); // NOI18N
+        btnVolver1.setText("Volver");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(btnVolver, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(btnVolver1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -255,9 +263,9 @@ public class TrabajosDetalles extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private botones.BotonGuardar btnGuardar;
+    private javax.swing.JButton btnGuardar1;
     public javax.swing.JButton btnNuevaCategoria;
-    public botones.BotonVolver btnVolver;
+    private javax.swing.JButton btnVolver1;
     private javax.swing.JComboBox cbCategoria;
     private javax.swing.JComboBox cbMoneda;
     private javax.swing.JLabel jLabel13;

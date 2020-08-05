@@ -79,7 +79,7 @@ public final class ConsultaTrabajosProveedor extends InternalFrameEstandar {
     }
 
     void accionesBoton() {
-        btnFinalizar.addMouseListener(new MouseAdapter() {
+        btnFinalizado.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 trabajoSeleccionado.setFechaEntrega(LocalDate.now());
@@ -116,9 +116,9 @@ public final class ConsultaTrabajosProveedor extends InternalFrameEstandar {
 
                     trabajoSeleccionado = list.get(tblHistoriaTrabajos.getSelectedRow());
                     if (trabajoSeleccionado.getFinalizado() != null) {
-                        btnFinalizar.setEnabled(true);
+                        btnFinalizado.setEnabled(true);
                     } else {
-                        btnFinalizar.setEnabled(false);
+                        btnFinalizado.setEnabled(false);
                     }
                 }
             }
@@ -139,7 +139,7 @@ public final class ConsultaTrabajosProveedor extends InternalFrameEstandar {
         jPanel12 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblHistoriaTrabajos = new javax.swing.JTable();
-        btnFinalizar = new botones.BotonSeleccionar();
+        btnFinalizado = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -215,13 +215,14 @@ public final class ConsultaTrabajosProveedor extends InternalFrameEstandar {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel12.add(jScrollPane2, gridBagConstraints);
 
-        btnFinalizar.setEnabled(false);
-        btnFinalizar.setText("Finalizado");
+        btnFinalizado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/accept.png"))); // NOI18N
+        btnFinalizado.setText("Finalizado");
+        btnFinalizado.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel12.add(btnFinalizar, gridBagConstraints);
+        jPanel12.add(btnFinalizado, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -243,7 +244,7 @@ public final class ConsultaTrabajosProveedor extends InternalFrameEstandar {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private botones.BotonSeleccionar btnFinalizar;
+    public javax.swing.JButton btnFinalizado;
     public javax.swing.JComboBox cbProveedor;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel3;

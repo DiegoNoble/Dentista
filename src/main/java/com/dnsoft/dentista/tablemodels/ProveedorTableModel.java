@@ -18,7 +18,7 @@ import javax.swing.table.AbstractTableModel;
 public class ProveedorTableModel extends AbstractTableModel {
 
     //nome da coluna da table
-    private final String[] colunas = new String[]{"Nombre", "Celular"};
+    private final String[] colunas = new String[]{"Nombre", "Celular", "Obs"};
     //lista para a manipulacao do objeto
     private List<Proveedor> listProveedors;
 
@@ -51,6 +51,8 @@ public class ProveedorTableModel extends AbstractTableModel {
                 return c.getNombre();
             case 1:
                 return c.getCelular();
+            case 2:
+                return c.getObservaciones();
 
             default:
                 return null;
@@ -73,6 +75,8 @@ public class ProveedorTableModel extends AbstractTableModel {
             case 0:
                 return String.class;
             case 1:
+                return String.class;
+            case 2:
                 return String.class;
 
             default:

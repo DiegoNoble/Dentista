@@ -85,7 +85,6 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
 
     }
 
-
     public static ConsultaPlanesTratamientoView getInstancia() {
 
         if (instanciaUnica == null) {
@@ -137,8 +136,8 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
             cbPaciente.addItem(p);
         }
     }
-    
-      private void actualizaComboPacientes() {
+
+    private void actualizaComboPacientes() {
         List<Paciente> nuevaLista = new ArrayList();
 
         nuevaLista.addAll(pacienteDAO.findAll());
@@ -325,35 +324,35 @@ public final class ConsultaPlanesTratamientoView extends javax.swing.JFrame {
             confirmacion.setVisible(true);
             confirmacion.toFront();
 
-                if (confirmacion.getFechaConfirmacion() != null) {
-                    planTratamientoSeleccionado = listPlanTratamientos.get(tblPlanesTratamiento.getSelectedRow());
-                    trabajosTratamientoSeleccionado = listTrabajos.get(tblTrabajos.getSelectedRow());
-                    
-                    trabajosTratamientoSeleccionado.setPlanTratamiento(planTratamientoSeleccionado);
-                    trabajosTratamientoSeleccionado.setFechaDebito(confirmacion.getFechaConfirmacion());
-                    trabajosTratamientoSeleccionado.setTrabajoTratamientoEnum(TrabajoTratamientoEnum.D);
-                    trabajosTratamientoDAO.saveAndFlush(trabajosTratamientoSeleccionado);
+            if (confirmacion.getFechaConfirmacion() != null) {
+                planTratamientoSeleccionado = listPlanTratamientos.get(tblPlanesTratamiento.getSelectedRow());
+                trabajosTratamientoSeleccionado = listTrabajos.get(tblTrabajos.getSelectedRow());
 
-                    CuentaPaciente cp = new CuentaPaciente();
-                    cp.setDebe(new BigDecimal(trabajosTratamientoSeleccionado.getValor()));
-                    cp.setFechaMovimiento(confirmacion.getFechaConfirmacion());
-                    cp.setHaber(BigDecimal.ZERO);
-                    cp.setMoneda(planTratamientoSeleccionado.getMoneda());
-                    cp.setPaciente(planTratamientoSeleccionado.getPaciente());
-                    cp.setPlanTratamiento(planTratamientoSeleccionado);
-                    cp.setTrabajoTratamiento(trabajosTratamientoSeleccionado);
-                    cp.setObservacion("Tratamiento: " + trabajosTratamientoSeleccionado.getTrabajos().getNombre());
-                    cp.setSaldo(BigDecimal.ZERO);
+                trabajosTratamientoSeleccionado.setPlanTratamiento(planTratamientoSeleccionado);
+                trabajosTratamientoSeleccionado.setFechaDebito(confirmacion.getFechaConfirmacion());
+                trabajosTratamientoSeleccionado.setTrabajoTratamientoEnum(TrabajoTratamientoEnum.D);
+                trabajosTratamientoDAO.saveAndFlush(trabajosTratamientoSeleccionado);
 
-                    cuentaPacienteDAO.saveAndFlush(cp);
+                CuentaPaciente cp = new CuentaPaciente();
+                cp.setDebe(new BigDecimal(trabajosTratamientoSeleccionado.getValor()));
+                cp.setFechaMovimiento(confirmacion.getFechaConfirmacion());
+                cp.setHaber(BigDecimal.ZERO);
+                cp.setMoneda(planTratamientoSeleccionado.getMoneda());
+                cp.setPaciente(planTratamientoSeleccionado.getPaciente());
+                cp.setPlanTratamiento(planTratamientoSeleccionado);
+                cp.setTrabajoTratamiento(trabajosTratamientoSeleccionado);
+                cp.setObservacion("Tratamiento: " + trabajosTratamientoSeleccionado.getTrabajos().getNombre());
+                cp.setSaldo(BigDecimal.ZERO);
 
-                    ajustaSaldos();
-                    JOptionPane.showMessageDialog(null, "Trabajo debitado en la cuenta del paciente!", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-                    buscarPlanesPaciente();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Transacción cancelada por usuario", "Atención", JOptionPane.ERROR);
-                }
-           
+                cuentaPacienteDAO.saveAndFlush(cp);
+
+                ajustaSaldos();
+                JOptionPane.showMessageDialog(null, "Trabajo debitado en la cuenta del paciente!", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                buscarPlanesPaciente();
+            } else {
+                JOptionPane.showMessageDialog(null, "Transacción cancelada por usuario", "Atención", JOptionPane.ERROR);
+            }
+
         }
     }
 

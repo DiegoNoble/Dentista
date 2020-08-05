@@ -64,7 +64,7 @@ public class ProveedorController implements ActionListener {
     }
 
     private void inicia() {
-
+        
         this.view.txtBusqueda.setActionCommand("txtBusqueda");
         this.view.txtBusqueda.addActionListener(this);
         PromptSupport.setPrompt("Buscar por nombre", view.txtBusqueda);
@@ -143,7 +143,7 @@ public class ProveedorController implements ActionListener {
         tableModel = new ProveedorTableModel(list);
         view.tbl.setModel(tableModel);
 
-        int[] anchos = {200, 30};
+        int[] anchos = {100, 30, 300};
 
         for (int i = 0; i < view.tbl.getColumnCount(); i++) {
 
