@@ -5,6 +5,7 @@
  */
 package com.dnsoft.dentista.beans;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,10 +20,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "rubros")
 
-public class Rubro {
+public class Rubro implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "nombre")
     private String nombre;

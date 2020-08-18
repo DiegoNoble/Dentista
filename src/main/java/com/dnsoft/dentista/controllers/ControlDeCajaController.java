@@ -12,7 +12,6 @@ import com.dnsoft.dentista.beans.Proveedor;
 import com.dnsoft.dentista.beans.Rubro;
 import com.dnsoft.dentista.daos.ICajaDAO;
 import com.dnsoft.dentista.daos.IParametrosDAO;
-import com.dnsoft.dentista.daos.IRubrosDAO;
 import com.dnsoft.dentista.renderers.LocalDateCellRenderer;
 import com.dnsoft.dentista.tablemodels.CajaTableModel;
 import com.dnsoft.dentista.utiles.Container;
@@ -31,6 +30,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import com.dnsoft.dentista.daos.IRubroDAO;
 
 /**
  *
@@ -44,7 +44,7 @@ public class ControlDeCajaController implements ActionListener {
     ListSelectionModel listModel;
     List<Caja> listMovimientos;
     ICajaDAO cajaDAO;
-    IRubrosDAO ruboDAO;
+    IRubroDAO ruboDAO;
     IParametrosDAO parametrosDAO;
     Parametros parametros;
     Caja movimientoSeleccionado;
@@ -71,7 +71,7 @@ public class ControlDeCajaController implements ActionListener {
        // this.view.dpFecha.setEnabled(false);
         cajaDAO = container.getBean(ICajaDAO.class);
         parametrosDAO = container.getBean(IParametrosDAO.class);
-        ruboDAO = container.getBean(IRubrosDAO.class);
+        ruboDAO = container.getBean(IRubroDAO.class);
         parametros = parametrosDAO.findAll().get(0);
 
         TableModel();

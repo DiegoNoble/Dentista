@@ -8,7 +8,6 @@ package com.dnsoft.dentista.controllers;
 import com.dnsoft.dentista.beans.Caja;
 import com.dnsoft.dentista.beans.MonedaEnum;
 import com.dnsoft.dentista.daos.ICajaDAO;
-import com.dnsoft.dentista.daos.IRubrosDAO;
 import com.dnsoft.dentista.renderers.LocalDateCellRenderer;
 import com.dnsoft.dentista.tablemodels.CajaTableModel;
 import com.dnsoft.dentista.utiles.Container;
@@ -32,6 +31,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import com.dnsoft.dentista.daos.IRubroDAO;
 
 /**
  *
@@ -45,7 +45,7 @@ public class ConsultaDeCajaController implements ActionListener {
     ListSelectionModel listModel;
     List<Caja> listMovimientos;
     ICajaDAO cajaDAO;
-    IRubrosDAO ruboDAO;
+    IRubroDAO ruboDAO;
     Caja movimientoSeleccionado;
     JDesktopPane desktopPane;
 
@@ -53,7 +53,7 @@ public class ConsultaDeCajaController implements ActionListener {
 
         this.container = Container.getInstancia();
         cajaDAO = container.getBean(ICajaDAO.class);
-        ruboDAO = container.getBean(IRubrosDAO.class);
+        ruboDAO = container.getBean(IRubroDAO.class);
         this.desktopPane = desktopPane;
 
         this.view = view;

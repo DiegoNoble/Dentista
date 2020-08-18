@@ -95,6 +95,7 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
         mnuRespaldos = new javax.swing.JMenuItem();
         mnuSalir = new javax.swing.JMenuItem();
         mnuRegistros = new javax.swing.JMenu();
+        mnuMediosDePago1 = new javax.swing.JMenuItem();
         jSeparator13 = new javax.swing.JPopupMenu.Separator();
         mnuMediosDePago = new javax.swing.JMenuItem();
         jSeparator24 = new javax.swing.JPopupMenu.Separator();
@@ -184,6 +185,16 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
         mnuRegistros.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mnuRegistros.setText(" REGISTROS ");
         mnuRegistros.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+
+        mnuMediosDePago1.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        mnuMediosDePago1.setText(" Rubros ");
+        mnuMediosDePago1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mnuMediosDePago1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuMediosDePago1ActionPerformed(evt);
+            }
+        });
+        mnuRegistros.add(mnuMediosDePago1);
         mnuRegistros.add(jSeparator13);
 
         mnuMediosDePago.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
@@ -539,6 +550,14 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_mnuMediosDePagoActionPerformed
 
+    private void mnuMediosDePago1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMediosDePago1ActionPerformed
+        RubrosView p = new RubrosView();
+        desktopPane.add(p);
+        p.setVisible(true);
+        p.toFront();
+
+    }//GEN-LAST:event_mnuMediosDePago1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
@@ -569,6 +588,7 @@ public final class MenuPrincipalView extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuItemClasificacionTratamientos;
     private javax.swing.JMenuItem mnuItemTratamientos;
     private javax.swing.JMenuItem mnuMediosDePago;
+    private javax.swing.JMenuItem mnuMediosDePago1;
     private javax.swing.JMenuItem mnuMovimientos;
     private javax.swing.JMenuItem mnuPacientes;
     private javax.swing.JMenuItem mnuPermisosUsuarios;
