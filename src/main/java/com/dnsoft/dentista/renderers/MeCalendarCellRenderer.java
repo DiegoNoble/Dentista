@@ -30,10 +30,7 @@ public class MeCalendarCellRenderer extends DefaultTableCellRenderer {
         setHorizontalAlignment(CENTER);
     }
 
-    /**
-     *
-     * @param value
-     */
+  
     @Override
     protected void setValue(Object value) {
         if (value != null) {

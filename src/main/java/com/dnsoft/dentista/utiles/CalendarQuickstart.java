@@ -44,13 +44,7 @@ public class CalendarQuickstart {
     private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR);
     private static final String CLIENT_SECRET_DIR = "/client_secret.json";
 
-    /**
-     * Creates an authorized Credential object.
-     *
-     * @param HTTP_TRANSPORT The network HTTP Transport.
-     * @return An authorized Credential object.
-     * @throws IOException If there is no client_secret.
-     */
+ 
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         try {
             // Load client secrets.
